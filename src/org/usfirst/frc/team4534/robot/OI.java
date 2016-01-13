@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4534.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import org.usfirst.frc.team4534.robot.commands.ExampleCommand;
 
@@ -16,9 +17,14 @@ public class OI {
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
 
+	Joystick stick = new Joystick(0);
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
+
+	public Joystick getJoystick() {
+		return stick;
+	}
 
 	// // TRIGGERING COMMANDS WITH BUTTONS
 	// Once you have a button, it's trivial to bind it to a button in one of
