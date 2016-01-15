@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4534.robot.subsystems;
 
+import org.usfirst.frc.team4534.robot.RobotMap;
+import org.usfirst.frc.team4534.robot.commands.DriveWithJoystick;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 
@@ -11,7 +13,7 @@ public class DriveTrain extends Subsystem {
 	
 	// create instance of motor-configuration based robot drive
 	public DriveTrain() {
-		drive = new RobotDrive(0, 1);
+		drive = new RobotDrive(RobotMap.leftMotor, RobotMap.rightMotor);
 	}
 	
 	// enable tank drive operation of the drivetrain
@@ -25,6 +27,6 @@ public class DriveTrain extends Subsystem {
 	}
 	// Set the default command for a subsystem here.
 	public void initDefaultCommand() {
-		// setDefaultCommand(new MySpecialCommand());		
+		setDefaultCommand(new DriveWithJoystick());		
 	}
 }
