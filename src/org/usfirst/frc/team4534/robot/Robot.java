@@ -1,3 +1,8 @@
+/* if .gitignore is an unstaged file, remove it
+By default, EGit automatically adds resources marked as "Derived" to .gitignore. A typical example is the bin folder in a Java project containing the compiled classes.
+You can disable this by going to the preferences Team > Git > Projects and deselect "Automatically ignore derived resources by adding them to .gitignore".
+*/
+
 package org.usfirst.frc.team4534.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
