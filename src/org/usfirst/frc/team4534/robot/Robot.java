@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team4534.robot.RobotMap;
-import org.usfirst.frc.team4534.robot.commands.DriveWithJoystick;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4534.robot.subsystems.ExampleSubsystem;
