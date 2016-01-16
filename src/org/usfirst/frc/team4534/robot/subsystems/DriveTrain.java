@@ -20,7 +20,11 @@ public class DriveTrain extends Subsystem {
 	public void tankDrive(Joystick joy) {
 		drive.tankDrive(joy.getY(),joy.getRawAxis(4));
 	}
-	
+	/**
+	 * Drives the robot without turning.
+	 * @author Benjamin Davis
+	 * @param speed Amount of power given to motors, ranging from -1 (Full speed BACKWARD) to +1 (Full speed FORWARD).
+	 */
 	public void straightDrive(double speed) {
 		drive.drive(speed, 0);
 	}
