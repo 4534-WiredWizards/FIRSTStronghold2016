@@ -33,6 +33,8 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		drivetrain = new DriveTrain();
+		
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new ExampleCommand();
