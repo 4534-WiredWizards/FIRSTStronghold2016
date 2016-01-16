@@ -21,6 +21,10 @@ public class DriveTrain extends Subsystem {
 		drive.tankDrive(joy.getY(),joy.getRawAxis(4));
 	}
 	
+	public void straightDrive(double speed) {
+		drive.drive(speed, 0);
+	}
+	
 	// sets motor speed to 0 on each motor
 	public void stop() {
 		drive.tankDrive(0, 0);
