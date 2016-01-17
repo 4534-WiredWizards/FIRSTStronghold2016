@@ -18,7 +18,7 @@ public class DriveTrain extends Subsystem {
 	
 	// enable tank drive operation of the drivetrain
 	public void tankDrive(Joystick joy) {
-		drive.tankDrive(joy.getY(),joy.getRawAxis(4));
+		drive.tankDrive(joy.getRawAxis(4), joy.getY());
 	}
 	/**
 	 * Drives the robot without turning.
