@@ -42,13 +42,14 @@ public class DriveStraight extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (timer.get() >= duration);
+		return (timer.hasPeriodPassed(duration));
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
 		timer.stop();
 		timer.reset();
+		Robot.drivetrain.straightDrive(0);
 	}
 
 	// Called when another command which requires one or more of the same
