@@ -5,14 +5,15 @@ You can disable this by going to the preferences Team > Git > Projects and desel
 
 package org.usfirst.frc.team4534.robot;
 
+import org.usfirst.frc.team4534.robot.commands.Autonomous;
+import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4534.robot.subsystems.ExampleSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team4534.robot.commands.Autonomous;
-import org.usfirst.frc.team4534.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4534.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	Command autonomousCommand;
+	public SendableChooser autoChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -38,7 +40,8 @@ public class Robot extends IterativeRobot {
 		
 		oi = new OI();
 		// instantiate the command used for the autonomous period
-		autonomousCommand = new Autonomous();
+		autoChooser = new SendableChooser();
+		autoChooser.addObject("Drive Straight", new Autonomous());
 	}
 
 	public void disabledPeriodic() {
@@ -47,8 +50,10 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
+			autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommand.start();
+		}
 	}
 
 	/**
