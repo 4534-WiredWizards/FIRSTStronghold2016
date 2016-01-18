@@ -7,7 +7,6 @@ package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team4534.robot.subsystems.ExampleSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,8 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	
 	public static OI oi;
 
 	public static DriveTrain drivetrain;
@@ -38,14 +36,16 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		System.out.println("robotInit");
+		
 		drivetrain = new DriveTrain();
-		SmartDashboard.putData(drivetrain);
 		oi = new OI();
+		
+		SmartDashboard.putData(drivetrain);
+		
 		// instantiate the command used for the autonomous period
 		autoChooser = new SendableChooser();
 		autoChooser.addObject("Drive Straight", new Autonomous());
-		SmartDashboard.putNumber("RIGHT JOYSTICK",oi.stick.getRawAxis(4));
-		SmartDashboard.putNumber("LEFT JOYSTICK",oi.stick.getY());
+
 		SmartDashboard.putData("Auto Mode", autoChooser);
 	}
 
