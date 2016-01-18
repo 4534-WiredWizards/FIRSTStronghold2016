@@ -17,6 +17,12 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	// enable tank drive operation of the drivetrain
+	
+	/**
+	 * Drives the robot via a joystick in tank driving mode.
+	 * @author Tom Sanford
+	 * @param joy A Joystick.
+	 */
 	public void tankDrive(Joystick joy) {
 		drive.tankDrive(joy.getRawAxis(4), joy.getY());
 	}
@@ -30,6 +36,11 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	// sets motor speed to 0 on each motor
+	
+	/**
+	 * Stops the wheels. Often a good idea.
+	 * @author Tom Sanford
+	 */
 	public void stop() {
 		drive.tankDrive(0, 0);
 	}
