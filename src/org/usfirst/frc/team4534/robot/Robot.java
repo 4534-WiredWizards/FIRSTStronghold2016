@@ -37,12 +37,16 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		System.out.println("robotInit");
 		drivetrain = new DriveTrain();
 		SmartDashboard.putData(drivetrain);
 		oi = new OI();
 		// instantiate the command used for the autonomous period
 		autoChooser = new SendableChooser();
 		autoChooser.addObject("Drive Straight", new Autonomous());
+		SmartDashboard.putNumber("RIGHT JOYSTICK",oi.stick.getRawAxis(4));
+		SmartDashboard.putNumber("LEFT JOYSTICK",oi.stick.getY());
+		SmartDashboard.putData("Auto Mode", autoChooser);
 	}
 
 	public void disabledPeriodic() {
