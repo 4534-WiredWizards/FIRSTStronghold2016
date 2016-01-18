@@ -4,56 +4,49 @@ import org.usfirst.frc.team4534.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import edu.wpi.first.wpilibj.Timer;
-
 /**
  *
  */
 public class DriveStraight extends Command {
-	private Timer timer;
-	private double duration;
-	private double speed;
 	
-	/**
-	 * Drives the robot in a straight line.
-	 * @author Benjamin Davis
-	 * @param duration Duration of driving, in seconds.
-	 * @param speed Speed of driving: a positive value corresponds to forward motion, a negative value corresponds to backward motion. can be from -1 to 1.
-	 */
-	public DriveStraight(double duration, double speed) {
-		// Use requires() here to declare subsystem dependencies
-		requires(Robot.drivetrain);
-		this.duration = duration;
-		this.speed = speed;
-	}
+//	private boolean isExecuted = false;
+	
+    public DriveStraight() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+//    	System.out.println("create");
+    	requires(Robot.drivetrain);
+    }
 
-	// Called just before this Command runs the first time
-	protected void initialize() {
-		timer.reset();
-		timer.start();
-	}
+    // Called just before this Command runs the first time
+    protected void initialize() {
+//    	System.out.println("initialize");
+    }
 
-	/**
-	 * Called repeatedly when this Command is scheduled to run
-	 */
-	protected void execute() {
-		Robot.drivetrain.straightDrive(speed);
-	}
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+//    	System.out.println("execute");
+    	Robot.drivetrain.straightDrive(.4);
+//    	isExecuted = true;
+    }
 
-	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return (timer.hasPeriodPassed(duration));
-	}
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+//    	System.out.println("isFinished");
+//        return isExecuted;
+    	return false;
+    }
 
-	// Called once after isFinished returns true
-	protected void end() {
-		timer.stop();
-		timer.reset();
-		Robot.drivetrain.straightDrive(0);
-	}
+    // Called once after isFinished returns true
+    protected void end() {
+//    	System.out.println("end");
+    	Robot.drivetrain.stop();
+    }
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
-	}
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    protected void interrupted() {
+//    	System.out.println("interupted");
+    	end();
+    }
 }

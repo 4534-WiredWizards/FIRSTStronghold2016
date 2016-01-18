@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4534.robot;
 
-import org.usfirst.frc.team4534.robot.commands.DriveStraightNonDuration;
+import org.usfirst.frc.team4534.robot.commands.DriveStraight;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -14,7 +14,7 @@ public class OI {
 
 	public OI() {
 		stick = new Joystick(0);
-		new JoystickButton(stick, 0).whileHeld(new DriveStraightNonDuration());
+		new JoystickButton(stick, 0).whileHeld(new DriveStraight());
 	}
 
 	public Joystick getJoystick() {
