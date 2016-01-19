@@ -16,15 +16,16 @@ public class DriveTrain extends Subsystem {
 		drive = new RobotDrive(RobotMap.leftMotor, RobotMap.rightMotor);
 	}
 	
-	// enable tank drive operation of the drivetrain
+	// enable arcade drive operation of the drivetrain
 	
 	/**
-	 * Drives the robot via a joystick in tank driving mode.
-	 * @author Tom Sanford
-	 * @param joy A Joystick.
+	 * Drives the robot via a single joystick in arcade driving mode.
+	 * @author Tom Sanford & Benjamin Davis
+	 * @param forward the value of motion. Between -1 & 1.
+	 * @param rotate the value of rotation. Between -1 & 1.
 	 */
-	public void tankDrive(Joystick joy) {
-		drive.tankDrive(joy.getRawAxis(4), joy.getY());
+	public void arcadeDrive(double forward, double rotate) {
+		drive.arcadeDrive(forward, rotate, false);
 	}
 	/**
 	 * Drives the robot without turning.
@@ -42,7 +43,7 @@ public class DriveTrain extends Subsystem {
 	 * @author Tom Sanford
 	 */
 	public void stop() {
-		drive.tankDrive(0, 0);
+		drive.arcadeDrive(0, 0);
 	}
 	// Set the default command for a subsystem here.
 	public void initDefaultCommand() {

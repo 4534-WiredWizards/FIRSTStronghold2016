@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4534.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc.team4534.robot.Robot;
@@ -20,7 +21,9 @@ public class DriveWithJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drivetrain.tankDrive(Robot.oi.getJoystick());
+		Joystick joy;
+		joy = Robot.oi.getJoystick();
+		Robot.drivetrain.arcadeDrive(joy.getY(), joy.getX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
