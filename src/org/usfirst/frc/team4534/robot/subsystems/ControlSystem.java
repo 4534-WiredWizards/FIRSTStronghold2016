@@ -2,7 +2,6 @@ package org.usfirst.frc.team4534.robot.subsystems;
 
 import java.util.HashMap;
 
-import org.usfirst.frc.team4534.robot.Robot;
 import org.usfirst.frc.team4534.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Joystick;

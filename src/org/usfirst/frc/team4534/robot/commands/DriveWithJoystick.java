@@ -24,8 +24,8 @@ public class DriveWithJoystick extends Command {
 	protected void execute() {
 		Joystick joy;
 		joy = Robot.oi.getJoystick();
-		Robot.drivetrain.arcadeDrive(ControlSystem.calcSpeed( -joy.getY(), Robot.oi.getJoystick().getRawAxis(3), Robot.oi.getJoystick().getRawAxis(2)),
-				ControlSystem.calcSpeed(-joy.getX(), Robot.oi.getJoystick().getRawAxis(3), Robot.oi.getJoystick().getRawAxis(2)));
+		Robot.drivetrain.arcadeDrive(ControlSystem.calcSpeed( -joy.getY(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3)),
+				ControlSystem.calcSpeed(-joy.getX(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3)));
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
