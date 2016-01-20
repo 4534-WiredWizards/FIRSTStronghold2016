@@ -21,7 +21,7 @@ public class ControlSystem {
 	
 	public static final double calcSpeed(double Lstick, double RT, double LT) {
 		
-		
+		 
 		double speedF = 0.0;
 		return speedF;
 	}
