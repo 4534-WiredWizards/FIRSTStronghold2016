@@ -4,6 +4,7 @@ import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		
 		SmartDashboard.putData(drivetrain);
+		SmartDashboard.putData((NamedSendable) oi);
 		
 		// instantiate the command used for the autonomous period
 		autonomousCommand = new Autonomous();
@@ -87,6 +89,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
+		SmartDashboard.putNumber("Joy X", oi.stick.getX());
 	}
 
 	/**
