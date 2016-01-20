@@ -15,6 +15,7 @@ public class ControlSystem extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
+		
 	} 
 	
 	//speedfinal = ((speedi / (prec + 1)) * (fast +1)) / 2
