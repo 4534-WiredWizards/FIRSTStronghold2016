@@ -23,7 +23,7 @@ public class DriveWithJoystick extends Command {
 	protected void execute() {
 		Joystick joy;
 		joy = Robot.oi.getJoystick();
-		Robot.drivetrain.arcadeDrive(joy.getY(), joy.getX());
+		Robot.drivetrain.arcadeDrive(-joy.getY(), -joy.getX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
