@@ -2,9 +2,8 @@ package org.usfirst.frc.team4534.robot.subsystems;
 
 import org.usfirst.frc.team4534.robot.RobotMap;
 import org.usfirst.frc.team4534.robot.commands.DriveWithJoystick;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
 
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
