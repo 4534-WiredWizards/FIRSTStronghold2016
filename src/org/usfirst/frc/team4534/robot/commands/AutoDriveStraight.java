@@ -4,13 +4,10 @@ import org.usfirst.frc.team4534.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import edu.wpi.first.wpilibj.Timer;
-
 /**
  *
  */
 public class AutoDriveStraight extends Command {
-	private Timer timer;
 	private double duration;
 	private double speed;
 	
@@ -25,12 +22,11 @@ public class AutoDriveStraight extends Command {
 		requires(Robot.drivetrain);
 		this.duration = duration;
 		this.speed = speed;
+		setTimeout(duration);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		timer.reset();
-		timer.start();
 	}
 
 	/**
@@ -42,13 +38,11 @@ public class AutoDriveStraight extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return (timer.hasPeriodPassed(duration));
+		return (isTimedOut());
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		timer.stop();
-		timer.reset();
 		Robot.drivetrain.straightDrive(0);
 	}
 
