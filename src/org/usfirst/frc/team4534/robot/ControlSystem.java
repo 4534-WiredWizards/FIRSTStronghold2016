@@ -13,7 +13,7 @@ public class ControlSystem {
 	//speedfinal = ((speedi / (prec + 1)) * (fast +1)) / 2
 	
 	
-	public static void getSpeed(double leftStick) {
+	public static void getSpeed(double LStick) {
 		
 		
 		
