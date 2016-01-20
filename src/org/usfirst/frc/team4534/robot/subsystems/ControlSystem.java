@@ -22,6 +22,8 @@ public class ControlSystem extends Subsystem {
 
 	public static void getspeed(double speed) {
 
+		
+		
 	}
 
 	public static final double calcSpeed(double speedI, double prec, double fast) {
