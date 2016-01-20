@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class PropertySheetLoader {
 
-	public static final Properties parsePropertiesString(String string) {
+	private static final Properties parsePropertiesString(String string) {
 		final Properties p = new Properties();
 		try {
 			p.load(new StringReader(string));
@@ -21,7 +21,7 @@ public class PropertySheetLoader {
 
 	public static final Properties parseProperties(String path) {
 		try {
-			Properties p = parseProperties(readFile(path));
+			Properties p = parsePropertiesString(readFile(path));
 			return p;
 		} catch (IOException e) {
 			return null;
