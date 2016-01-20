@@ -4,6 +4,7 @@ import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -23,7 +24,7 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	Command autonomousCommand;
-	public SendableChooser autoChooser;
+//	public SendableChooser autoChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -36,12 +37,14 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		
 		SmartDashboard.putData(drivetrain);
+		SmartDashboard.putData((NamedSendable) oi);
 		
 		// instantiate the command used for the autonomous period
-		autoChooser = new SendableChooser();
-		autoChooser.addObject("Drive Straight", new Autonomous());
+		autonomousCommand = new Autonomous();
+//		autoChooser = new SendableChooser();
+//		autoChooser.addObject("Drive Straight", new Autonomous());
 
-		SmartDashboard.putData("Auto Mode", autoChooser);
+//		SmartDashboard.putData("Auto Mode", autoChooser);
 	}
 
 	public void disabledPeriodic() {
@@ -51,7 +54,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
-			autonomousCommand = (Command) autoChooser.getSelected();
+//			autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommand.start();
 		}
 	}
@@ -86,6 +89,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
+		SmartDashboard.putNumber("Joy X", oi.stick.getX());
 	}
 
 	/**
