@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	Command autonomousCommand;
-//	public SendableChooser autoChooser;
+	public SendableChooser autoChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -37,13 +37,11 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData(drivetrain);
 		
-		autonomousCommand = new Autonomous();
-		
 		// instantiate the command used for the autonomous period
-//		autoChooser = new SendableChooser();
-//		autoChooser.addObject("Drive Straight", new Autonomous());
+		autoChooser = new SendableChooser();
+		autoChooser.addObject("Drive Straight", new Autonomous());
 
-//		SmartDashboard.putData("Auto Mode", autoChooser);
+		SmartDashboard.putData("Auto Mode", autoChooser);
 	}
 
 	public void disabledPeriodic() {
@@ -53,7 +51,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
-//			autonomousCommand = (Command) autoChooser.getSelected();
+			autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommand.start();
 		}
 	}
@@ -80,7 +78,7 @@ public class Robot extends IterativeRobot {
 	 * to reset subsystems before shutting down.
 	 */
 	public void disabledInit() {
-
+		
 	}
 
 	/**
