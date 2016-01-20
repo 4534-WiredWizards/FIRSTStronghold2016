@@ -19,4 +19,18 @@ public class ControlSystem extends Subsystem {
 	
 	//speedfinal = ((speedi / (prec + 1)) * (fast +1)) / 2
 	
+	public static void getspeed(double speed) {
+		
+		
+		
+	}
+	
+	public static final double calcSpeed(double speedI, double prec, double fast){
+		
+		
+		double speedF = ((speedI / (prec + 1)) * (fast + 1)) / 2;
+		
+		return speedF;
+	}
+	
 }
