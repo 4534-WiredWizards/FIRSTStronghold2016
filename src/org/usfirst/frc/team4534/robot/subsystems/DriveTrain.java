@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4534.robot.subsystems;
 
-import org.usfirst.frc.team4534.robot.Robot;
 import org.usfirst.frc.team4534.robot.RobotMap;
 import org.usfirst.frc.team4534.robot.commands.DriveWithJoystick;
 
@@ -25,8 +24,7 @@ public class DriveTrain extends Subsystem {
 	 * @param rotate the value of rotation. Between -1 & 1.
 	 */
 	public void arcadeDrive(double forward, double rotate) {
-		drive.arcadeDrive(ControlSystem.calcSpeed( forward, Robot.oi.getJoystick().getRawAxis(3), Robot.oi.getJoystick().getRawAxis(2)),
-				ControlSystem.calcSpeed(rotate, Robot.oi.getJoystick().getRawAxis(3), Robot.oi.getJoystick().getRawAxis(2)), false);
+		drive.arcadeDrive(forward, rotate, false);
 	}
 	/**
 	 * Drives the robot without turning.

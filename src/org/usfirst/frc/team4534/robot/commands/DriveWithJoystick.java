@@ -1,9 +1,10 @@
 package org.usfirst.frc.team4534.robot.commands;
 
+import org.usfirst.frc.team4534.robot.Robot;
+import org.usfirst.frc.team4534.robot.subsystems.ControlSystem;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc.team4534.robot.Robot;
 
 /**
  *
@@ -23,7 +24,8 @@ public class DriveWithJoystick extends Command {
 	protected void execute() {
 		Joystick joy;
 		joy = Robot.oi.getJoystick();
-		Robot.drivetrain.arcadeDrive(-joy.getY(), -joy.getX());
+		Robot.drivetrain.arcadeDrive(ControlSystem.calcSpeed( -joy.getY(), Robot.oi.getJoystick().getRawAxis(3), Robot.oi.getJoystick().getRawAxis(2)),
+				ControlSystem.calcSpeed(-joy.getX(), Robot.oi.getJoystick().getRawAxis(3), Robot.oi.getJoystick().getRawAxis(2)));
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
