@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class AutoDriveStraight extends Command {
+	@SuppressWarnings("unused")
 	private double duration;
 	private double speed;
 	
