@@ -12,4 +12,19 @@ public class ControlSystem {
 	
 	//speedfinal = ((speedi / (prec + 1)) * (fast +1)) / 2
 	
+	
+	public static void getSpeed(double leftStick) {
+		
+		
+		
+	}
+	
+	public static final double calcSpeed(double Lstick, double RT, double LT) {
+		
+		
+		double speedF = 0.0;
+		return speedF;
+	}
+		
+	
 }
