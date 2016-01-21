@@ -1,0 +1,37 @@
+Control configurations will need to have some things in them.
+Not every button will need to have a function but every function will NEED a button
+
+Functions:
+moveForward
+moveBackward
+turnLeft
+turnRight
+fast
+precision
+shoot
+emergencyStop
+
+Buttons:
+A
+B
+X
+Y
+leftStickUp
+leftStickDown
+leftStickRight
+leftStickLeft
+leftStickButton
+rightStickUp
+rightStickDown
+rightStickRight
+rightStickLeft
+rightStickButton
+dPadUp
+dPadDown
+dPadRight
+dPadLeft
+leftTrigger
+rightTrigger
+leftBumper
+rightBumper
+select
