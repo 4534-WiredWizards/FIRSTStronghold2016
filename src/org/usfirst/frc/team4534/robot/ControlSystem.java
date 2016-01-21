@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class ControlSystem {
 
-	private static final HashMap<String, String> buttonMap = new HashMap<String, String>();
 	private static Properties prop;
 	private static Joystick joystick;
 	private static double rumbleTime;
