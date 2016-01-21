@@ -21,6 +21,7 @@ public class ControlSystem {
 	private static Properties prop;
 	private static Joystick joystick;
 	private static double rumbleTime;
+	private static double currentJoyX = 0, currentJoyY = 0;
 
 	/**
 	 * This NEEDS to be called before any other ControlSystem methods are called
@@ -54,6 +55,8 @@ public class ControlSystem {
 				joystick.setRumble(RumbleType.kLeftRumble, 0);
 				joystick.setRumble(RumbleType.kRightRumble, 0);
 			}
+			// update acceleration
+			
 		}
 		oldTime = newTime;
 	}
@@ -90,6 +93,22 @@ public class ControlSystem {
 		return (((speedI / (prec + 1)) * (fast + 1)) / 2);
 	}
 
+	public static final double getMoveAxisAccelX() {
+		return currentJoyX;
+	}
+
+	public static final double getMoveAxisAccelY() {
+		return currentJoyY;
+	}
+
+	public static final double getMoveAxisX() {
+		return 0;
+	}
+
+	public static final double getMoveAxisY() {
+		return 0;
+	}
+
 	/**
 	 * Gets the value of a button by name as a value between 0 and 1. To check
 	 * if a button is pressed. Names are: moveForward, moveBackward, turnRight,
@@ -106,20 +125,8 @@ public class ControlSystem {
 		return 0;
 	}
 
-	public static final double getMoveAxisAccelX() {
-		return 0; // TODO TWAZESXRDCTFGBHKGCTDXRSDCTFG
-	}
+	public static enum Button {
 
-	public static final double getMoveAxisAccelY() {
-		return 0; // TODO AZESXRDCTYGBUHNJIHUBGYFTCDXRS
-	}
-
-	public static final double getMoveAxisX() {
-		return 0;
-	}
-
-	public static final double getMoveAxisY() {
-		return 0;
 	}
 
 	/**
@@ -136,23 +143,52 @@ public class ControlSystem {
 	}
 
 	/**
-	 * Gets the value of a literal button by name. For example: A, B, X, Y,
-	 * LeftTrigger, RightTrigger, StickLeftX, StickLeftY, StickRightX,
-	 * StickRightY, LeftBumper, RightBumper, LeftButton, RightButton, Start,
-	 * Select
+	 * Gets the value of a literal button by name.
 	 * 
 	 * @param button
 	 * @return
 	 */
-	private static final double getButtonLiteral(String button) {
-		double n;
-		switch (button.trim().toLowerCase()) {
-		case "a":
-
+	private static final double getButtonLiteral(ButtonLiteral button) {
+		double n = 0;
+		switch (button) {
+		case A:
+			break;
+		case B:
+			break;
+		case LEFT_BUMPER:
+			break;
+		case LEFT_BUTTON:
+			break;
+		case LEFT_TRIGGER:
+			break;
+		case RIGHT_BUMPER:
+			break;
+		case RIGHT_BUTTON:
+			break;
+		case RIGHT_TRIGGER:
+			break;
+		case START:
+			break;
+		case STICK_LEFT_X:
+			break;
+		case STICK_LEFT_Y:
+			break;
+		case STICK_RIGHT_X:
+			break;
+		case STICK_RIGHT_Y:
+			break;
+		case X:
+			break;
+		case Y:
+			break;
 		default:
-			n = 0;
+			break;
 		}
 		return n;
+	}
+
+	public static enum ButtonLiteral {
+		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_X, STICK_LEFT_Y, STICK_RIGHT_X, STICK_RIGHT_Y, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START;
 	}
 
 	/**
