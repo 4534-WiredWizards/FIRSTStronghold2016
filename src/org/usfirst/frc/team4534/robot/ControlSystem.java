@@ -2,6 +2,7 @@ package org.usfirst.frc.team4534.robot;
 
 import java.util.Properties;
 
+import org.usfirst.frc.team4534.robot.util.Maths;
 import org.usfirst.frc.team4534.robot.util.PropertySheetLoader;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -56,7 +57,7 @@ public class ControlSystem {
 				joystick.setRumble(RumbleType.kRightRumble, 0);
 			}
 			// update acceleration
-			
+			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 0.1);
 		}
 		oldTime = newTime;
 	}
