@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4534.robot.commands;
 
+import org.usfirst.frc.team4534.robot.ControlSystem;
 import org.usfirst.frc.team4534.robot.Robot;
 
 import edu.wpi.first.wpilibj.Joystick;
