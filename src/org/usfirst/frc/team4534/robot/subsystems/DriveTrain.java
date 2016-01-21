@@ -24,7 +24,7 @@ public class DriveTrain extends Subsystem {
 	 * @param rotate the value of rotation. Between -1 & 1.
 	 */
 	public void arcadeDrive(double forward, double rotate) {
-		drive.arcadeDrive(forward, rotate, false);
+		drive.arcadeDrive(forward, rotate, true);
 	}
 	/**
 	 * Drives the robot without turning.
