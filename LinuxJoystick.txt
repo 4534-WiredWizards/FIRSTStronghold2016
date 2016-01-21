@@ -4,17 +4,17 @@ Axis 2 : LeftTrigger
 Axis 3 : RightStickHor
 Axis 4 : RightStickVer
 Axis 5 : RightTrigger
-Butt 0 : A
-Butt 1 : B
-Butt 2 : X
-Butt 3 : Y
-Butt 4 : LeftButton
-Butt 5 : RightButton
-Butt 6 : Back/Select
-Butt 7 : Start
-Butt 8 : XBox
-Butt 9 : LeftStickButton
-Butt 10: RightStickButton
+Bttn 0 : A
+Bttn 1 : B
+Bttn 2 : X
+Bttn 3 : Y
+Bttn 4 : LeftButton
+Bttn 5 : RightButton
+Bttn 6 : Back/Select
+Bttn 7 : Start
+Bttn 8 : XBox
+Bttn 9 : LeftStickButton
+Bttn 10: RightStickButton
 
 
 

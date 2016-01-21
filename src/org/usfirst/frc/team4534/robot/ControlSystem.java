@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4534.robot;
 
-import java.util.HashMap;
 import java.util.Properties;
 
 import org.usfirst.frc.team4534.robot.util.PropertySheetLoader;
@@ -104,6 +103,22 @@ public class ControlSystem {
 	public static final double getButton(String buttonName) {
 		switch (buttonName) {
 		}
+		return 0;
+	}
+
+	public static final double getMoveAxisAccelX() {
+		return 0; // TODO TWAZESXRDCTFGBHKGCTDXRSDCTFG
+	}
+
+	public static final double getMoveAxisAccelY() {
+		return 0; // TODO AZESXRDCTYGBUHNJIHUBGYFTCDXRS
+	}
+
+	public static final double getMoveAxisX() {
+		return 0;
+	}
+
+	public static final double getMoveAxisY() {
 		return 0;
 	}
 
