@@ -103,11 +103,11 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisX() {
-		return 0;
+		return joystick.getX();
 	}
 
 	public static final double getMoveAxisY() {
-		return 0;
+		return joystick.getY();
 	}
 
 	/**
