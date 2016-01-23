@@ -57,8 +57,20 @@ public class ControlSystem {
 				joystick.setRumble(RumbleType.kRightRumble, 0);
 			}
 			// update acceleration
-			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(1.5, delta));
+			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(.9, delta));
 			currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(1, delta));
+			
+			if(currentJoyY > 1){
+				currentJoyY = 1;
+			}else if(currentJoyY < -1){
+				currentJoyY = -1;
+			}
+			if(currentJoyX > 1){
+				currentJoyX = 1;
+			}else if(currentJoyX < -1){
+				currentJoyX = -1;
+			}
+			
 		}
 		oldTime = newTime;
 	}
