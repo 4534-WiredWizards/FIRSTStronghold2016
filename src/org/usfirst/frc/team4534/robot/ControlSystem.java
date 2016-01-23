@@ -22,7 +22,7 @@ public class ControlSystem {
 	private static Properties prop;
 	private static Joystick joystick;
 	private static double rumbleTime;
-	public static double currentJoyX = 0, currentJoyY = 0;
+	private static double currentJoyX = 0, currentJoyY = 0;
 
 	/**
 	 * This NEEDS to be called before any other ControlSystem methods are called
@@ -57,8 +57,17 @@ public class ControlSystem {
 				joystick.setRumble(RumbleType.kRightRumble, 0);
 			}
 			// update acceleration
+			final double threshold = 0.3;
 			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(.1, delta));
+			if (getMoveAxisY() >= threshold && currentJoyY < threshold)
+				currentJoyY = threshold;
+			if (getMoveAxisY() <= -threshold && currentJoyY > -threshold)
+				currentJoyY = -threshold;
 			currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(.1, delta));
+			if (getMoveAxisX() >= threshold && currentJoyX < threshold)
+				currentJoyX = threshold;
+			if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
+				currentJoyX = -threshold;
 
 			if (currentJoyY > 1) {
 				currentJoyY = 1;
@@ -73,6 +82,11 @@ public class ControlSystem {
 
 		}
 		oldTime = newTime;
+	}
+	
+	public static void killAccel() {
+		currentJoyY = 0;
+		currentJoyX = 0;
 	}
 
 	/**
@@ -118,11 +132,13 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisX() {
-		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getX(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
+		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getX(), Robot.oi.getJoystick().getRawAxis(2),
+				Robot.oi.getJoystick().getRawAxis(3));
 	}
 
 	public static final double getMoveAxisY() {
-		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getY(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
+		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getY(), Robot.oi.getJoystick().getRawAxis(2),
+				Robot.oi.getJoystick().getRawAxis(3));
 	}
 
 	/**
