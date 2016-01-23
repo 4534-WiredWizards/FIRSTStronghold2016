@@ -91,6 +91,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
+		SmartDashboard.putNumber("AcelY", ControlSystem.getMoveAxisAccelY());
+		SmartDashboard.putNumber("AcelX", ControlSystem.getMoveAxisAccelX());
 		ControlSystem.update();
 	}
 

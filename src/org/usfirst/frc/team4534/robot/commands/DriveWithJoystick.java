@@ -25,7 +25,7 @@ public class DriveWithJoystick extends Command {
 		Joystick joy;
 		joy = Robot.oi.getJoystick();
 		Robot.drivetrain.arcadeDrive(
-				ControlSystem.calcSpeed(ControlSystem.getMoveAxisAccelY(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3)),
+				ControlSystem.calcSpeed(ControlSystem.currentJoyY, Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3)),
 				ControlSystem.calcSpeed(ControlSystem.getMoveAxisAccelX(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3)));
 	}
 

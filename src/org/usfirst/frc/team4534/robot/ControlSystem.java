@@ -22,7 +22,7 @@ public class ControlSystem {
 	private static Properties prop;
 	private static Joystick joystick;
 	private static double rumbleTime;
-	private static double currentJoyX = 0, currentJoyY = 0;
+	public static double currentJoyX = 0, currentJoyY = 0;
 
 	/**
 	 * This NEEDS to be called before any other ControlSystem methods are called
@@ -57,8 +57,8 @@ public class ControlSystem {
 				joystick.setRumble(RumbleType.kRightRumble, 0);
 			}
 			// update acceleration
-			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(1, (2 * delta)));
-			currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(1, (2 * delta)));
+			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(1.5, delta));
+			currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(1, delta));
 		}
 		oldTime = newTime;
 	}
