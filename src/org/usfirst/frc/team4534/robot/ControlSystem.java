@@ -57,20 +57,20 @@ public class ControlSystem {
 				joystick.setRumble(RumbleType.kRightRumble, 0);
 			}
 			// update acceleration
-			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(.9, delta));
-			currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(1, delta));
-			
-			if(currentJoyY > 1){
+			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(.1, delta));
+			currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(.1, delta));
+
+			if (currentJoyY > 1) {
 				currentJoyY = 1;
-			}else if(currentJoyY < -1){
+			} else if (currentJoyY < -1) {
 				currentJoyY = -1;
 			}
-			if(currentJoyX > 1){
+			if (currentJoyX > 1) {
 				currentJoyX = 1;
-			}else if(currentJoyX < -1){
+			} else if (currentJoyX < -1) {
 				currentJoyX = -1;
 			}
-			
+
 		}
 		oldTime = newTime;
 	}
@@ -86,6 +86,8 @@ public class ControlSystem {
 		return forward - back;
 	}
 
+	private static final double scale = 3;
+
 	/**
 	 * Gives the speed based on a function: f(s,p,f) = ((s / (p + 1)) * (f + 1))
 	 * / 2 . Assuming the speed value is one, the button to move forward is
@@ -99,12 +101,12 @@ public class ControlSystem {
 	 *            the speed axis {-1 <= speedI <= 1}
 	 * @param prec
 	 *            the precision value {0 <= prec <= 1}
-	 * @param fast
+	 * @param turbo
 	 *            the fast value {0 <= fast <= 1}
 	 * @return f(s, p, f)
 	 */
-	public static final double calcSpeed(double speedI, double prec, double fast) {
-		return (((speedI / (prec + 1)) * (fast + 1)) / 2);
+	public static final double calcSpeed(double speedI, double prec, double turbo) {
+		return ((((speedI * scale) / (prec + scale)) * (turbo + scale)) / (scale + 1));
 	}
 
 	public static final double getMoveAxisAccelX() {
@@ -116,11 +118,11 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisX() {
-		return joystick.getX();
+		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getX(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
 	}
 
 	public static final double getMoveAxisY() {
-		return joystick.getY();
+		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getY(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
 	}
 
 	/**

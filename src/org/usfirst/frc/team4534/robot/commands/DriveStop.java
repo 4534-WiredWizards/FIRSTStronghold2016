@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4534.robot.commands;
 
+import org.usfirst.frc.team4534.robot.ControlSystem;
 import org.usfirst.frc.team4534.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -17,6 +18,9 @@ public class DriveStop extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	ControlSystem.currentJoyY = 0;
+    	ControlSystem.currentJoyX = 0;
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run

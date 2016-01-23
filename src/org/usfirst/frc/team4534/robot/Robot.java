@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		oi = new OI();
 		ControlSystem.init();
+		ControlSystem.rumbleTimeSet(1);
 
 		SmartDashboard.putData(drivetrain);
 		// SmartDashboard.putData((NamedSendable) oi);
