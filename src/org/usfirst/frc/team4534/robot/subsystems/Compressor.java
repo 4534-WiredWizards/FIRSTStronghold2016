@@ -16,6 +16,7 @@ public class Compressor extends Subsystem {
 		compressor = new Compressor();
 	}
 
+	@Override
 	protected void initDefaultCommand() {
 
 	}

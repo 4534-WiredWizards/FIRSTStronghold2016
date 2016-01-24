@@ -28,7 +28,7 @@ public class PropertySheetLoader {
 		}
 	}
 
-	private static String readFile(String path) throws IOException {
+	public static final String readFile(String path) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded);
 	}
