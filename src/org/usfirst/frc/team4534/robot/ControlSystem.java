@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class ControlSystem {
 
+	
+	@SuppressWarnings("unused")
 	private static Properties prop;
 	private static Joystick joystick;
 	private static double rumbleTime;
@@ -96,6 +98,7 @@ public class ControlSystem {
 	 * @param back
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private static double getspeed(double forward, double back) {
 		return forward - back;
 	}
@@ -180,6 +183,7 @@ public class ControlSystem {
 	 * @param button
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private static final double getButtonLiteral(ButtonLiteral button) {
 		double n = 0;
 		switch (button) {

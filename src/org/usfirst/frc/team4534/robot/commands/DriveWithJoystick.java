@@ -3,7 +3,6 @@ package org.usfirst.frc.team4534.robot.commands;
 import org.usfirst.frc.team4534.robot.ControlSystem;
 import org.usfirst.frc.team4534.robot.Robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -22,8 +21,6 @@ public class DriveWithJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Joystick joy;
-		joy = Robot.oi.getJoystick();
 		Robot.drivetrain.arcadeDrive(-ControlSystem.getMoveAxisAccelY(), -ControlSystem.getMoveAxisAccelX());
 	}
 

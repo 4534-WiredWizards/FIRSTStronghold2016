@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoDriveRotate extends Command {
 
-	private double duration;
+	//private double duration;
 	private double speed;
     public AutoDriveRotate(double duration, double speed) {
         // Use requires() here to declare subsystem dependencies
     	requires(Robot.drivetrain);
-    	this.duration = duration;
+    	//this.duration = duration;
 		this.speed = speed;
     	setTimeout(duration);
     }
