@@ -1,0 +1,15 @@
+x=This is an example control configuration based on Arcade Control
+x=This will also be the first config used when starting the robot as it is a the top of the list in 0.txt
+
+x=Comments can be made with the "x=<comment>" method.
+
+x=For more information see _Requirements.txt
+
+moveForward=leftStickUp
+moveBackward=leftStickDown
+turnLeft=leftStickLeft
+turnRight=leftStickRight
+fast=rightTrigger
+precision=leftTrigger
+shoot=A
+emergencyStop=B

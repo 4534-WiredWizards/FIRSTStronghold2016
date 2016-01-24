@@ -1,17 +1,13 @@
-/* if .gitignore is an unstaged file, remove it
-By default, EGit automatically adds resources marked as "Derived" to .gitignore. A typical example is the bin folder in a Java project containing the compiled classes.
-You can disable this by going to the preferences Team > Git > Projects and deselect "Automatically ignore derived resources by adding them to .gitignore".
-*/
-
 package org.usfirst.frc.team4534.robot;
+
+import org.usfirst.frc.team4534.robot.commands.Autonomous;
+import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team4534.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4534.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,20 +18,34 @@ import org.usfirst.frc.team4534.robot.subsystems.ExampleSubsystem;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 
 	public static DriveTrain drivetrain;
 	Command autonomousCommand;
+
+	// public SendableChooser autoChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		System.out.println("robotInit");
+
+		drivetrain = new DriveTrain();
 		oi = new OI();
+		ControlSystem.init();
+		ControlSystem.rumbleTimeSet(1);
+
+		SmartDashboard.putData(drivetrain);
+		// SmartDashboard.putData((NamedSendable) oi);
+
 		// instantiate the command used for the autonomous period
-		autonomousCommand = new ExampleCommand();
+		autonomousCommand = new Autonomous();
+		// autoChooser = new SendableChooser();
+		// autoChooser.addObject("Drive Straight", new Autonomous());
+
+		// SmartDashboard.putData("Auto Mode", autoChooser);
 	}
 
 	public void disabledPeriodic() {
@@ -44,8 +54,10 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
+			// autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommand.start();
+		}
 	}
 
 	/**
@@ -78,6 +90,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
+		SmartDashboard.putNumber("Joy X", oi.stick.getX());
+		SmartDashboard.putNumber("AcelY", ControlSystem.getMoveAxisAccelY());
+		SmartDashboard.putNumber("AcelX", ControlSystem.getMoveAxisAccelX());
+		ControlSystem.update();
 	}
 
 	/**

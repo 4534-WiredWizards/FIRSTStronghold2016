@@ -1,0 +1,10 @@
+x=This is an example for controls typically used in racing games.
+
+moveForward=rightTrigger
+moveBackward=leftTrigger
+turnLeft=leftStickLeft
+turnRight=leftStickRight
+fast=rightStickUp
+precision=rightStickDown
+shoot=A
+emergencyStop=B
