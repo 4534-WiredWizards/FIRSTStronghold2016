@@ -46,6 +46,8 @@ public class Robot extends IterativeRobot {
 		// autoChooser.addObject("Drive Straight", new Autonomous());
 
 		// SmartDashboard.putData("Auto Mode", autoChooser);
+		SmartDashboard.putData(autonomousCommand);
+		SmartDashboard.putData(Scheduler.getInstance());
 	}
 
 	public void disabledPeriodic() {
