@@ -2,6 +2,7 @@ package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4534.robot.subsystems.BallIntake;
 
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	Command autonomousCommand;
+	public static BallIntake ballintake;
 
 	// public SendableChooser autoChooser;
 
@@ -40,6 +42,7 @@ public class Robot extends IterativeRobot {
 		ControlSystem.rumbleTimeSet(1);
 
 		SmartDashboard.putData(drivetrain);
+		SmartDashboard.putData(ballintake);
 		// SmartDashboard.putData((NamedSendable) oi);
 
 		// instantiate the command used for the autonomous period
