@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *Stops the Ball intake device from spinning.
  */
-public class BIStop extends Command {
+public class BallIntakeStop extends Command {
 
-    public BIStop() {
+    public BallIntakeStop() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballintake);

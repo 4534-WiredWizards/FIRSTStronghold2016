@@ -3,7 +3,7 @@ package org.usfirst.frc.team4534.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team4534.robot.RobotMap;
-import org.usfirst.frc.team4534.robot.commands.BIStop;
+import org.usfirst.frc.team4534.robot.commands.BallIntakeStop;
 
 import edu.wpi.first.wpilibj.TalonSRX;
 /**
@@ -31,7 +31,7 @@ public class BallIntake extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-    	setDefaultCommand(new BIStop());
+    	setDefaultCommand(new BallIntakeStop());
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
