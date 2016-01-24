@@ -3,6 +3,8 @@ package org.usfirst.frc.team4534.robot;
 import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 
+import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -97,6 +99,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("AcelY", ControlSystem.getMoveAxisAccelY());
 		SmartDashboard.putNumber("AcelX", ControlSystem.getMoveAxisAccelX());
 		ControlSystem.update();
+		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
 	}
 
 	/**
