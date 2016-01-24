@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4534.robot;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import org.usfirst.frc.team4534.robot.util.Maths;
@@ -19,7 +20,6 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class ControlSystem {
 
-	
 	@SuppressWarnings("unused")
 	private static Properties prop;
 	private static Joystick joystick;
@@ -47,45 +47,38 @@ public class ControlSystem {
 		double newTime = Timer.getFPGATimestamp();
 		double delta = newTime - oldTime;
 		{
-			// update rumble
-			rumbleTime -= delta;
-			if (rumbleTime < 0)
-				rumbleTime = 0;
-			if (rumbleTime > 0) {
-				joystick.setRumble(RumbleType.kLeftRumble, 1);
-				joystick.setRumble(RumbleType.kRightRumble, 1);
-			} else {
-				joystick.setRumble(RumbleType.kLeftRumble, 0);
-				joystick.setRumble(RumbleType.kRightRumble, 0);
+			/* update rumble */{
+				rumbleTime -= delta;
+				if (rumbleTime < 0)
+					rumbleTime = 0;
+				if (rumbleTime > 0) {
+					joystick.setRumble(RumbleType.kLeftRumble, 1);
+					joystick.setRumble(RumbleType.kRightRumble, 1);
+				} else {
+					joystick.setRumble(RumbleType.kLeftRumble, 0);
+					joystick.setRumble(RumbleType.kRightRumble, 0);
+				}
 			}
-			// update acceleration
-			final double threshold = 0.3;
-			currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(.1, delta));
-			if (getMoveAxisY() >= threshold && currentJoyY < threshold)
-				currentJoyY = threshold;
-			if (getMoveAxisY() <= -threshold && currentJoyY > -threshold)
-				currentJoyY = -threshold;
-			currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(.1, delta));
-			if (getMoveAxisX() >= threshold && currentJoyX < threshold)
-				currentJoyX = threshold;
-			if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
-				currentJoyX = -threshold;
-
-			if (currentJoyY > 1) {
-				currentJoyY = 1;
-			} else if (currentJoyY < -1) {
-				currentJoyY = -1;
+			/* update acceleration */{
+				// The threshold is the minimum value of the current joy values
+				final double threshold = 0.3;
+				// Linearly interpolate the current joy values
+				currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(.1, delta));
+				currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(.1, delta));
+				// Reverse clamp the current joy values based on the raw axis
+				if (getMoveAxisY() >= threshold && currentJoyY < threshold)
+					currentJoyY = threshold;
+				if (getMoveAxisY() <= -threshold && currentJoyY > -threshold)
+					currentJoyY = -threshold;
+				if (getMoveAxisX() >= threshold && currentJoyX < threshold)
+					currentJoyX = threshold;
+				if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
+					currentJoyX = -threshold;
 			}
-			if (currentJoyX > 1) {
-				currentJoyX = 1;
-			} else if (currentJoyX < -1) {
-				currentJoyX = -1;
-			}
-
 		}
 		oldTime = newTime;
 	}
-	
+
 	public static void killAccel() {
 		currentJoyY = 0;
 		currentJoyX = 0;
@@ -135,19 +128,16 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisX() {
-		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getX(), Robot.oi.getJoystick().getRawAxis(2),
-				Robot.oi.getJoystick().getRawAxis(3));
+		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getX(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
 	}
 
 	public static final double getMoveAxisY() {
-		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getY(), Robot.oi.getJoystick().getRawAxis(2),
-				Robot.oi.getJoystick().getRawAxis(3));
+		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getY(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
 	}
 
 	/**
 	 * Gets the value of a button by name as a value between 0 and 1. To check
-	 * if a button is pressed. Names are: moveForward, moveBackward, turnRight,
-	 * turnLeft, precision, speedBoost, shoot.
+	 * if a button is pressed.
 	 * 
 	 * @param buttonName
 	 *            the name of the button
@@ -161,7 +151,7 @@ public class ControlSystem {
 	}
 
 	public static enum Button {
-
+		MOVE_FORWARD, MOVE_BACKWARD, TURN_RIGHT, TURN_LEFT, PRECISION, TURBO, SHOOT, ARM_UP, ARM_DOWN, ARM_EXTEND, ARM_RETRACT
 	}
 
 	/**
@@ -173,8 +163,8 @@ public class ControlSystem {
 	 * 
 	 * @return value of the button
 	 */
-	public static final boolean getButtonIsPressed(String buttonName) {
-		return false; // TODO: create ControlSystem.getButtonIsPressed(String)
+	public static final boolean getButtonIsPressed(String button) {
+		return getButton(button) > 0.5;
 	}
 
 	/**
@@ -185,39 +175,56 @@ public class ControlSystem {
 	 */
 	@SuppressWarnings("unused")
 	private static final double getButtonLiteral(ButtonLiteral button) {
+		Joystick j = Robot.oi.getJoystick();
 		double n = 0;
 		switch (button) {
 		case A:
+			n = j.getRawButton(0) ? 1 : 0;
 			break;
 		case B:
+			n = j.getRawButton(1) ? 1 : 0;
 			break;
 		case LEFT_BUMPER:
+			n = j.getRawButton(4) ? 1 : 0;
 			break;
 		case LEFT_BUTTON:
+			n = j.getRawButton(8) ? 1 : 0;
 			break;
 		case LEFT_TRIGGER:
+			n = j.getRawAxis(2);
 			break;
 		case RIGHT_BUMPER:
+			n = j.getRawButton(5) ? 1 : 0;
 			break;
 		case RIGHT_BUTTON:
+			n = j.getRawButton(9) ? 1 : 0;
 			break;
 		case RIGHT_TRIGGER:
+			n = j.getRawAxis(3);
 			break;
 		case START:
+			n = j.getRawButton(7) ? 1 : 0;
 			break;
 		case STICK_LEFT_X:
+			n = j.getRawAxis(0);
 			break;
 		case STICK_LEFT_Y:
+			n = j.getRawAxis(1);
 			break;
 		case STICK_RIGHT_X:
+			n = j.getRawAxis(4);
 			break;
 		case STICK_RIGHT_Y:
+			n = j.getRawAxis(5);
 			break;
 		case X:
+			n = j.getRawButton(2) ? 1 : 0;
 			break;
 		case Y:
+			n = j.getRawButton(3) ? 1 : 0;
 			break;
 		default:
+			n = 0;
 			break;
 		}
 		return n;
@@ -225,6 +232,21 @@ public class ControlSystem {
 
 	public static enum ButtonLiteral {
 		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_X, STICK_LEFT_Y, STICK_RIGHT_X, STICK_RIGHT_Y, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START;
+	}
+	
+	private static int currentScheme = 0;
+	
+	public static void loadNextScheme() {
+		loadScheme(currentScheme + 1);
+	}
+	
+	private static void loadScheme(int scheme) {
+		currentScheme = scheme;
+		try {
+			String[] sheets = PropertySheetLoader.readFile("0.txt").split("\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
