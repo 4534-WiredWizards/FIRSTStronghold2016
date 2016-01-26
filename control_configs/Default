@@ -5,11 +5,11 @@ x=Comments can be made with the "x=<comment>" method.
 
 x=For more information see _Requirements.txt
 
-moveForward=leftStickUp
-moveBackward=leftStickDown
-turnLeft=leftStickLeft
-turnRight=leftStickRight
-fast=rightTrigger
-precision=leftTrigger
+move_Forward=left_StickUp
+move_Backward=left_StickDown
+turn_Left=left_Stick_Left
+turn_Right=left_Stick_Right
+turbo=right_Trigger
+precision=left_Trigger
 shoot=A
-emergencyStop=B
+emergency_Stop=B

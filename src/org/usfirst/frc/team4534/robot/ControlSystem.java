@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class ControlSystem {
 
-	@SuppressWarnings("unused")
 	private static Properties prop;
 	private static Joystick joystick;
 	private static double rumbleTime;
@@ -32,7 +31,7 @@ public class ControlSystem {
 	 */
 	public static void init() {
 		joystick = Robot.oi.getJoystick();
-		prop = PropertySheetLoader.parseProperties("sheets/0.txt");
+		loadScheme(0);
 		rumbleTime = 0;
 		oldTime = Timer.getFPGATimestamp();
 		update();
@@ -84,18 +83,6 @@ public class ControlSystem {
 		currentJoyX = 0;
 	}
 
-	/**
-	 * Converts two axis into one.
-	 * 
-	 * @param forward
-	 * @param back
-	 * @return
-	 */
-	@SuppressWarnings("unused")
-	private static double getspeed(double forward, double back) {
-		return forward - back;
-	}
-
 	private static final double scale = 3;
 
 	/**
@@ -128,11 +115,11 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisX() {
-		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getX(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
+		return ControlSystem.calcSpeed(getButton(Button.TURN_RIGHT) - getButton(Button.TURN_LEFT), getButton(Button.PRECISION), getButton(Button.TURBO));
 	}
 
 	public static final double getMoveAxisY() {
-		return ControlSystem.calcSpeed(Robot.oi.getJoystick().getY(), Robot.oi.getJoystick().getRawAxis(2), Robot.oi.getJoystick().getRawAxis(3));
+		return ControlSystem.calcSpeed(getButton(Button.MOVE_FORWARD) - getButton(Button.MOVE_BACKWARD), getButton(Button.PRECISION), getButton(Button.TURBO));
 	}
 
 	/**
@@ -144,10 +131,12 @@ public class ControlSystem {
 	 * 
 	 * @return value of the button
 	 */
-	public static final double getButton(String buttonName) {
-		switch (buttonName) {
-		}
-		return 0;
+	public static final double getButton(Button button) {
+		String buttonNameString = button.name();
+		String buttonLiteralString = prop.getProperty(buttonNameString);
+		ButtonLiteral buttonLiteral = ButtonLiteral.valueOf(buttonLiteralString);
+		double value = getButtonLiteral(buttonLiteral);
+		return value;
 	}
 
 	public static enum Button {
@@ -163,7 +152,7 @@ public class ControlSystem {
 	 * 
 	 * @return value of the button
 	 */
-	public static final boolean getButtonIsPressed(String button) {
+	public static final boolean getButtonIsPressed(Button button) {
 		return getButton(button) > 0.5;
 	}
 
@@ -173,7 +162,6 @@ public class ControlSystem {
 	 * @param button
 	 * @return
 	 */
-	@SuppressWarnings("unused")
 	private static final double getButtonLiteral(ButtonLiteral button) {
 		Joystick j = Robot.oi.getJoystick();
 		double n = 0;
@@ -205,17 +193,29 @@ public class ControlSystem {
 		case START:
 			n = j.getRawButton(7) ? 1 : 0;
 			break;
-		case STICK_LEFT_X:
-			n = j.getRawAxis(0);
+		case STICK_LEFT_UP:
+			n = j.getRawAxis(1) > 0 ? j.getRawAxis(1) : 0;
 			break;
-		case STICK_LEFT_Y:
-			n = j.getRawAxis(1);
+		case STICK_LEFT_DOWN:
+			n = j.getRawAxis(1) < 0 ? -j.getRawAxis(1) : 0;
 			break;
-		case STICK_RIGHT_X:
-			n = j.getRawAxis(4);
+		case STICK_RIGHT_UP:
+			n = j.getRawAxis(5) > 0 ? j.getRawAxis(5) : 0;
 			break;
-		case STICK_RIGHT_Y:
-			n = j.getRawAxis(5);
+		case STICK_RIGHT_DOWN:
+			n = j.getRawAxis(5) < 0 ? -j.getRawAxis(5) : 0;
+			break;
+		case STICK_LEFT_RIGHT:
+			n = j.getRawAxis(0) > 0 ? j.getRawAxis(0) : 0;
+			break;
+		case STICK_LEFT_LEFT:
+			n = j.getRawAxis(0) < 0 ? -j.getRawAxis(0) : 0;
+			break;
+		case STICK_RIGHT_RIGHT:
+			n = j.getRawAxis(4) > 0 ? j.getRawAxis(4) : 0;
+			break;
+		case STICK_RIGHT_LEFT:
+			n = j.getRawAxis(4) < 0 ? -j.getRawAxis(4) : 0;
 			break;
 		case X:
 			n = j.getRawButton(2) ? 1 : 0;
@@ -231,19 +231,20 @@ public class ControlSystem {
 	}
 
 	public static enum ButtonLiteral {
-		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_X, STICK_LEFT_Y, STICK_RIGHT_X, STICK_RIGHT_Y, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START;
+		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_UP, STICK_LEFT_DOWN, STICK_LEFT_LEFT, STICK_LEFT_RIGHT, STICK_RIGHT_UP, STICK_RIGHT_DOWN, STICK_RIGHT_LEFT, STICK_RIGHT_RIGHT, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START;
 	}
-	
+
 	private static int currentScheme = 0;
-	
+
 	public static void loadNextScheme() {
 		loadScheme(currentScheme + 1);
 	}
-	
+
 	private static void loadScheme(int scheme) {
 		currentScheme = scheme;
 		try {
-			String[] sheets = PropertySheetLoader.readFile("0.txt").split("\n");
+			String[] sheets = PropertySheetLoader.readFile("control_configs/0.txt").split("\n");
+			prop = PropertySheetLoader.parseProperties("control_configs/" + sheets[scheme % sheets.length]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
