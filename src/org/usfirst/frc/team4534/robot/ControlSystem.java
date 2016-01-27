@@ -73,6 +73,9 @@ public class ControlSystem {
 					currentJoyX = threshold;
 				if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
 					currentJoyX = -threshold;
+				if (joystick.getRawButton(6)) {
+					loadNextScheme();
+				}
 			}
 		}
 		oldTime = newTime;
