@@ -57,6 +57,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		ballintake = new BallIntake();
 		oi = new OI();
+		accelerometer = new BuiltInAccelerometer();
 		//step1 = new SendableChooser();
 		//step1.addDefault("Wait", new DriveStop());
 		//step1.addObject("Straight One Second", new AutoDriveStraight(1, .35));
@@ -73,6 +74,7 @@ public class Robot extends IterativeRobot {
 			steps.get(q).addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
 			SmartDashboard.putData(steps.get(q).toString() + "choice:", steps.get(q));
 		}
+		
 		/*
 		for (SendableChooser autoSteps : steps) {
 			autoSteps.addDefault("Wait", new DriveStop());
@@ -106,14 +108,21 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		if (autonomousCommands != null) {
+			if(autonomousCommands.isRunning()){
+			autonomousCommands.cancel();
+			}
+		}
 	}
 
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		if (autonomousCommands != null) {
-			autonomousCommands.cancel();
+			if(autonomousCommands.isRunning()){
+				autonomousCommands.cancel();
+			}
 		}
-		
+		autonomous
 		for(int e = 0; e < steps.size(); e++){
 			autonomousCommands.addSequential((Command) steps.get(e).getSelected());
 			
@@ -134,6 +143,7 @@ public class Robot extends IterativeRobot {
 		if(accelerometer.getZ() >= 2){
 			autonomousCommands.cancel();
 		}
+		
 		}
 	}
 
@@ -151,7 +161,9 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommands != null) {
+			while(!autonomousCommands.isCanceled()){
 			autonomousCommands.cancel();
+			}
 		}
 	}
 
@@ -161,7 +173,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 		if (autonomousCommands != null) {
+			while(!autonomousCommands.isCanceled()){
 				autonomousCommands.cancel();
+				}
 			}
 		//auto.cancel();
 
