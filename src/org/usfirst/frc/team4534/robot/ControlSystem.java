@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4534.robot;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Properties;
 
 import org.usfirst.frc.team4534.robot.util.Maths;
@@ -8,7 +9,6 @@ import org.usfirst.frc.team4534.robot.util.PropertySheetLoader;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Convenience methods for accessing the joystick(s). Only a few requirements
@@ -23,6 +23,7 @@ public class ControlSystem {
 	private static Properties prop;
 	private static double rumbleTime;
 	private static double currentJoyX = 0, currentJoyY = 0;
+	private static final LinkedList<ButtonListener> buttonListeners = new LinkedList<ButtonListener>();
 
 	/**
 	 * This NEEDS to be called before any other ControlSystem methods are called
@@ -73,6 +74,11 @@ public class ControlSystem {
 					currentJoyX = -threshold;
 				if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5) {
 					loadNextScheme();
+				}
+				for (Button b : Button.values()) {
+					if (getButtonIsPressed(b)) {
+						callButton(b, getButton(b));
+					}
 				}
 			}
 		}
@@ -136,7 +142,6 @@ public class ControlSystem {
 	 */
 	public static final double getButton(Button button) {
 		String buttonNameString = button.name();
-		SmartDashboard.putString("err", buttonNameString);
 		String buttonLiteralString = prop.getProperty(buttonNameString);
 		ButtonLiteral buttonLiteral = ButtonLiteral.valueOf(buttonLiteralString);
 		double value = getButtonLiteral(buttonLiteral);
@@ -274,6 +279,16 @@ public class ControlSystem {
 
 	public static final void rumbleKill() {
 		rumbleTime = 0;
+	}
+	
+	public static final void addButtonListener(ButtonListener listener) {
+		buttonListeners.add(listener);
+	}
+	
+	private static final void callButton(Button button, double value) {
+		for (ButtonListener l : buttonListeners) {
+			l.onButtonPress(button, value);
+		}
 	}
 
 }
