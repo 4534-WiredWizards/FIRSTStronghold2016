@@ -63,9 +63,11 @@ public class Robot extends IterativeRobot {
 		//step1.addObject("Straight One Second", new AutoDriveStraight(1, .35));
 		//step1.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
 		//SmartDashboard.putData(step1.toString() + "choice:", step1);
-		
+		if (steps.isEmpty()){
 		for(int i = 0; i < numSteps; i++){
 			steps.add(new SendableChooser());
+			System.out.println("Made Sendable Chooser #" + i);
+		}
 		}
 		
 		for(int q = 0; q < steps.size(); q++){        // This loop adds functions to each Auto Chooser.
@@ -73,6 +75,7 @@ public class Robot extends IterativeRobot {
 			steps.get(q).addObject("Straight One Second", new AutoDriveStraight(1, .35));
 			steps.get(q).addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
 			SmartDashboard.putData(steps.get(q).toString() + "choice:", steps.get(q));
+			System.out.println("Put #" + q + " Data to SmartDashboard");
 		}
 		
 		/*
@@ -119,13 +122,13 @@ public class Robot extends IterativeRobot {
 		// schedule the autonomous command (example)
 		if (autonomousCommands != null) {
 			if(autonomousCommands.isRunning()){
+				System.out.println("Auto Was Already Running!");
 				autonomousCommands.cancel();
 			}
 		}
-		autonomous
 		for(int e = 0; e < steps.size(); e++){
 			autonomousCommands.addSequential((Command) steps.get(e).getSelected());
-			
+			System.out.println("Command #" + e + " Added: " + ((Command) steps.get(e).getSelected()).getName());
 		}
 		
 		//auto = (Command) step1.getSelected();
@@ -139,9 +142,10 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommands != null) {
 			// autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommands.start();
-			
+			System.out.println("Auto Started!");
 		if(accelerometer.getZ() >= 2){
 			autonomousCommands.cancel();
+			System.out.println("Accelometer value greater than 2.");
 		}
 		
 		}
