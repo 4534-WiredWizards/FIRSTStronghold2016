@@ -1,6 +1,11 @@
 package org.usfirst.frc.team4534.robot;
 
+import java.util.LinkedList;
+
+import org.usfirst.frc.team4534.robot.commands.AutoDriveRotate;
+import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
 import org.usfirst.frc.team4534.robot.commands.Autonomous;
+import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallIntake;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
@@ -127,7 +132,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommands.start();
 			
 		if(accelerometer.getZ() >= 2){
-			autonomousCommand.cancel();
+			autonomousCommands.cancel();
 		}
 		}
 	}
