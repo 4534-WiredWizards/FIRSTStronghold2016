@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import org.usfirst.frc.team4534.robot.commands.AutoDriveRotate;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
-import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallIntake;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
@@ -16,8 +15,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -122,7 +121,6 @@ public class Robot extends IterativeRobot {
 				autonomousCommands.cancel();
 			}
 		}
-		autonomous
 		for(int e = 0; e < steps.size(); e++){
 			autonomousCommands.addSequential((Command) steps.get(e).getSelected());
 			

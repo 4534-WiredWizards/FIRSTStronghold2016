@@ -5,8 +5,8 @@ x=Comments can be made with the "x=<comment>" method.
 
 x=For more information see _Requirements.txt
 
-move_Forward=left_StickUp
-move_Backward=left_StickDown
+move_Forward=left_Stick_Up
+move_Backward=left_Stick_Down
 turn_Left=left_Stick_Left
 turn_Right=left_Stick_Right
 turbo=right_Trigger

@@ -7,8 +7,8 @@ import org.usfirst.frc.team4534.robot.util.Maths;
 import org.usfirst.frc.team4534.robot.util.PropertySheetLoader;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Convenience methods for accessing the joystick(s). Only a few requirements
@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.Timer;
 public class ControlSystem {
 
 	private static Properties prop;
-	private static Joystick joystick;
 	private static double rumbleTime;
 	private static double currentJoyX = 0, currentJoyY = 0;
 
@@ -30,16 +29,10 @@ public class ControlSystem {
 	 * to avoid a {@link NullPointerException}
 	 */
 	public static void init() {
-		joystick = Robot.oi.getJoystick();
 		loadScheme(0);
 		rumbleTime = 0;
 		oldTime = Timer.getFPGATimestamp();
 		update();
-	}
-	
-	public static void main(String[] args) {
-		ControlSystem.init();
-		System.out.println(prop);
 	}
 
 	private static double oldTime;
@@ -56,11 +49,11 @@ public class ControlSystem {
 				if (rumbleTime < 0)
 					rumbleTime = 0;
 				if (rumbleTime > 0) {
-					//joystick.setRumble(RumbleType.kLeftRumble, 1);
-					//joystick.setRumble(RumbleType.kRightRumble, 1);
+					// joystick.setRumble(RumbleType.kLeftRumble, 1);
+					// joystick.setRumble(RumbleType.kRightRumble, 1);
 				} else {
-					//joystick.setRumble(RumbleType.kLeftRumble, 0);
-					//joystick.setRumble(RumbleType.kRightRumble, 0);
+					// joystick.setRumble(RumbleType.kLeftRumble, 0);
+					// joystick.setRumble(RumbleType.kRightRumble, 0);
 				}
 			}
 			/* update acceleration */{
@@ -78,6 +71,9 @@ public class ControlSystem {
 					currentJoyX = threshold;
 				if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
 					currentJoyX = -threshold;
+				if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5) {
+					loadNextScheme();
+				}
 			}
 		}
 		oldTime = newTime;
@@ -120,12 +116,14 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisX() {
-		return ControlSystem.calcSpeed(getButtonLiteral(ButtonLiteral.STICK_LEFT_RIGHT) - getButtonLiteral(ButtonLiteral.STICK_LEFT_LEFT), getButtonLiteral(ButtonLiteral.LEFT_TRIGGER), getButtonLiteral(ButtonLiteral.RIGHT_TRIGGER));
+		return ControlSystem.calcSpeed(getButton(Button.TURN_RIGHT) - getButton(Button.TURN_LEFT),
+				getButton(Button.PRECISION), getButton(Button.TURBO));
 	}
 
 	public static final double getMoveAxisY() {
-		return ControlSystem.calcSpeed(getButtonLiteral(ButtonLiteral.STICK_LEFT_UP) - getButtonLiteral(ButtonLiteral.STICK_LEFT_DOWN), getButtonLiteral(ButtonLiteral.LEFT_TRIGGER), getButtonLiteral(ButtonLiteral.RIGHT_TRIGGER));
-		}
+		return ControlSystem.calcSpeed(getButton(Button.MOVE_FORWARD) - getButton(Button.MOVE_BACKWARD),
+				getButton(Button.PRECISION), getButton(Button.TURBO));
+	}
 
 	/**
 	 * Gets the value of a button by name as a value between 0 and 1. To check
@@ -137,12 +135,12 @@ public class ControlSystem {
 	 * @return value of the button
 	 */
 	public static final double getButton(Button button) {
-		/*String buttonNameString = button.name();
+		String buttonNameString = button.name();
+		SmartDashboard.putString("err", buttonNameString);
 		String buttonLiteralString = prop.getProperty(buttonNameString);
 		ButtonLiteral buttonLiteral = ButtonLiteral.valueOf(buttonLiteralString);
 		double value = getButtonLiteral(buttonLiteral);
-		return value;*/
-		return 0;
+		return value;
 	}
 
 	public static enum Button {
@@ -199,6 +197,9 @@ public class ControlSystem {
 		case START:
 			n = j.getRawButton(7) ? 1 : 0;
 			break;
+		case SELECT:
+			n = j.getRawButton(6) ? 1 : 0;
+			break;
 		case STICK_LEFT_UP:
 			n = j.getRawAxis(1) > 0 ? j.getRawAxis(1) : 0;
 			break;
@@ -237,7 +238,7 @@ public class ControlSystem {
 	}
 
 	public static enum ButtonLiteral {
-		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_UP, STICK_LEFT_DOWN, STICK_LEFT_LEFT, STICK_LEFT_RIGHT, STICK_RIGHT_UP, STICK_RIGHT_DOWN, STICK_RIGHT_LEFT, STICK_RIGHT_RIGHT, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START;
+		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_UP, STICK_LEFT_DOWN, STICK_LEFT_LEFT, STICK_LEFT_RIGHT, STICK_RIGHT_UP, STICK_RIGHT_DOWN, STICK_RIGHT_LEFT, STICK_RIGHT_RIGHT, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START, SELECT;
 	}
 
 	private static int currentScheme = 0;
@@ -253,7 +254,7 @@ public class ControlSystem {
 			prop = PropertySheetLoader.parseProperties("control_configs/" + sheets[scheme % sheets.length] + ".txt");
 		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 		}
 	}
 
