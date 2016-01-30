@@ -16,8 +16,9 @@ public class OI {
 
 	public OI() {
 		stick = new Joystick(0);
-		new JoystickButton(stick, 1).whileHeld(new DriveStraight());
+		new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());
+		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
 	}
 
 	public Joystick getJoystick() {
