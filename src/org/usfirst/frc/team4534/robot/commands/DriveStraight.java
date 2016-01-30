@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraight extends Command {
 	
 //	private boolean isExecuted = false;
-	
-    public DriveStraight() {
+	private double rate;
+    public DriveStraight(double rate) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 //    	System.out.println("create");
     	requires(Robot.drivetrain);
+    	this.rate = rate;
     }
 
     // Called just before this Command runs the first time
@@ -26,7 +27,7 @@ public class DriveStraight extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 //    	System.out.println("execute");
-    	Robot.drivetrain.straightDrive(.4);
+    	Robot.drivetrain.straightDrive(rate);
 //    	isExecuted = true;
     }
 

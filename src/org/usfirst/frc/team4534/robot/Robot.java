@@ -1,8 +1,11 @@
 package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.Autonomous;
+import org.usfirst.frc.team4534.robot.subsystems.BallIntake;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -22,6 +25,8 @@ public class Robot extends IterativeRobot {
 
 	public static DriveTrain drivetrain;
 	Command autonomousCommand;
+	public static BallIntake ballintake;
+	public static BuiltInAccelerometer accelerometer;
 
 	// public SendableChooser autoChooser;
 
@@ -35,9 +40,10 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		oi = new OI();
 		ControlSystem.init();
-		ControlSystem.rumbleTimeSet(1);
+		accelerometer = new BuiltInAccelerometer();
 
 		SmartDashboard.putData(drivetrain);
+		//SmartDashboard.putData(ballintake);
 		// SmartDashboard.putData((NamedSendable) oi);
 
 		// instantiate the command used for the autonomous period
@@ -46,6 +52,8 @@ public class Robot extends IterativeRobot {
 		// autoChooser.addObject("Drive Straight", new Autonomous());
 
 		// SmartDashboard.putData("Auto Mode", autoChooser);
+		SmartDashboard.putData(autonomousCommand);
+		SmartDashboard.putData(Scheduler.getInstance());
 	}
 
 	public void disabledPeriodic() {
@@ -57,6 +65,10 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null) {
 			// autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommand.start();
+			
+		if(accelerometer.getZ() >= 2){
+			autonomousCommand.cancel();
+		}
 		}
 	}
 
@@ -94,7 +106,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
 		SmartDashboard.putNumber("AcelY", ControlSystem.getMoveAxisAccelY());
 		SmartDashboard.putNumber("AcelX", ControlSystem.getMoveAxisAccelX());
+		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
 		ControlSystem.update();
+		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
 	}
 
 	/**
