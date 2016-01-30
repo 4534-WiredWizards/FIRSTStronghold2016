@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("robotInit");
 
 		drivetrain = new DriveTrain();
-		ballintake = new BallIntake();
+		//ballintake = new BallIntake();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
 		//step1 = new SendableChooser();
@@ -165,10 +165,11 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommands != null) {
-			while(!autonomousCommands.isCanceled()){
-			autonomousCommands.cancel();
-			}
+			//while(!autonomousCommands.isCanceled()){
+			//autonomousCommands.cancel();
+		//	}
 		}
+		System.out.println("Beginning Teleop!");
 	}
 
 	/**
@@ -182,13 +183,16 @@ public class Robot extends IterativeRobot {
 				}
 			}
 		//auto.cancel();
+		System.out.println("DISABLED!");
 
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
+	
 	public void teleopPeriodic() {
+		System.out.println("is running...");
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
@@ -197,6 +201,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
 		ControlSystem.update();
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
+		
 	}
 
 	/**

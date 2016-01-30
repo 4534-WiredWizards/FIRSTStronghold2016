@@ -45,6 +45,7 @@ public class DriveTrain extends Subsystem {
 		drive.arcadeDrive(0, 0);
 	}
 	// Set the default command for a subsystem here.
+	@Override
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoystick());		
 	}
