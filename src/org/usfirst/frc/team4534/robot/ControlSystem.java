@@ -36,6 +36,11 @@ public class ControlSystem {
 		oldTime = Timer.getFPGATimestamp();
 		update();
 	}
+	
+	public static void main(String[] args) {
+		ControlSystem.init();
+		System.out.println(prop);
+	}
 
 	private static double oldTime;
 
@@ -51,11 +56,11 @@ public class ControlSystem {
 				if (rumbleTime < 0)
 					rumbleTime = 0;
 				if (rumbleTime > 0) {
-					joystick.setRumble(RumbleType.kLeftRumble, 1);
-					joystick.setRumble(RumbleType.kRightRumble, 1);
+					//joystick.setRumble(RumbleType.kLeftRumble, 1);
+					//joystick.setRumble(RumbleType.kRightRumble, 1);
 				} else {
-					joystick.setRumble(RumbleType.kLeftRumble, 0);
-					joystick.setRumble(RumbleType.kRightRumble, 0);
+					//joystick.setRumble(RumbleType.kLeftRumble, 0);
+					//joystick.setRumble(RumbleType.kRightRumble, 0);
 				}
 			}
 			/* update acceleration */{
@@ -73,9 +78,6 @@ public class ControlSystem {
 					currentJoyX = threshold;
 				if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
 					currentJoyX = -threshold;
-				if (joystick.getRawButton(6)) {
-					loadNextScheme();
-				}
 			}
 		}
 		oldTime = newTime;
@@ -118,12 +120,12 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisX() {
-		return ControlSystem.calcSpeed(getButton(Button.TURN_RIGHT) - getButton(Button.TURN_LEFT), getButton(Button.PRECISION), getButton(Button.TURBO));
+		return ControlSystem.calcSpeed(getButtonLiteral(ButtonLiteral.STICK_LEFT_RIGHT) - getButtonLiteral(ButtonLiteral.STICK_LEFT_LEFT), getButtonLiteral(ButtonLiteral.LEFT_TRIGGER), getButtonLiteral(ButtonLiteral.RIGHT_TRIGGER));
 	}
 
 	public static final double getMoveAxisY() {
-		return ControlSystem.calcSpeed(getButton(Button.MOVE_FORWARD) - getButton(Button.MOVE_BACKWARD), getButton(Button.PRECISION), getButton(Button.TURBO));
-	}
+		return ControlSystem.calcSpeed(getButtonLiteral(ButtonLiteral.STICK_LEFT_UP) - getButtonLiteral(ButtonLiteral.STICK_LEFT_DOWN), getButtonLiteral(ButtonLiteral.LEFT_TRIGGER), getButtonLiteral(ButtonLiteral.RIGHT_TRIGGER));
+		}
 
 	/**
 	 * Gets the value of a button by name as a value between 0 and 1. To check
@@ -135,11 +137,12 @@ public class ControlSystem {
 	 * @return value of the button
 	 */
 	public static final double getButton(Button button) {
-		String buttonNameString = button.name();
+		/*String buttonNameString = button.name();
 		String buttonLiteralString = prop.getProperty(buttonNameString);
 		ButtonLiteral buttonLiteral = ButtonLiteral.valueOf(buttonLiteralString);
 		double value = getButtonLiteral(buttonLiteral);
-		return value;
+		return value;*/
+		return 0;
 	}
 
 	public static enum Button {
@@ -247,9 +250,10 @@ public class ControlSystem {
 		currentScheme = scheme;
 		try {
 			String[] sheets = PropertySheetLoader.readFile("control_configs/0.txt").split("\n");
-			prop = PropertySheetLoader.parseProperties("control_configs/" + sheets[scheme % sheets.length]);
+			prop = PropertySheetLoader.parseProperties("control_configs/" + sheets[scheme % sheets.length] + ".txt");
 		} catch (IOException e) {
 			e.printStackTrace();
+			
 		}
 	}
 
