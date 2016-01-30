@@ -24,6 +24,7 @@ public class PropertySheetLoader {
 			Properties p = parsePropertiesString(readFile(path));
 			return p;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
