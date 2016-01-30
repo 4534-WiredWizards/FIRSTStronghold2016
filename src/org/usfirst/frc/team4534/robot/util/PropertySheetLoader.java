@@ -11,7 +11,7 @@ public class PropertySheetLoader {
 	private static final Properties parsePropertiesString(String string) {
 		final Properties p = new Properties();
 		try {
-			p.load(new StringReader(string));
+			p.load(new StringReader(string.toUpperCase()));
 			return p;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -24,11 +24,12 @@ public class PropertySheetLoader {
 			Properties p = parsePropertiesString(readFile(path));
 			return p;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 
-	private static String readFile(String path) throws IOException {
+	public static final String readFile(String path) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded);
 	}
