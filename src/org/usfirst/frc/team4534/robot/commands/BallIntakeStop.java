@@ -5,16 +5,14 @@ import org.usfirst.frc.team4534.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *Stops the Ball intake device from spinning.
  */
-public class AutoDriveRotate extends Command {
+public class BallIntakeStop extends Command {
 
-	private double speed;
-    public AutoDriveRotate(double duration, double speed) {
+    public BallIntakeStop() {
         // Use requires() here to declare subsystem dependencies
-    	requires(Robot.drivetrain);
-		this.speed = speed;
-    	setTimeout(duration);
+        // eg. requires(chassis);
+    	requires(Robot.ballintake);
     }
 
     // Called just before this Command runs the first time
@@ -23,22 +21,20 @@ public class AutoDriveRotate extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.arcadeDrive(0, speed);
+    	Robot.ballintake.stop();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.drivetrain.arcadeDrive(0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }
