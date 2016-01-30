@@ -1,11 +1,12 @@
 package org.usfirst.frc.team4534.robot;
 
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Properties;
 
+import org.usfirst.frc.team4534.robot.controls.ButtonListener;
+import org.usfirst.frc.team4534.robot.controls.ControlMap;
+import org.usfirst.frc.team4534.robot.controls.maps.DefaultMap;
+import org.usfirst.frc.team4534.robot.controls.maps.RacingMap;
 import org.usfirst.frc.team4534.robot.util.Maths;
-import org.usfirst.frc.team4534.robot.util.PropertySheetLoader;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -20,20 +21,26 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class ControlSystem {
 
-	private static Properties prop;
 	private static double rumbleTime;
 	private static double currentJoyX = 0, currentJoyY = 0;
 	private static final LinkedList<ButtonListener> buttonListeners = new LinkedList<ButtonListener>();
+	private static final LinkedList<ControlMap> controlMaps = new LinkedList<ControlMap>();
+	private static int currentMap = 0;
 
 	/**
 	 * This NEEDS to be called before any other ControlSystem methods are called
 	 * to avoid a {@link NullPointerException}
 	 */
 	public static void init() {
-		loadScheme(0);
+		loadMaps();
 		rumbleTime = 0;
 		oldTime = Timer.getFPGATimestamp();
 		update();
+	}
+	
+	public static void loadMaps() {
+		addControlMap(new DefaultMap());
+		addControlMap(new RacingMap());
 	}
 
 	private static double oldTime;
@@ -73,7 +80,7 @@ public class ControlSystem {
 				if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
 					currentJoyX = -threshold;
 				if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5) {
-					loadNextScheme();
+					currentMap++;
 				}
 				for (Button b : Button.values()) {
 					if (getButtonIsPressed(b)) {
@@ -141,10 +148,7 @@ public class ControlSystem {
 	 * @return value of the button
 	 */
 	public static final double getButton(Button button) {
-		String buttonNameString = button.name();
-		String buttonLiteralString = prop.getProperty(buttonNameString);
-		ButtonLiteral buttonLiteral = ButtonLiteral.valueOf(buttonLiteralString);
-		double value = getButtonLiteral(buttonLiteral);
+		double value = getButtonLiteral(controlMaps.get(currentMap % controlMaps.size()).convertButton(button));
 		return value;
 	}
 
@@ -246,23 +250,6 @@ public class ControlSystem {
 		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_UP, STICK_LEFT_DOWN, STICK_LEFT_LEFT, STICK_LEFT_RIGHT, STICK_RIGHT_UP, STICK_RIGHT_DOWN, STICK_RIGHT_LEFT, STICK_RIGHT_RIGHT, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START, SELECT;
 	}
 
-	private static int currentScheme = 0;
-
-	public static void loadNextScheme() {
-		loadScheme(currentScheme + 1);
-	}
-
-	private static void loadScheme(int scheme) {
-		currentScheme = scheme;
-		try {
-			String[] sheets = PropertySheetLoader.readFile("control_configs/0.txt").split("\n");
-			prop = PropertySheetLoader.parseProperties("control_configs/" + sheets[scheme % sheets.length] + ".txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-
-		}
-	}
-
 	/**
 	 * Makes the joystick rumble for a specific amount of time.
 	 * 
@@ -288,6 +275,12 @@ public class ControlSystem {
 	private static final void callButton(Button button, double value) {
 		for (ButtonListener l : buttonListeners) {
 			l.onButtonPress(button, value);
+		}
+	}
+	
+	public static final void addControlMap(ControlMap map) {
+		if (!controlMaps.contains(map)) {
+			controlMaps.add(map);
 		}
 	}
 
