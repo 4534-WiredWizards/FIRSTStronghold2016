@@ -85,6 +85,8 @@ public class ControlSystem {
 				for (Button b : Button.values()) {
 					if (getButtonIsPressed(b)) {
 						callButton(b, getButton(b));
+					} else {
+						callButtonRelease(b);
 					}
 				}
 			}
@@ -275,6 +277,12 @@ public class ControlSystem {
 	private static final void callButton(Button button, double value) {
 		for (ButtonListener l : buttonListeners) {
 			l.onButtonPress(button, value);
+		}
+	}
+	
+	private static final void callButtonRelease(Button button) {
+		for (ButtonListener l : buttonListeners) {
+			l.onButtonRelease(button);
 		}
 	}
 	

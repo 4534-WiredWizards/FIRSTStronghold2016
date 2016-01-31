@@ -1,11 +1,6 @@
 package org.usfirst.frc.team4534.robot;
 
-import org.usfirst.frc.team4534.robot.commands.DriveStraight;
-import org.usfirst.frc.team4534.robot.commands.DriveStop;
-
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,9 +11,10 @@ public class OI {
 
 	public OI() {
 		stick = new Joystick(0);
-		new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
+		/*new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
+		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new DriveStraight(-0.4)));*/
 	}
 
 	public Joystick getJoystick() {

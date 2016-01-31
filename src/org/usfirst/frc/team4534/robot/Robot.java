@@ -30,13 +30,15 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public static DriveTrain drivetrain;
-	//Command auto;
+	// Command auto;
 	CommandGroup autonomousCommands;
 	public static BallIntake ballintake;
 	public static BuiltInAccelerometer accelerometer;
-	
+
 	public LinkedList<SendableChooser> steps = new LinkedList<SendableChooser>();
-	private static int numSteps = 5; //How many steps we will have in the auto routine
+	private static int numSteps = 5; // How many steps we will have in the auto
+										// routine
+
 	/*
 	public SendableChooser step1; // use to select the first (of 5) auto routines to run.
 	public SendableChooser step2; // use to select the second (of 5) auto methods
@@ -57,47 +59,49 @@ public class Robot extends IterativeRobot {
 		ballintake = new BallIntake();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
-		//step1 = new SendableChooser();
-		//step1.addDefault("Wait", new DriveStop());
-		//step1.addObject("Straight One Second", new AutoDriveStraight(1, .35));
-		//step1.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
-		//SmartDashboard.putData(step1.toString() + "choice:", step1);
-		
-		for(int i = 0; i < numSteps; i++){
+		// step1 = new SendableChooser();
+		// step1.addDefault("Wait", new DriveStop());
+		// step1.addObject("Straight One Second", new AutoDriveStraight(1,
+		// .35));
+		// step1.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
+		// SmartDashboard.putData(step1.toString() + "choice:", step1);
+
+		for (int i = 0; i < numSteps; i++) {
 			steps.add(new SendableChooser());
 		}
-		
-		for(int q = 0; q < steps.size(); q++){        // This loop adds functions to each Auto Chooser.
+
+		for (int q = 0; q < steps.size(); q++) { // This loop adds functions to
+													// each Auto Chooser.
 			steps.get(q).addDefault("Wait", new DriveStop());
 			steps.get(q).addObject("Straight One Second", new AutoDriveStraight(1, .35));
 			steps.get(q).addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
 			SmartDashboard.putData(steps.get(q).toString() + "choice:", steps.get(q));
 		}
-		
+
 		/*
 		for (SendableChooser autoSteps : steps) {
 			autoSteps.addDefault("Wait", new DriveStop());
 			autoSteps.addObject("Straight One Second", new AutoDriveStraight(1, .35));
-			autoSteps.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
+			autoSteps.addObject("Turn 1 Second", new AutoDriveRotate(1http://stackoverflow.com/questions/287903/enums-in-javascript, .35));
 			SmartDashboard.putData(autoSteps.toString() + "choice:", autoSteps);
 		}
 		*/
-		//autoChooserSetup(step1);
-		//autoChooserSetup(step2);
-		//autoChooserSetup(step3);
-		//autoChooserSetup(step4);
-		//autoChooserSetup(step5);
-		
+		// autoChooserSetup(step1);
+		// autoChooserSetup(step2);
+		// autoChooserSetup(step3);
+		// autoChooserSetup(step4);
+		// autoChooserSetup(step5);
+
 		ControlSystem.init();
 		ControlSystem.rumbleTimeSet(1);
 
 		SmartDashboard.putData(drivetrain);
-		//SmartDashboard.putData(ballintake);
+		// SmartDashboard.putData(ballintake);
 		// SmartDashboard.putData((NamedSendable) oi);
 
 		// instantiate the command used for the autonomous period
 		autonomousCommands = new CommandGroup();
-		
+
 		// autoChooser = new SendableChooser();
 		// autoChooser.addObject("Drive Straight", new Autonomous());
 
@@ -108,8 +112,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		if (autonomousCommands != null) {
-			if(autonomousCommands.isRunning()){
-			autonomousCommands.cancel();
+			if (autonomousCommands.isRunning()) {
+				autonomousCommands.cancel();
 			}
 		}
 	}
@@ -117,31 +121,30 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		if (autonomousCommands != null) {
-			if(autonomousCommands.isRunning()){
+			if (autonomousCommands.isRunning()) {
 				autonomousCommands.cancel();
 			}
 		}
-		for(int e = 0; e < steps.size(); e++){
+		for (int e = 0; e < steps.size(); e++) {
 			autonomousCommands.addSequential((Command) steps.get(e).getSelected());
-			
+
 		}
-		
-		//auto = (Command) step1.getSelected();
-		//autonomousCommands.addSequential((Command) step1.getSelected());
-		//autonomousCommands.addSequential((Command) step2.getSelected());
-		//autonomousCommands.addSequential((Command) step3.getSelected());
-		//autonomousCommands.addSequential((Command) step4.getSelected());
-		//autonomousCommands.addSequential((Command) step5.getSelected());
-		
-		
+
+		// auto = (Command) step1.getSelected();
+		// autonomousCommands.addSequential((Command) step1.getSelected());
+		// autonomousCommands.addSequential((Command) step2.getSelected());
+		// autonomousCommands.addSequential((Command) step3.getSelected());
+		// autonomousCommands.addSequential((Command) step4.getSelected());
+		// autonomousCommands.addSequential((Command) step5.getSelected());
+
 		if (autonomousCommands != null) {
 			// autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommands.start();
-			
-		if(accelerometer.getZ() >= 2){
-			autonomousCommands.cancel();
-		}
-		
+
+			if (accelerometer.getZ() >= 2) {
+				autonomousCommands.cancel();
+			}
+
 		}
 	}
 
@@ -150,7 +153,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
+
 	}
 
 	public void teleopInit() {
@@ -159,9 +162,9 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommands != null) {
-			while(!autonomousCommands.isCanceled()){
+			// while (!autonomousCommands.isCanceled()) {
 			autonomousCommands.cancel();
-			}
+			// }
 		}
 	}
 
@@ -171,12 +174,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 		if (autonomousCommands != null) {
-			while(!autonomousCommands.isCanceled()){
-				autonomousCommands.cancel();
-				}
-			}
-		//auto.cancel();
-
+			// while (!autonomousCommands.isCanceled()) {
+			autonomousCommands.cancel();
+			// }
+		}
+		// auto.cancel();
 	}
 
 	/**
@@ -200,13 +202,13 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 
-private void autoChooserSetup(SendableChooser chooser) {
-	/*
-	chooser = new SendableChooser();
-	chooser.addDefault("Wait", new DriveStop());
-	chooser.addObject("Straight One Second", new AutoDriveStraight(1, .35));
-	chooser.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
-	SmartDashboard.putData(chooser.toString() + "choice:", chooser);
-	*/
-}
+	private void autoChooserSetup(SendableChooser chooser) {
+		/*
+		chooser = new SendableChooser();
+		chooser.addDefault("Wait", new DriveStop());
+		chooser.addObject("Straight One Second", new AutoDriveStraight(1, .35));
+		chooser.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
+		SmartDashboard.putData(chooser.toString() + "choice:", chooser);
+		*/
+	}
 }
