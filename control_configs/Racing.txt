@@ -1,10 +1,10 @@
 x=This is an example for controls typically used in racing games.
 
-moveForward=rightTrigger
-moveBackward=leftTrigger
-turnLeft=leftStickLeft
-turnRight=leftStickRight
-fast=rightStickUp
-precision=rightStickDown
+move_Forward=right_Trigger
+move_Backward=left_Trigger
+turn_Left=left_Stick_Left
+turn_Right=left_Stick_Right
+turbo=right_Stick_Up
+precision=right_Stick_Down
 shoot=A
 emergencyStop=B
