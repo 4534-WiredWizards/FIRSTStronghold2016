@@ -26,6 +26,7 @@ public class ControlSystem {
 	private static final LinkedList<ButtonListener> buttonListeners = new LinkedList<ButtonListener>();
 	private static final LinkedList<ControlMap> controlMaps = new LinkedList<ControlMap>();
 	private static int currentMap = 0;
+	private static boolean isSelectPressed = false;
 
 	/**
 	 * This NEEDS to be called before any other ControlSystem methods are called
@@ -88,6 +89,12 @@ public class ControlSystem {
 					} else {
 						callButtonRelease(b);
 					}
+				}
+				if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5 && !isSelectPressed) {
+					isSelectPressed = true;
+					currentMap++;
+				} else if (getButtonLiteral(ButtonLiteral.SELECT) <= 0.5) {
+					isSelectPressed = false;
 				}
 			}
 		}
