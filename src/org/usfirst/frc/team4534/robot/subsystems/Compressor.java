@@ -10,13 +10,13 @@ public class Compressor extends Subsystem {
 	AnalogInput pressureSensor;
 	Compressor compressor;
 
-	private static final double maxPressure = 0;
+	private static final double maxPressure = 3;
 
 	public Compressor() {
+		pressureSensor = new AnalogInput(4);
 		compressor = new Compressor();
 	}
 
-	@Override
 	protected void initDefaultCommand() {
 
 	}
