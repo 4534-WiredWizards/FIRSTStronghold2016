@@ -92,7 +92,7 @@ public class ControlSystem {
 				}
 				if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5 && !isSelectPressed) {
 					isSelectPressed = true;
-					currentMap++;
+					//currentMap++;
 				} else if (getButtonLiteral(ButtonLiteral.SELECT) <= 0.5) {
 					isSelectPressed = false;
 				}
@@ -189,34 +189,34 @@ public class ControlSystem {
 		double n = 0;
 		switch (button) {
 		case A:
-			n = j.getRawButton(0) ? 1 : 0;
-			break;
-		case B:
 			n = j.getRawButton(1) ? 1 : 0;
 			break;
+		case B:
+			n = j.getRawButton(2) ? 1 : 0;
+			break;
 		case LEFT_BUMPER:
-			n = j.getRawButton(4) ? 1 : 0;
+			n = j.getRawButton(5) ? 1 : 0;
 			break;
 		case LEFT_BUTTON:
-			n = j.getRawButton(8) ? 1 : 0;
+			n = j.getRawButton(9) ? 1 : 0;
 			break;
 		case LEFT_TRIGGER:
 			n = j.getRawAxis(2);
 			break;
 		case RIGHT_BUMPER:
-			n = j.getRawButton(5) ? 1 : 0;
+			n = j.getRawButton(6) ? 1 : 0;
 			break;
 		case RIGHT_BUTTON:
-			n = j.getRawButton(9) ? 1 : 0;
+			n = j.getRawButton(10) ? 1 : 0;
 			break;
 		case RIGHT_TRIGGER:
 			n = j.getRawAxis(3);
 			break;
 		case START:
-			n = j.getRawButton(7) ? 1 : 0;
+			n = j.getRawButton(8) ? 1 : 0;
 			break;
 		case SELECT:
-			n = j.getRawButton(6) ? 1 : 0;
+			n = j.getRawButton(7) ? 1 : 0;
 			break;
 		case STICK_LEFT_UP:
 			n = j.getRawAxis(1) > 0 ? j.getRawAxis(1) : 0;
@@ -243,10 +243,10 @@ public class ControlSystem {
 			n = j.getRawAxis(4) < 0 ? -j.getRawAxis(4) : 0;
 			break;
 		case X:
-			n = j.getRawButton(2) ? 1 : 0;
+			n = j.getRawButton(3) ? 1 : 0;
 			break;
 		case Y:
-			n = j.getRawButton(3) ? 1 : 0;
+			n = j.getRawButton(4) ? 1 : 0;
 			break;
 		default:
 			n = 0;
