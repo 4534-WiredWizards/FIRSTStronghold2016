@@ -122,7 +122,7 @@ public class Robot extends IterativeRobot {
 				autonomousCommands.cancel();
 			}
 		}
-		autonomous
+	
 		for(int e = 0; e < steps.size(); e++){
 			autonomousCommands.addSequential((Command) steps.get(e).getSelected());
 			
