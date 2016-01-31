@@ -6,7 +6,7 @@ import org.usfirst.frc.team4534.robot.commands.AutoDriveRotate;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
 import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
-import org.usfirst.frc.team4534.robot.subsystems.BallIntake;
+import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
@@ -33,18 +33,12 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	//Command auto;
 	CommandGroup autonomousCommands;
-	public static BallIntake ballintake;
+	public static BallHandler ballhandler;
 	public static BuiltInAccelerometer accelerometer;
 	
 	public LinkedList<SendableChooser> steps = new LinkedList<SendableChooser>();
 	private static int numSteps = 5; //How many steps we will have in the auto routine
-	/*
-	public SendableChooser step1; // use to select the first (of 5) auto routines to run.
-	public SendableChooser step2; // use to select the second (of 5) auto methods
-	public SendableChooser step3; // use to select the second (of 5) auto methods
-	public SendableChooser step4; // use to select the second (of 5) auto methods
-	public SendableChooser step5; // use to select the second (of 5) auto methods
-	*/
+	
 	// public SendableChooser autoChooser;
 
 	/**
@@ -55,7 +49,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("robotInit");
 
 		drivetrain = new DriveTrain();
-		//ballintake = new BallIntake();
+		ballhandler = new BallHandler();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
 		//step1 = new SendableChooser();
@@ -79,7 +73,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		/*
-		for (SendableChooser autoSteps : steps) {
+		for (SendableChooser autoSteps : steps) {         //This was a
 			autoSteps.addDefault("Wait", new DriveStop());
 			autoSteps.addObject("Straight One Second", new AutoDriveStraight(1, .35));
 			autoSteps.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
@@ -96,7 +90,7 @@ public class Robot extends IterativeRobot {
 		ControlSystem.rumbleTimeSet(1);
 
 		SmartDashboard.putData(drivetrain);
-		//SmartDashboard.putData(ballintake);
+		SmartDashboard.putData(ballhandler);
 		// SmartDashboard.putData((NamedSendable) oi);
 
 		// instantiate the command used for the autonomous period
@@ -166,8 +160,8 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommands != null) {
 			//while(!autonomousCommands.isCanceled()){
-			//autonomousCommands.cancel();
-		//	}
+				autonomousCommands.cancel();
+			//}
 		}
 		System.out.println("Beginning Teleop!");
 	}
@@ -178,9 +172,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 		if (autonomousCommands != null) {
-			while(!autonomousCommands.isCanceled()){
+			//while(!autonomousCommands.isCanceled()){
 				autonomousCommands.cancel();
-				}
+			//}
 			}
 		//auto.cancel();
 		System.out.println("DISABLED!");
