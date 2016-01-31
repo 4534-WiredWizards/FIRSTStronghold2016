@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import org.usfirst.frc.team4534.robot.commands.AutoDriveRotate;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
-import org.usfirst.frc.team4534.robot.commands.Autonomous;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
@@ -16,8 +15,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,11 +30,11 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public static DriveTrain drivetrain;
-	//Command auto;
+	// Command auto;
 	CommandGroup autonomousCommands;
 	public static BallHandler ballhandler;
 	public static BuiltInAccelerometer accelerometer;
-	
+
 	public LinkedList<SendableChooser> steps = new LinkedList<SendableChooser>();
 	private static int numSteps = 5; //How many steps we will have in the auto routine
 	
@@ -63,29 +62,30 @@ public class Robot extends IterativeRobot {
 			System.out.println("Made Sendable Chooser #" + i);
 		}
 		}
-		
-		for(int q = 0; q < steps.size(); q++){        // This loop adds functions to each Auto Chooser.
+
+		for (int q = 0; q < steps.size(); q++) { // This loop adds functions to
+													// each Auto Chooser.
 			steps.get(q).addDefault("Wait", new DriveStop());
 			steps.get(q).addObject("Straight One Second", new AutoDriveStraight(1, .35));
 			steps.get(q).addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
 			SmartDashboard.putData(steps.get(q).toString() + "choice:", steps.get(q));
 			System.out.println("Put #" + q + " Data to SmartDashboard");
 		}
-		
+
 		/*
 		for (SendableChooser autoSteps : steps) {         //This was a
 			autoSteps.addDefault("Wait", new DriveStop());
 			autoSteps.addObject("Straight One Second", new AutoDriveStraight(1, .35));
-			autoSteps.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
+			autoSteps.addObject("Turn 1 Second", new AutoDriveRotate(1http://stackoverflow.com/questions/287903/enums-in-javascript, .35));
 			SmartDashboard.putData(autoSteps.toString() + "choice:", autoSteps);
 		}
 		*/
-		//autoChooserSetup(step1);
-		//autoChooserSetup(step2);
-		//autoChooserSetup(step3);
-		//autoChooserSetup(step4);
-		//autoChooserSetup(step5);
-		
+		// autoChooserSetup(step1);
+		// autoChooserSetup(step2);
+		// autoChooserSetup(step3);
+		// autoChooserSetup(step4);
+		// autoChooserSetup(step5);
+
 		ControlSystem.init();
 		ControlSystem.rumbleTimeSet(1);
 
@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
 
 		// instantiate the command used for the autonomous period
 		autonomousCommands = new CommandGroup();
-		
+
 		// autoChooser = new SendableChooser();
 		// autoChooser.addObject("Drive Straight", new Autonomous());
 
@@ -106,8 +106,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		if (autonomousCommands != null) {
-			if(autonomousCommands.isRunning()){
-			autonomousCommands.cancel();
+			if (autonomousCommands.isRunning()) {
+				autonomousCommands.cancel();
 			}
 		}
 	}
@@ -115,24 +115,22 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		if (autonomousCommands != null) {
-			if(autonomousCommands.isRunning()){
-				System.out.println("Auto Was Already Running!");
+			if (autonomousCommands.isRunning()) {
 				autonomousCommands.cancel();
 			}
 		}
-		for(int e = 0; e < steps.size(); e++){
+		for (int e = 0; e < steps.size(); e++) {
 			autonomousCommands.addSequential((Command) steps.get(e).getSelected());
 			System.out.println("Command #" + e + " Added: " + ((Command) steps.get(e).getSelected()).getName());
 		}
-		
-		//auto = (Command) step1.getSelected();
-		//autonomousCommands.addSequential((Command) step1.getSelected());
-		//autonomousCommands.addSequential((Command) step2.getSelected());
-		//autonomousCommands.addSequential((Command) step3.getSelected());
-		//autonomousCommands.addSequential((Command) step4.getSelected());
-		//autonomousCommands.addSequential((Command) step5.getSelected());
-		
-		
+
+		// auto = (Command) step1.getSelected();
+		// autonomousCommands.addSequential((Command) step1.getSelected());
+		// autonomousCommands.addSequential((Command) step2.getSelected());
+		// autonomousCommands.addSequential((Command) step3.getSelected());
+		// autonomousCommands.addSequential((Command) step4.getSelected());
+		// autonomousCommands.addSequential((Command) step5.getSelected());
+
 		if (autonomousCommands != null) {
 			// autonomousCommand = (Command) autoChooser.getSelected();
 			autonomousCommands.start();
@@ -150,7 +148,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
+
 	}
 
 	public void teleopInit() {
@@ -205,13 +203,13 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 
-private void autoChooserSetup(SendableChooser chooser) {
-	/*
-	chooser = new SendableChooser();
-	chooser.addDefault("Wait", new DriveStop());
-	chooser.addObject("Straight One Second", new AutoDriveStraight(1, .35));
-	chooser.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
-	SmartDashboard.putData(chooser.toString() + "choice:", chooser);
-	*/
-}
+	private void autoChooserSetup(SendableChooser chooser) {
+		/*
+		chooser = new SendableChooser();
+		chooser.addDefault("Wait", new DriveStop());
+		chooser.addObject("Straight One Second", new AutoDriveStraight(1, .35));
+		chooser.addObject("Turn 1 Second", new AutoDriveRotate(1, .35));
+		SmartDashboard.putData(chooser.toString() + "choice:", chooser);
+		*/
+	}
 }
