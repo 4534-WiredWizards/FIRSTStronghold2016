@@ -1,7 +1,14 @@
 package org.usfirst.frc.team4534.robot;
 
+import org.usfirst.frc.team4534.robot.commands.AutoChevalDeFrise;
+import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
-import org.usfirst.frc.team4534.robot.commands.RoughTerrain;
+import org.usfirst.frc.team4534.robot.commands.AutoMoat;
+import org.usfirst.frc.team4534.robot.commands.AutoPortcullis;
+import org.usfirst.frc.team4534.robot.commands.AutoRamparts;
+import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
+import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
+import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
@@ -51,25 +58,24 @@ public class Robot extends IterativeRobot {
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
-		autoDefense.addObject("Portcullis", new DriveStop());
-		autoDefense.addObject("Cheval de Frise", new DriveStop());
-		autoDefense.addObject("Sally Port", new DriveStop());
-		autoDefense.addObject("Drawbridge", new DriveStop());
-		autoDefense.addObject("Rough Terrain", new RoughTerrain());
-		autoDefense.addObject("Rock Wall", new DriveStop());
-		autoDefense.addObject("Moat", new DriveStop());
-		autoDefense.addObject("Ramparts", new DriveStop());
-		autoDefense.addObject("Secret Passage", new AutoDriveStraight(3, .35));
+		autoDefense.addObject("Portcullis", new AutoPortcullis());
+		autoDefense.addObject("Cheval de Frise", new AutoChevalDeFrise());
+		autoDefense.addObject("Sally Port", new AutoSallyPort());
+		autoDefense.addObject("Drawbridge", new AutoDrawbridge());
+		autoDefense.addObject("Rough Terrain", new AutoRoughTerrain());
+		autoDefense.addObject("Rock Wall", new AutoRockWall());
+		autoDefense.addObject("Moat", new AutoMoat());
+		autoDefense.addObject("Ramparts", new AutoRamparts());
+		autoDefense.addObject("Drive Straight", new AutoDriveStraight(1, .35));
 		SmartDashboard.putData("Auto Defense", autoDefense);
 		
 		//Right Now, only autoDefense will be used.
 		autoStartPos = new SendableChooser();
-		autoStartPos.addObject("1 (Low Bar)", new DriveStop());
-		autoStartPos.addObject("2", new DriveStop());
-		autoStartPos.addObject("3", new DriveStop());
-		autoStartPos.addObject("4", new DriveStop());
-		autoStartPos.addObject("5", new DriveStop());
-		autoStartPos.addDefault("6 (Secret Passage)", new DriveStop());
+		autoStartPos.addObject("1 (Low Bar)", 1);
+		autoStartPos.addObject("2", 2);
+		autoStartPos.addObject("3", 3);
+		autoStartPos.addObject("4", 4);
+		autoStartPos.addObject("5", 5);
 		SmartDashboard.putData("Auto Position", autoStartPos);
 		//Right Now, this does nothing
 		autoGoal = new SendableChooser();
@@ -77,7 +83,6 @@ public class Robot extends IterativeRobot {
 		autoGoal.addObject("High Center", new DriveStop());
 		autoGoal.addObject("High Right", new DriveStop());
 		autoGoal.addObject("Low Left", new DriveStop());
-		autoGoal.addObject("Low Center", new DriveStop());
 		autoGoal.addObject("Low Right", new DriveStop());
 		autoGoal.addDefault("NO Shooting", new DriveStop());
 		SmartDashboard.putData("Auto Goal", autoGoal);
@@ -89,7 +94,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(ballhandler);
 		// SmartDashboard.putData((NamedSendable) oi);
 
-		// instantiate the command used for the autonomous period
+		// instantiate the command used for the autonsomous period
 		autoDefenseChoice = new CommandGroup();
 
 		// autoChooser = new SendableChooser();
