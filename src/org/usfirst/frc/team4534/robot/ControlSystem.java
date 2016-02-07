@@ -90,12 +90,12 @@ public class ControlSystem {
 						callButtonRelease(b);
 					}
 				}
-				if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5 && !isSelectPressed) {
+				/*if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5 && !isSelectPressed) {
 					isSelectPressed = true;
 					//currentMap++;
 				} else if (getButtonLiteral(ButtonLiteral.SELECT) <= 0.5) {
 					isSelectPressed = false;
-				}
+				}*/
 			}
 		}
 		oldTime = newTime;
