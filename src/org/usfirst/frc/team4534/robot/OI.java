@@ -1,5 +1,10 @@
 package org.usfirst.frc.team4534.robot;
 
+import org.usfirst.frc.team4534.robot.ControlSystem.Button;
+import org.usfirst.frc.team4534.robot.commands.IntakeBall;
+import org.usfirst.frc.team4534.robot.commands.Shoot;
+import org.usfirst.frc.team4534.robot.controls.CommandButton;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -11,6 +16,9 @@ public class OI {
 
 	public OI() {
 		stick = new Joystick(0);
+		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new Shoot()));
+		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
+		
 		/*new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));

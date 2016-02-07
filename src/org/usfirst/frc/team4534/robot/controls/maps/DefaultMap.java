@@ -12,9 +12,9 @@ public class DefaultMap implements ControlMap {
 		case ARM_DOWN:
 			return ButtonLiteral.STICK_RIGHT_DOWN;
 		case ARM_EXTEND:
-			return ButtonLiteral.A;
+			return ButtonLiteral.RIGHT_BUMPER;
 		case ARM_RETRACT:
-			return ButtonLiteral.X;
+			return ButtonLiteral.LEFT_BUMPER;
 		case ARM_UP:
 			return ButtonLiteral.STICK_RIGHT_UP;
 		case MOVE_BACKWARD:
@@ -24,9 +24,11 @@ public class DefaultMap implements ControlMap {
 		case PRECISION:
 			return ButtonLiteral.LEFT_TRIGGER;
 		case SHOOT:
-			return ButtonLiteral.RIGHT_BUMPER;
+			return ButtonLiteral.A;
 		case TURBO:
 			return ButtonLiteral.RIGHT_TRIGGER;
+		case INTAKE:
+			return ButtonLiteral.B;
 		case TURN_LEFT:
 			return ButtonLiteral.STICK_LEFT_LEFT;
 		case TURN_RIGHT:

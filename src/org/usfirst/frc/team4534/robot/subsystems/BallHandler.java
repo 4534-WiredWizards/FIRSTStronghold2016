@@ -35,6 +35,20 @@ public class BallHandler extends Subsystem {
 		ballIntake.set(intakeSpeed);
 		shooter.set(shooterSpeed);
 	}
+	/**
+	 * Sets the shooter motors
+	 * @param rate How fast? -1 to 1
+	 */
+	public void setShooter(double rate){
+		shooter.set(rate);
+	}
+	/**
+	 * Sets the intake motor speed.
+	 * @param rate How fast? -1 to 1
+	 */
+	public void setIntake(double rate){
+		ballIntake.set(rate);
+	}
 	public void stop() {
 		ballIntake.set(0);
 		shooter.set(0);

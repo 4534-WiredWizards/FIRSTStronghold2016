@@ -9,6 +9,7 @@ import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
 	
 	public static BallHandler ballhandler;
 	public static BuiltInAccelerometer accelerometer;
+	public static SerialPort arduinocomm;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 		ballhandler = new BallHandler();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
+		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
