@@ -2,9 +2,9 @@ package org.usfirst.frc.team4534.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class Autonomous extends CommandGroup {
+public class RoughTerrain extends CommandGroup {
     
-    public  Autonomous() {
+    public  RoughTerrain() {
     	
   
        addSequential(new AutoDriveStraight(3, .2));
