@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Timer;
  * 
  * @author Brandon Dyer
  *
+ * Note from Sam: I hate this class
  */
 public class ControlSystem {
 
@@ -41,7 +42,7 @@ public class ControlSystem {
 	
 	public static void loadMaps() {
 		addControlMap(new DefaultMap());
-		addControlMap(new RacingMap());
+		//addControlMap(new RacingMap());
 	}
 
 	private static double oldTime;
