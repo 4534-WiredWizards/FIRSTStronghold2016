@@ -8,6 +8,7 @@ import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
@@ -38,6 +39,7 @@ public class Robot extends IterativeRobot {
 	public static BallHandler ballhandler;
 	public static BuiltInAccelerometer accelerometer;
 	public static SerialPort arduinocomm;
+	public DriverStation.Alliance allianceColor;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -51,6 +53,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
+		allianceColor = DriverStation.getInstance().getAlliance();
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
@@ -124,8 +127,16 @@ public class Robot extends IterativeRobot {
 			// autonomousCommand = (Command) autoChooser.getSelected();
 			autoDefenseChoice.start();
 			System.out.println("Auto Started!");
-		
-		
+		arduinocomm.writeString("a");
+		if (allianceColor == DriverStation.Alliance.Blue) {
+			// In the blue alliance
+			System.out.print("BLUE alliance");
+			arduinocomm.writeString("b");
+		} else if (allianceColor == DriverStation.Alliance.Red) {
+			// In the red alliance
+			arduinocomm.writeString("r");
+			System.out.print("RED alliance");
+		}
 		}
 	}
 
