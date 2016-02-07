@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
-import org.usfirst.frc.team4534.robot.commands.Autonomous;
+import org.usfirst.frc.team4534.robot.commands.RoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 		autoDefense.addObject("Cheval de Frise", new DriveStop());
 		autoDefense.addObject("Sally Port", new DriveStop());
 		autoDefense.addObject("Drawbridge", new DriveStop());
-		autoDefense.addObject("Rough Terrain", new Autonomous());
+		autoDefense.addObject("Rough Terrain", new RoughTerrain());
 		autoDefense.addObject("Rock Wall", new DriveStop());
 		autoDefense.addObject("Moat", new DriveStop());
 		autoDefense.addObject("Ramparts", new DriveStop());
