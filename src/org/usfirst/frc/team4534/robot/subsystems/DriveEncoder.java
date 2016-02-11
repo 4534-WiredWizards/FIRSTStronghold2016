@@ -52,6 +52,10 @@ public class DriveEncoder extends PIDSubsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
+    public Encoder getEncoder() {
+    	return this.encoder;
+    }
+    
     public static int convertInchesToPulses(double inches) {
     	return (int) (inches / ((1.0/2048/2)*28));
     }

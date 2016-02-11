@@ -11,6 +11,7 @@ import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
+import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
@@ -43,7 +44,9 @@ public class Robot extends IterativeRobot {
 	
 	public static BallHandler ballhandler;
 	public static BuiltInAccelerometer accelerometer;
-
+	public static DriveEncoder leftEncoder,rightEncoder;
+	
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -55,6 +58,8 @@ public class Robot extends IterativeRobot {
 		ballhandler = new BallHandler();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
+		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
+		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
@@ -188,5 +193,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
+		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder.getEncoder());
+		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder.getEncoder());
+		
 	}
 }
