@@ -9,10 +9,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 
 	private RobotDrive drive;
+	private DriveEncoder leftEncoder;
+	private DriveEncoder rightEncoder;
 	
 	// create instance of motor-configuration based robot drive
 	public DriveTrain() {
 		drive = new RobotDrive(RobotMap.leftMotor, RobotMap.rightMotor);
+		leftEncoder = new DriveEncoder(drive,DriveEncoder.EncoderSide.LEFT);
+		rightEncoder = new DriveEncoder(drive,DriveEncoder.EncoderSide.RIGHT);
 	}
 	
 	// enable arcade drive operation of the drivetrain
