@@ -10,7 +10,9 @@ import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
+import org.usfirst.frc.team4534.robot.subsystems.ArmPneumatics;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
+import org.usfirst.frc.team4534.robot.subsystems.Compressor;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
@@ -39,11 +41,14 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	// Command auto;
 	Command autoDefenseChoice;
+	CommandGroup autonomousRoutine;
 	SendableChooser autoDefense;
 	SendableChooser autoStartPos;
 	SendableChooser autoGoal;
 	
 	public static BallHandler ballhandler;
+	public static ArmPneumatics armpneumatics;
+	public static Compressor compressor;
 	public static BuiltInAccelerometer accelerometer;
 	public static SerialPort arduinocomm;
 	public DriverStation.Alliance allianceColor;
@@ -128,10 +133,12 @@ public class Robot extends IterativeRobot {
 		}
 
 		autoDefenseChoice = (Command) autoDefense.getSelected();
+		autonomousRoutine.addSequential(new AutoDriveStraight(2, .4));
+		autonomousRoutine.addSequential(autoDefenseChoice);
 		if (autoDefenseChoice != null) {
-			// autonomousCommand = (Command) autoChooser.getSelected();
-			autoDefenseChoice.start();
+			autonomousRoutine.start();
 			System.out.println("Auto Started!");
+		}
 		arduinocomm.writeString("a");
 		if (allianceColor == DriverStation.Alliance.Blue) {
 			// In the blue alliance
@@ -143,7 +150,6 @@ public class Robot extends IterativeRobot {
 			System.out.print("RED alliance");
 		}
 		}
-	}
 
 	/**
 	 * This function is called periodically during autonomous

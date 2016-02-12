@@ -1,16 +1,18 @@
 package org.usfirst.frc.team4534.robot.subsystems;
 
+import org.usfirst.frc.team4534.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ArmPneumatics extends Subsystem {
 
-	DoubleSolenoid piston1;
-	DoubleSolenoid piston2;
+	DoubleSolenoid pistonLeft;
+	DoubleSolenoid pistonRight;
 	
 	public ArmPneumatics(){
-		piston1 = new DoubleSolenoid(1, 2, 3);
-		piston2 = new DoubleSolenoid(1, 4, 5);
+		pistonLeft = new DoubleSolenoid(RobotMap.PCM, RobotMap.leftArmForward, RobotMap.leftArmBackward);
+		pistonRight = new DoubleSolenoid(RobotMap.PCM, RobotMap.rightArmForward, RobotMap.rightArmBackward);
 		
 	}
 	
@@ -18,32 +20,32 @@ public class ArmPneumatics extends Subsystem {
 			
 	}
 	
-	public void extend1(){
-		piston1.set(DoubleSolenoid.Value.kForward);
+	public void extendLeft(){
+		pistonLeft.set(DoubleSolenoid.Value.kForward);
 	}
 	
-	public void extend2(){
-		piston2.set(DoubleSolenoid.Value.kForward);
+	public void extendRight(){
+		pistonRight.set(DoubleSolenoid.Value.kForward);
 	}
 	
-	public void retract1(){
-		piston1.set(DoubleSolenoid.Value.kReverse);
+	public void retractLeft(){
+		pistonLeft.set(DoubleSolenoid.Value.kReverse);
 	}
 	
-	public void retract2(){
-		piston2.set(DoubleSolenoid.Value.kReverse);
+	public void retractRight(){
+		pistonRight.set(DoubleSolenoid.Value.kReverse);
 	}
 	
-	public void off1(){
-		piston1.set(DoubleSolenoid.Value.kOff);
+	public void offLeft(){
+		pistonLeft.set(DoubleSolenoid.Value.kOff);
 	}
-	public void off2(){
-		piston2.set(DoubleSolenoid.Value.kOff);
+	public void offRight(){
+		pistonRight.set(DoubleSolenoid.Value.kOff);
 	}
 	
 	public void offBoth(){
-		piston1.set(DoubleSolenoid.Value.kOff);
-		piston2.set(DoubleSolenoid.Value.kOff);
+		pistonLeft.set(DoubleSolenoid.Value.kOff);
+		pistonRight.set(DoubleSolenoid.Value.kOff);
 
 	}
 

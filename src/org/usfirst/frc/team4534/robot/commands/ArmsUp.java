@@ -2,36 +2,34 @@ package org.usfirst.frc.team4534.robot.commands;
 
 import org.usfirst.frc.team4534.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class AutoPortcullis extends CommandGroup {
+public class ArmsUp extends Command {
 
-    public AutoPortcullis() {
-    	requires(Robot.drivetrain);
+    public ArmsUp(double duration) {
     	requires(Robot.armpneumatics);
-    	
-    	addParallel(new ArmsDown(0));
-    	addParallel(new AutoDriveStraight(1, .4));
-    	addSequential(new ArmsUp(2));
-    	addSequential(new AutoDriveStraight(2, .4));// Use requires() here to declare subsystem dependencies
+        // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	setTimeout(duration);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("Initiating AutoPortcullis");
+    	Robot.armpneumatics.extendRight();
+    	Robot.armpneumatics.extendLeft();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true

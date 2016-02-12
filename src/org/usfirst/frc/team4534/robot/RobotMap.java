@@ -18,6 +18,13 @@ public class RobotMap {
 	public static int shooter = 3;
 	public static int ballHandlerLimit = 0;
 	public static int compressorAnalogPort = 4;
+	public static int PCM = 1;
+	public static int leftArmForward = 0;
+	public static int leftArmBackward = 1;
+	public static int rightArmForward = 2;
+	public static int rightArmBackward = 3;
+	
+	
 
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:

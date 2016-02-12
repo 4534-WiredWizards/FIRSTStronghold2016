@@ -4,6 +4,7 @@ import org.usfirst.frc.team4534.robot.ControlSystem.Button;
 import org.usfirst.frc.team4534.robot.commands.IntakeBall;
 import org.usfirst.frc.team4534.robot.commands.Shoot;
 import org.usfirst.frc.team4534.robot.controls.CommandButton;
+import org.usfirst.frc.team4534.robot.controls.CommandButtonTap;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -16,7 +17,7 @@ public class OI {
 
 	public OI() {
 		stick = new Joystick(0);
-		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new Shoot()));
+		ControlSystem.addButtonListener(new CommandButtonTap(Button.SHOOT, new Shoot()));
 		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
 		
 		/*new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
