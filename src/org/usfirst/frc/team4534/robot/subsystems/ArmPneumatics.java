@@ -9,8 +9,8 @@ public class ArmPneumatics extends Subsystem {
 	Solenoid piston2;
 	
 	public ArmPneumatics(){
-		piston1 = new Solenoid(3);
-		piston2 = new Solenoid(5);
+		piston1 = new Solenoid(0);
+		piston2 = new Solenoid(1);
 		
 	}
 	
