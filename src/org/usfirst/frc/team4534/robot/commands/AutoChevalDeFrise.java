@@ -14,6 +14,8 @@ public class AutoChevalDeFrise extends CommandGroup {
     public AutoChevalDeFrise() {
     	requires(Robot.drivetrain);
     	requires(Robot.armpneumatics);
+    	System.out.println("Initiating AutoChevalDeFrise");
+		
     	if (Robot.isAuto){
     		addParallel(new ArmsUp(0));
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));

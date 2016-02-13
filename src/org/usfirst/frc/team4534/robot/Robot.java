@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4534.robot;
 
-import org.usfirst.frc.team4534.robot.commands.ArmsDown;
 import org.usfirst.frc.team4534.robot.commands.AutoChevalDeFrise;
 import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
@@ -79,7 +78,7 @@ public class Robot extends IterativeRobot {
 		autoDefense.addObject("Rock Wall", new AutoRockWall());
 		autoDefense.addObject("Moat", new AutoMoat());
 		autoDefense.addObject("Ramparts", new AutoRamparts());
-		autoDefense.addObject("Drive Straight", new AutoDriveStraight(1, .35));
+		autoDefense.addObject("Approach", new AutoDriveStraight(RobotMap.approachDelay, .4));
 		SmartDashboard.putData("Auto Defense", autoDefense);
 		
 		//Right Now, only autoDefense will be used.

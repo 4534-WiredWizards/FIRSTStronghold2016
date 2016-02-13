@@ -14,6 +14,8 @@ public class AutoDrawbridge extends CommandGroup {
     public AutoDrawbridge() {
     	requires(Robot.drivetrain);
     	requires(Robot.armpneumatics);
+    	System.out.println("Initiating AutoDrawbridge");
+		
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	if (Robot.isAuto){

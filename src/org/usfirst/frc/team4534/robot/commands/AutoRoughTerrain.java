@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4534.robot.commands;
 
+import org.usfirst.frc.team4534.robot.Robot;
+import org.usfirst.frc.team4534.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoRoughTerrain extends CommandGroup {
@@ -8,10 +11,12 @@ public class AutoRoughTerrain extends CommandGroup {
 
 		System.out.println("Initiating AutoRoughTerrain");
 		
-		addSequential(new AutoDriveStraight(3, .2));
-		addSequential(new AutoDriveRotate(1, .2));
-		addSequential(new AutoDriveStraight(1, .2));
-		addSequential(new AutoDriveRotate(1, -.2));
+    	requires(Robot.drivetrain);
+    	
+    	if (Robot.isAuto){
+    		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    	}
+    	addSequential(new AutoDriveStraight(3, .4));
 
 	}
 }

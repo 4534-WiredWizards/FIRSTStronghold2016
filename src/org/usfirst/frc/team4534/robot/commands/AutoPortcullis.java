@@ -14,7 +14,8 @@ public class AutoPortcullis extends CommandGroup {
     public AutoPortcullis() {
     	requires(Robot.drivetrain);
     	requires(Robot.armpneumatics);
-    	
+    	System.out.println("Initiating AutoPortcullis");
+		
     	if (Robot.isAuto){
     		addParallel(new ArmsDown(0));
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
