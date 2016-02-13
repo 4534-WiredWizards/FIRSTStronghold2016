@@ -7,30 +7,27 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LeftArmToggle extends Command {
+public class LowGoal extends Command {
 
-    public LeftArmToggle() {
-    	requires(Robot.armpneumatics);
+    public LowGoal() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.ballhandler);
+    	setTimeout(2);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (Robot.armpneumatics.readLeft() == true){
-    		Robot.armpneumatics.retractLeft();
-    	} else if (Robot.armpneumatics.readLeft() == false){
-        	Robot.armpneumatics.extendLeft();
-    	} 
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.ballhandler.setIntake(-.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isTimedOut();
     }
 
     // Called once after isFinished returns true
