@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4534.robot;
 
+import org.usfirst.frc.team4534.robot.commands.ArmsDown;
 import org.usfirst.frc.team4534.robot.commands.AutoChevalDeFrise;
 import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
@@ -45,6 +46,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser autoDefense;
 	SendableChooser autoStartPos;
 	SendableChooser autoGoal;
+	public static boolean isAuto = false;
 	
 	public static BallHandler ballhandler;
 	public static ArmPneumatics armpneumatics;
@@ -125,6 +127,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		isAuto = true;
 		// schedule the autonomous command (example)
 		if (autoDefenseChoice != null) {
 			if (autoDefenseChoice.isRunning()) {
@@ -133,7 +136,6 @@ public class Robot extends IterativeRobot {
 		}
 
 		autoDefenseChoice = (Command) autoDefense.getSelected();
-		autonomousRoutine.addSequential(new AutoDriveStraight(2, .4));
 		autonomousRoutine.addSequential(autoDefenseChoice);
 		if (autoDefenseChoice != null) {
 			autonomousRoutine.start();
@@ -173,6 +175,7 @@ public class Robot extends IterativeRobot {
 		if (autoDefenseChoice != null) {
 			autoDefenseChoice.cancel();
 		}
+		isAuto = false;
 		System.out.println("Beginning Teleop!");
 	}
 
@@ -181,6 +184,7 @@ public class Robot extends IterativeRobot {
 	 * to reset subsystems before shutting down.
 	 */
 	public void disabledInit() {
+		isAuto = false;
 		if (autoDefenseChoice != null) {
 			autoDefenseChoice.cancel();
 		}

@@ -2,6 +2,8 @@ package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.ControlSystem.Button;
 import org.usfirst.frc.team4534.robot.commands.IntakeBall;
+import org.usfirst.frc.team4534.robot.commands.LeftArmToggle;
+import org.usfirst.frc.team4534.robot.commands.RightArmToggle;
 import org.usfirst.frc.team4534.robot.commands.Shoot;
 import org.usfirst.frc.team4534.robot.controls.CommandButton;
 import org.usfirst.frc.team4534.robot.controls.CommandButtonTap;
@@ -19,6 +21,8 @@ public class OI {
 		stick = new Joystick(0);
 		ControlSystem.addButtonListener(new CommandButtonTap(Button.SHOOT, new Shoot()));
 		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
+		ControlSystem.addButtonListener(new CommandButtonTap(Button.RIGHT_ARM_TOGGLE, new RightArmToggle()));
+		ControlSystem.addButtonListener(new CommandButtonTap(Button.LEFT_ARM_TOGGLE, new LeftArmToggle()));
 		
 		/*new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());

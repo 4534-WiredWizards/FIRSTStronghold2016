@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4534.robot.commands;
 
 import org.usfirst.frc.team4534.robot.Robot;
+import org.usfirst.frc.team4534.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -13,10 +15,18 @@ public class AutoPortcullis extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.armpneumatics);
     	
-    	addParallel(new ArmsDown(0));
-    	addParallel(new AutoDriveStraight(1, .4));
-    	addSequential(new ArmsUp(2));
-    	addSequential(new AutoDriveStraight(2, .4));// Use requires() here to declare subsystem dependencies
+    	if (Robot.isAuto){
+    		addParallel(new ArmsDown(0));
+    		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    	}
+    	
+    	if (Robot.armpneumatics.readLeft() != DoubleSolenoid.Value.kReverse ||
+    	Robot.armpneumatics.readRight() != DoubleSolenoid.Value.kReverse){
+    		addSequential(new ArmsDown(RobotMap.solenoidDelay));
+    	}
+    	
+    	addSequential(new ArmsUp(RobotMap.solenoidDelay));
+    	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 

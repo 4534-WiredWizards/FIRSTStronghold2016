@@ -23,6 +23,9 @@ public class RobotMap {
 	public static int leftArmBackward = 1;
 	public static int rightArmForward = 2;
 	public static int rightArmBackward = 3;
+	public static double solenoidDelay = 2;
+	public static double approachDelay = 2;
+	
 	
 	
 

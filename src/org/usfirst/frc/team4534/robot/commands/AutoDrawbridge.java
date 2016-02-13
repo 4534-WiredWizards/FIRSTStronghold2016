@@ -1,37 +1,31 @@
 package org.usfirst.frc.team4534.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team4534.robot.Robot;
+import org.usfirst.frc.team4534.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoDrawbridge extends Command {
+public class AutoDrawbridge extends CommandGroup {
 
     public AutoDrawbridge() {
+    	requires(Robot.drivetrain);
+    	requires(Robot.armpneumatics);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    }
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	System.out.println("Initiating AutoDrawbridge");
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return true;
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
+    	if (Robot.isAuto){
+    		addParallel(new ArmsUp(0));
+    		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    	}
+    	if (Robot.armpneumatics.readLeft() != DoubleSolenoid.Value.kForward ||
+    	  Robot.armpneumatics.readRight() != DoubleSolenoid.Value.kForward){
+    	    addSequential(new ArmsUp(RobotMap.solenoidDelay));
+    	}
+    	addParallel(new ArmsDown(0));
+    	addParallel(new AutoDriveStraight(.5, -.4));
+    	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));
     }
 }
