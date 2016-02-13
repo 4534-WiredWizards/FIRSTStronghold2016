@@ -24,7 +24,9 @@ public class DefaultMap implements ControlMap {
 		case PRECISION:
 			return ButtonLiteral.LEFT_TRIGGER;
 		case SHOOT:
-			return ButtonLiteral.A;
+			return ButtonLiteral.X;
+		case AIM_SHOOT:
+			return ButtonLiteral.A;	
 		case TURBO:
 			return ButtonLiteral.RIGHT_TRIGGER;
 		case INTAKE:

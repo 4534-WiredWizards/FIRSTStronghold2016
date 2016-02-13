@@ -14,6 +14,7 @@ import org.usfirst.frc.team4534.robot.subsystems.ArmPneumatics;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.Compressor;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public static DriveTrain drivetrain;
+	public static JetsonVision jetsonvision;
 	// Command auto;
 	Command autoDefenseChoice;
 	CommandGroup autonomousRoutine;
@@ -63,6 +65,7 @@ public class Robot extends IterativeRobot {
 
 		drivetrain = new DriveTrain();
 		ballhandler = new BallHandler();
+		jetsonvision = new JetsonVision();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
