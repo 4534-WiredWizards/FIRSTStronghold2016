@@ -18,13 +18,11 @@ public class LeftArmToggle extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (Robot.armpneumatics.readLeft() == DoubleSolenoid.Value.kForward){
+    	if (Robot.armpneumatics.readLeft() == true){
     		Robot.armpneumatics.retractLeft();
-    	} else if (Robot.armpneumatics.readLeft() == DoubleSolenoid.Value.kReverse){
+    	} else if (Robot.armpneumatics.readLeft() == false){
         	Robot.armpneumatics.extendLeft();
-    	} else if (Robot.armpneumatics.readLeft() == DoubleSolenoid.Value.kOff){
-        	Robot.armpneumatics.extendLeft();
-    	}
+    	} 
     }
 
     // Called repeatedly when this Command is scheduled to run

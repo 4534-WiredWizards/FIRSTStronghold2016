@@ -3,7 +3,6 @@ package org.usfirst.frc.team4534.robot.commands;
 import org.usfirst.frc.team4534.robot.Robot;
 import org.usfirst.frc.team4534.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -21,8 +20,7 @@ public class AutoPortcullis extends CommandGroup {
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
     	}
     	
-    	if (Robot.armpneumatics.readLeft() != DoubleSolenoid.Value.kReverse ||
-    	Robot.armpneumatics.readRight() != DoubleSolenoid.Value.kReverse){
+    	if (Robot.armpneumatics.readLeft() != false || Robot.armpneumatics.readRight() != false){
     		addSequential(new ArmsDown(RobotMap.solenoidDelay));
     	}
     	

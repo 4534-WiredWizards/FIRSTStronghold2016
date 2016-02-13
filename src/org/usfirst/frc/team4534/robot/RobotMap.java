@@ -19,10 +19,8 @@ public class RobotMap {
 	public static int ballHandlerLimit = 0;
 	public static int compressorAnalogPort = 4;
 	public static int PCM = 1;
-	public static int leftArmForward = 0;
-	public static int leftArmBackward = 1;
-	public static int rightArmForward = 2;
-	public static int rightArmBackward = 3;
+	public static int leftArm = 0;
+	public static int rightArm = 1;	
 	public static double solenoidDelay = 2;
 	public static double approachDelay = 2;
 	

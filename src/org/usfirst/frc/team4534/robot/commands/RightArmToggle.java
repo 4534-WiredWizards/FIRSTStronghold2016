@@ -18,11 +18,9 @@ public class RightArmToggle extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (Robot.armpneumatics.readRight() == DoubleSolenoid.Value.kForward){
+    	if (Robot.armpneumatics.readRight() == true){
     		Robot.armpneumatics.retractRight();
-    	} else if (Robot.armpneumatics.readRight() == DoubleSolenoid.Value.kReverse){
-        	Robot.armpneumatics.extendRight();
-    	} else if (Robot.armpneumatics.readRight() == DoubleSolenoid.Value.kOff){
+    	} else if (Robot.armpneumatics.readRight() == false){
         	Robot.armpneumatics.extendRight();
     	}
     }
