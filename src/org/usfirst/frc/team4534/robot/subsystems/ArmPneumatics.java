@@ -1,16 +1,16 @@
 package org.usfirst.frc.team4534.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ArmPneumatics extends Subsystem {
-
-	DoubleSolenoid piston1;
-	DoubleSolenoid piston2;
+	Solenoid piston1;
+	Solenoid piston2;
 	
 	public ArmPneumatics(){
-		piston1 = new DoubleSolenoid(1, 2, 3);
-		piston2 = new DoubleSolenoid(1, 4, 5);
+		piston1 = new Solenoid(3);
+		piston2 = new Solenoid(5);
 		
 	}
 	
@@ -19,32 +19,19 @@ public class ArmPneumatics extends Subsystem {
 	}
 	
 	public void extend1(){
-		piston1.set(DoubleSolenoid.Value.kForward);
+		piston1.set(true);
 	}
 	
 	public void extend2(){
-		piston2.set(DoubleSolenoid.Value.kForward);
+		piston2.set(true);
 	}
 	
 	public void retract1(){
-		piston1.set(DoubleSolenoid.Value.kReverse);
+		piston1.set(false);
 	}
 	
 	public void retract2(){
-		piston2.set(DoubleSolenoid.Value.kReverse);
-	}
-	
-	public void off1(){
-		piston1.set(DoubleSolenoid.Value.kOff);
-	}
-	public void off2(){
-		piston2.set(DoubleSolenoid.Value.kOff);
-	}
-	
-	public void offBoth(){
-		piston1.set(DoubleSolenoid.Value.kOff);
-		piston2.set(DoubleSolenoid.Value.kOff);
-
+		piston2.set(false);
 	}
 
 }
