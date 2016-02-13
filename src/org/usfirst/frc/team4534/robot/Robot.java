@@ -13,6 +13,7 @@ import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -46,6 +47,8 @@ public class Robot extends IterativeRobot {
 	public static BuiltInAccelerometer accelerometer;
 	public static DriveEncoder leftEncoder,rightEncoder;
 	
+	public static JetsonVision jetson;
+	
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -60,6 +63,7 @@ public class Robot extends IterativeRobot {
 		accelerometer = new BuiltInAccelerometer();
 		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
 		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
+		jetson = new JetsonVision();
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
@@ -195,6 +199,8 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder.getEncoder());
 		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder.getEncoder());
-		
+		LiveWindow.addSensor("RoboRIO", "Accelerometer", accelerometer);
+		jetson.update();
+		LiveWindow.addActuator("JetsonVision", "Jetson", jetson);
 	}
 }
