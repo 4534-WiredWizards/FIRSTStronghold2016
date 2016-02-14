@@ -66,6 +66,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		ballhandler = new BallHandler();
 		jetsonvision = new JetsonVision();
+		armpneumatics = new ArmPneumatics();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);

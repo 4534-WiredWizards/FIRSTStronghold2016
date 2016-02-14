@@ -17,6 +17,7 @@ public class RightArmToggle extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("RightArmToggle Called!");
     	if (Robot.armpneumatics.readRight() == true){
     		Robot.armpneumatics.retractRight();
     	} else if (Robot.armpneumatics.readRight() == false){
@@ -35,6 +36,7 @@ public class RightArmToggle extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("RightArmToggle Finished!");
     }
 
     // Called when another command which requires one or more of the same
