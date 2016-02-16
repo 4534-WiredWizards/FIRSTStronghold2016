@@ -8,6 +8,7 @@ public class CommandButtonTap implements ButtonListener {
 
 	private final Button button;
 	private final Command command;
+	private boolean isPressed = false;
 
 	public CommandButtonTap(Button button, Command command) {
 		this.button = button;
@@ -16,13 +17,17 @@ public class CommandButtonTap implements ButtonListener {
 
 	@Override
 	public void onButtonPress(Button button, double value) {
-		if (button.equals(this.button) && !command.isRunning()) {
+		if (button.equals(this.button) && !isPressed) {
+			isPressed = true;
 			command.start();
 		}
 	}
 
 	@Override
 	public void onButtonRelease(Button button) {
+		if (button.equals(this.button)) {
+			isPressed = false;
+		}
 	}
 
 }

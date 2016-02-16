@@ -10,6 +10,7 @@ import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
+import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
 import org.usfirst.frc.team4534.robot.subsystems.ArmPneumatics;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.Compressor;
@@ -43,6 +44,8 @@ public class Robot extends IterativeRobot {
 	public static JetsonVision jetsonvision;
 	// Command auto;
 	Command autoDefenseChoice;
+	int autoPositionChoice;
+	int autoGoalChoice;
 	CommandGroup autonomousRoutine;
 	SendableChooser autoDefense;
 	SendableChooser autoStartPos;
@@ -69,7 +72,7 @@ public class Robot extends IterativeRobot {
 		armpneumatics = new ArmPneumatics();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
-		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
+		arduinocomm = new SerialPort(115200, SerialPort.Port.kOnboard);
 		allianceColor = DriverStation.getInstance().getAlliance();
 		
 		autoDefense = new SendableChooser();
@@ -95,12 +98,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto Position", autoStartPos);
 		//Right Now, this does nothing
 		autoGoal = new SendableChooser();
-		autoGoal.addObject("High Left", new DriveStop());
-		autoGoal.addObject("High Center", new DriveStop());
-		autoGoal.addObject("High Right", new DriveStop());
-		autoGoal.addObject("Low Left", new DriveStop());
-		autoGoal.addObject("Low Right", new DriveStop());
-		autoGoal.addDefault("NO Shooting", new DriveStop());
+		autoGoal.addObject("High Left", 1);
+		autoGoal.addObject("High Center", 2);
+		autoGoal.addObject("High Right", 3);
+		autoGoal.addObject("Low Left", 4);
+		autoGoal.addObject("Low Right", 5);
+		autoGoal.addDefault("NO Shooting", 0);
 		SmartDashboard.putData("Auto Goal", autoGoal);
 
 		ControlSystem.init();
@@ -139,7 +142,10 @@ public class Robot extends IterativeRobot {
 		}
 
 		autoDefenseChoice = (Command) autoDefense.getSelected();
+		autoPositionChoice = (int) autoStartPos.getSelected();
+		autoGoalChoice = (int) autoGoal.getSelected();
 		autonomousRoutine.addSequential(autoDefenseChoice);
+		//autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
 		if (autoDefenseChoice != null) {
 			autonomousRoutine.start();
 			System.out.println("Auto Started!");

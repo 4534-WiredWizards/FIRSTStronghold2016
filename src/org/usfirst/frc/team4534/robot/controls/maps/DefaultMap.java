@@ -30,7 +30,7 @@ public class DefaultMap implements ControlMap {
 		case TURBO:
 			return ButtonLiteral.RIGHT_TRIGGER;
 		case INTAKE:
-			return ButtonLiteral.B;
+			return ButtonLiteral.Y;
 		case TURN_LEFT:
 			return ButtonLiteral.STICK_LEFT_LEFT;
 		case TURN_RIGHT:

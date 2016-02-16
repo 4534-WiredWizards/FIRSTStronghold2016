@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team4534.robot.RobotMap;
 import org.usfirst.frc.team4534.robot.commands.BallHandlerStop;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Victor;
 /**
  *Ball Handling Device: use this subsystem to manipulate the ball handler.
@@ -16,12 +16,12 @@ import edu.wpi.first.wpilibj.Victor;
 public class BallHandler extends Subsystem {
     
 	private Victor ballIntake;
-	private TalonSRX shooter;
+	private CANTalon shooter;
 	private DigitalInput ballHandlerLimit;
 	// Ball Handler may be referred to as 'Handler'.
 	public BallHandler(){
 		ballIntake = new Victor(RobotMap.ballIntake);
-		shooter = new TalonSRX(RobotMap.shooter);
+		shooter = new CANTalon(RobotMap.shooter);
 		ballHandlerLimit = new DigitalInput(RobotMap.ballHandlerLimit);
 	}
     // Put methods for controlling this subsystem

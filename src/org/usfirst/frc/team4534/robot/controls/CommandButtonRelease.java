@@ -4,6 +4,7 @@ import org.usfirst.frc.team4534.robot.ControlSystem.Button;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+@Deprecated
 public class CommandButtonRelease implements ButtonListener {
 
 	private final Button button;

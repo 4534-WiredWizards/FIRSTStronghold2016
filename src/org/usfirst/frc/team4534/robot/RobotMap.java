@@ -15,12 +15,12 @@ public class RobotMap {
 	public static int leftMotor = 1;
 	public static int rightMotor = 0;
 	public static int ballIntake = 2;
-	public static int shooter = 3;
+	public static int shooter = 2; //CAN ID
 	public static int ballHandlerLimit = 0;
 	public static int compressorAnalogPort = 4;
-	public static int PCM = 1;
-	public static int leftArm = 0;
-	public static int rightArm = 1;	
+	public static int PCM = 1; //CAN ID
+	public static int leftArm = 0; //PCM location
+	public static int rightArm = 1;	//PCM location
 	public static double solenoidDelay = 2;
 	public static double approachDelay = 2;
 	
