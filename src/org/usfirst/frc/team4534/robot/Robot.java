@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot {
 		armpneumatics = new ArmPneumatics();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
-		arduinocomm = new SerialPort(115200, SerialPort.Port.kOnboard);
+		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
 		allianceColor = DriverStation.getInstance().getAlliance();
 		
 		autoDefense = new SendableChooser();
@@ -150,11 +150,11 @@ public class Robot extends IterativeRobot {
 			autonomousRoutine.start();
 			System.out.println("Auto Started!");
 		}
-		arduinocomm.writeString("a");
+		arduinocomm.writeString("b");
 		if (allianceColor == DriverStation.Alliance.Blue) {
 			// In the blue alliance
 			System.out.print("BLUE alliance");
-			arduinocomm.writeString("b");
+			arduinocomm.writeString("n");
 		} else if (allianceColor == DriverStation.Alliance.Red) {
 			// In the red alliance
 			arduinocomm.writeString("r");
@@ -185,6 +185,7 @@ public class Robot extends IterativeRobot {
 			autoDefenseChoice.cancel();
 		}
 		isAuto = false;
+		arduinocomm.writeString("t");
 		System.out.println("Beginning Teleop!");
 	}
 
@@ -221,5 +222,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
+		
 	}
 }

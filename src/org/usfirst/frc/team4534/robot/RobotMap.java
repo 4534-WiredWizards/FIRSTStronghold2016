@@ -16,6 +16,7 @@ public class RobotMap {
 	public static int rightMotor = 0;
 	public static int ballIntake = 2;
 	public static int shooter = 2; //CAN ID
+	public static int shooter2 = 3;
 	public static int ballHandlerLimit = 0;
 	public static int compressorAnalogPort = 4;
 	public static int PCM = 1; //CAN ID
