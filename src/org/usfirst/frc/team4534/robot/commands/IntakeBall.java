@@ -13,6 +13,7 @@ public class IntakeBall extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballhandler);
+    	setTimeout(5);
     }
 
     // Called just before this Command runs the first time
@@ -26,7 +27,7 @@ public class IntakeBall extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.ballhandler.getHandlerLimit();
+        return Robot.ballhandler.getHandlerLimit() || isTimedOut();
     }
 
     // Called once after isFinished returns true
