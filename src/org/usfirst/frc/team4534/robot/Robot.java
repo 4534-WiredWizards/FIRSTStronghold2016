@@ -61,12 +61,13 @@ public class Robot extends IterativeRobot {
 
 		drivetrain = new DriveTrain();
 		ballhandler = new BallHandler();
-		oi = new OI();
-		accelerometer = new BuiltInAccelerometer();
-		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
-		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
 		gyroscope = new Gyroscope();
 		jetson = new JetsonVision();
+		accelerometer = new BuiltInAccelerometer();
+		oi = new OI();
+		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
+		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
+
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
@@ -191,6 +192,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("AcelY", ControlSystem.getMoveAxisAccelY());
 		SmartDashboard.putNumber("AcelX", ControlSystem.getMoveAxisAccelX());
 		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
+		SmartDashboard.putNumber("Gyro", gyroscope.getValue());
 		ControlSystem.update();
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
 	}

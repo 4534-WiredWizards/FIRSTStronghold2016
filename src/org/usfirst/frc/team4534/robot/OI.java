@@ -1,6 +1,10 @@
 package org.usfirst.frc.team4534.robot;
 
+import org.usfirst.frc.team4534.robot.commands.TurnAngle;
+import org.usfirst.frc.team4534.robot.controls.CommandButtonTap;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -15,6 +19,7 @@ public class OI {
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
 		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new DriveStraight(-0.4)));*/
+		ControlSystem.addButtonListener(new CommandButtonTap(ControlSystem.Button.SHOOT, new TurnAngle(45)));
 	}
 
 	public Joystick getJoystick() {
