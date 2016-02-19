@@ -9,13 +9,13 @@ public class RacingMap implements ControlMap {
 	@Override
 	public ButtonLiteral convertButton(Button button) {
 		switch (button) {
-		case ARM_DOWN:
+		case ARMS_DOWN:
 			return ButtonLiteral.STICK_RIGHT_DOWN;
-		case ARM_EXTEND:
-			return ButtonLiteral.A;
-		case ARM_RETRACT:
-			return ButtonLiteral.X;
-		case ARM_UP:
+		case RIGHT_ARM_TOGGLE:
+			return ButtonLiteral.RIGHT_BUMPER;
+		case LEFT_ARM_TOGGLE:
+			return ButtonLiteral.LEFT_BUMPER;
+		case ARMS_UP:
 			return ButtonLiteral.STICK_RIGHT_UP;
 		case MOVE_BACKWARD:
 			return ButtonLiteral.LEFT_TRIGGER;
@@ -24,7 +24,7 @@ public class RacingMap implements ControlMap {
 		case PRECISION:
 			return ButtonLiteral.STICK_LEFT_DOWN;
 		case SHOOT:
-			return ButtonLiteral.RIGHT_BUMPER;
+			return ButtonLiteral.X;
 		case TURBO:
 			return ButtonLiteral.STICK_LEFT_UP;
 		case TURN_LEFT:

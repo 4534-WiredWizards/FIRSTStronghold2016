@@ -1,14 +1,31 @@
 package org.usfirst.frc.team4534.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team4534.robot.Robot;
+import org.usfirst.frc.team4534.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoPortcullis extends Command {
+public class AutoPortcullis extends CommandGroup {
 
     public AutoPortcullis() {
-        // Use requires() here to declare subsystem dependencies
+    	requires(Robot.drivetrain);
+    	requires(Robot.armpneumatics);
+    	System.out.println("Initiating AutoPortcullis");
+		
+    	if (Robot.isAuto){
+    		addParallel(new ArmsDown(0));
+    		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    	}
+    	
+    	if (Robot.armpneumatics.readLeft() != false || Robot.armpneumatics.readRight() != false){
+    		addSequential(new ArmsDown(RobotMap.solenoidDelay));
+    	}
+    	
+    	addSequential(new ArmsUp(RobotMap.solenoidDelay));
+    	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 

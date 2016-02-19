@@ -9,13 +9,13 @@ public class DefaultMap implements ControlMap {
 	@Override
 	public ButtonLiteral convertButton(Button button) {
 		switch (button) {
-		case ARM_DOWN:
+		case ARMS_DOWN:
 			return ButtonLiteral.STICK_RIGHT_DOWN;
-		case ARM_EXTEND:
-			return ButtonLiteral.A;
-		case ARM_RETRACT:
-			return ButtonLiteral.X;
-		case ARM_UP:
+		case RIGHT_ARM_TOGGLE:
+			return ButtonLiteral.RIGHT_BUMPER;
+		case LEFT_ARM_TOGGLE:
+			return ButtonLiteral.LEFT_BUMPER;
+		case ARMS_UP:
 			return ButtonLiteral.STICK_RIGHT_UP;
 		case MOVE_BACKWARD:
 			return ButtonLiteral.STICK_LEFT_DOWN;
@@ -24,9 +24,13 @@ public class DefaultMap implements ControlMap {
 		case PRECISION:
 			return ButtonLiteral.LEFT_TRIGGER;
 		case SHOOT:
-			return ButtonLiteral.RIGHT_BUMPER;
+			return ButtonLiteral.X;
+		case AIM_SHOOT:
+			return ButtonLiteral.A;	
 		case TURBO:
 			return ButtonLiteral.RIGHT_TRIGGER;
+		case INTAKE:
+			return ButtonLiteral.Y;
 		case TURN_LEFT:
 			return ButtonLiteral.STICK_LEFT_LEFT;
 		case TURN_RIGHT:

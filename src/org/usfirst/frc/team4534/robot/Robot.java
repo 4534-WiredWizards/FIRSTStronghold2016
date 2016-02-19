@@ -10,6 +10,8 @@ import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
+import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
+import org.usfirst.frc.team4534.robot.subsystems.ArmPneumatics;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
@@ -18,7 +20,9 @@ import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -40,18 +44,24 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	// Command auto;
 	Command autoDefenseChoice;
+	int autoPositionChoice;
+	int autoGoalChoice;
+	CommandGroup autonomousRoutine;
 	SendableChooser autoDefense;
 	SendableChooser autoStartPos;
 	SendableChooser autoGoal;
+	public static boolean isAuto = false;
 	
 	public static BallHandler ballhandler;
+	public static ArmPneumatics armpneumatics;
 	public static BuiltInAccelerometer accelerometer;
 	public static DriveEncoder leftEncoder,rightEncoder;
 	public static Gyroscope gyroscope;
 	
-	public static JetsonVision jetson;
-	
-	
+	public static JetsonVision jetsonvision;
+	public static SerialPort arduinocomm;
+	public DriverStation.Alliance allianceColor;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -62,9 +72,12 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		ballhandler = new BallHandler();
 		gyroscope = new Gyroscope();
-		jetson = new JetsonVision();
-		accelerometer = new BuiltInAccelerometer();
+		jetsonvision = new JetsonVision();
+		armpneumatics = new ArmPneumatics();
 		oi = new OI();
+		accelerometer = new BuiltInAccelerometer();
+		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
+		allianceColor = DriverStation.getInstance().getAlliance();
 		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
 		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
 
@@ -79,7 +92,7 @@ public class Robot extends IterativeRobot {
 		autoDefense.addObject("Rock Wall", new AutoRockWall());
 		autoDefense.addObject("Moat", new AutoMoat());
 		autoDefense.addObject("Ramparts", new AutoRamparts());
-		autoDefense.addObject("Drive Straight", new AutoDriveStraight(1, .35));
+		autoDefense.addObject("Approach", new AutoDriveStraight(RobotMap.approachDelay, .4));
 		SmartDashboard.putData("Auto Defense", autoDefense);
 		
 		//Right Now, only autoDefense will be used.
@@ -92,12 +105,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto Position", autoStartPos);
 		//Right Now, this does nothing
 		autoGoal = new SendableChooser();
-		autoGoal.addObject("High Left", new DriveStop());
-		autoGoal.addObject("High Center", new DriveStop());
-		autoGoal.addObject("High Right", new DriveStop());
-		autoGoal.addObject("Low Left", new DriveStop());
-		autoGoal.addObject("Low Right", new DriveStop());
-		autoGoal.addDefault("NO Shooting", new DriveStop());
+		autoGoal.addObject("High Left", 1);
+		autoGoal.addObject("High Center", 2);
+		autoGoal.addObject("High Right", 3);
+		autoGoal.addObject("Low Left", 4);
+		autoGoal.addObject("Low Right", 5);
+		autoGoal.addDefault("NO Shooting", 0);
 		SmartDashboard.putData("Auto Goal", autoGoal);
 
 		ControlSystem.init();
@@ -127,6 +140,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		isAuto = true;
 		// schedule the autonomous command (example)
 		if (autoDefenseChoice != null) {
 			if (autoDefenseChoice.isRunning()) {
@@ -135,14 +149,25 @@ public class Robot extends IterativeRobot {
 		}
 
 		autoDefenseChoice = (Command) autoDefense.getSelected();
+		autoPositionChoice = (int) autoStartPos.getSelected();
+		autoGoalChoice = (int) autoGoal.getSelected();
+		autonomousRoutine.addSequential(autoDefenseChoice);
+		//autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
 		if (autoDefenseChoice != null) {
-			// autonomousCommand = (Command) autoChooser.getSelected();
-			autoDefenseChoice.start();
+			autonomousRoutine.start();
 			System.out.println("Auto Started!");
-		
-		
 		}
-	}
+		arduinocomm.writeString("b");
+		if (allianceColor == DriverStation.Alliance.Blue) {
+			// In the blue alliance
+			System.out.print("BLUE alliance");
+			arduinocomm.writeString("n");
+		} else if (allianceColor == DriverStation.Alliance.Red) {
+			// In the red alliance
+			arduinocomm.writeString("r");
+			System.out.print("RED alliance");
+		}
+		}
 
 	/**
 	 * This function is called periodically during autonomous
@@ -166,6 +191,8 @@ public class Robot extends IterativeRobot {
 		if (autoDefenseChoice != null) {
 			autoDefenseChoice.cancel();
 		}
+		isAuto = false;
+		arduinocomm.writeString("t");
 		System.out.println("Beginning Teleop!");
 	}
 
@@ -174,6 +201,7 @@ public class Robot extends IterativeRobot {
 	 * to reset subsystems before shutting down.
 	 */
 	public void disabledInit() {
+		isAuto = false;
 		if (autoDefenseChoice != null) {
 			autoDefenseChoice.cancel();
 		}
@@ -205,7 +233,7 @@ public class Robot extends IterativeRobot {
 		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder.getEncoder());
 		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder.getEncoder());
 		LiveWindow.addSensor("RoboRIO", "Accelerometer", accelerometer);
-		jetson.update();
-		LiveWindow.addActuator("JetsonVision", "Jetson", jetson);
+		jetsonvision.update();
+		LiveWindow.addActuator("JetsonVision", "Jetson", jetsonvision);
 	}
 }

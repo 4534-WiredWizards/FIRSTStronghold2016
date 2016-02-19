@@ -91,12 +91,12 @@ public class ControlSystem {
 						callButtonRelease(b);
 					}
 				}
-				if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5 && !isSelectPressed) {
+				/*if (getButtonLiteral(ButtonLiteral.SELECT) > 0.5 && !isSelectPressed) {
 					isSelectPressed = true;
 					//currentMap++;
 				} else if (getButtonLiteral(ButtonLiteral.SELECT) <= 0.5) {
 					isSelectPressed = false;
-				}
+				}*/
 			}
 		}
 		oldTime = newTime;
@@ -163,7 +163,7 @@ public class ControlSystem {
 	}
 
 	public static enum Button {
-		MOVE_FORWARD, MOVE_BACKWARD, TURN_RIGHT, TURN_LEFT, PRECISION, TURBO, SHOOT, ARM_UP, ARM_DOWN, ARM_EXTEND, ARM_RETRACT
+		MOVE_FORWARD, MOVE_BACKWARD, TURN_RIGHT, TURN_LEFT, PRECISION, TURBO, SHOOT, AIM_SHOOT, INTAKE, LEFT_ARM_TOGGLE, RIGHT_ARM_TOGGLE, ARMS_DOWN, ARMS_UP
 	}
 
 	/**
