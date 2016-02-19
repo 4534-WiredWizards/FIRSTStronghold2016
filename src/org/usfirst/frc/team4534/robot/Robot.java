@@ -13,6 +13,7 @@ import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4534.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
@@ -46,6 +47,7 @@ public class Robot extends IterativeRobot {
 	public static BallHandler ballhandler;
 	public static BuiltInAccelerometer accelerometer;
 	public static DriveEncoder leftEncoder,rightEncoder;
+	public static Gyroscope gyroscope;
 	
 	public static JetsonVision jetson;
 	
@@ -63,6 +65,7 @@ public class Robot extends IterativeRobot {
 		accelerometer = new BuiltInAccelerometer();
 		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
 		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
+		gyroscope = new Gyroscope();
 		jetson = new JetsonVision();
 		
 		autoDefense = new SendableChooser();

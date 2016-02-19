@@ -57,6 +57,10 @@ public class DriveTrain extends Subsystem {
 		drive.arcadeDrive(0, 0);
 	}
 
+	public void turn(double value) {
+		drive.arcadeDrive(0.0, value);
+	}
+	
 	// Set the default command for a subsystem here.
 	@Override
 	public void initDefaultCommand() {
