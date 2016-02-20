@@ -5,6 +5,7 @@ import org.usfirst.frc.team4534.robot.commands.DriveWithJoystick;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class DriveTrain extends Subsystem {
 
@@ -14,9 +15,13 @@ public class DriveTrain extends Subsystem {
 
 	// create instance of motor-configuration based robot drive
 	public DriveTrain() {
+		
 		drive = new RobotDrive(RobotMap.leftMotor, RobotMap.rightMotor);
 		leftEncoder = new DriveEncoder(drive, DriveEncoder.EncoderSide.LEFT);
 		rightEncoder = new DriveEncoder(drive, DriveEncoder.EncoderSide.RIGHT);
+		//LiveWindow.addActuator("DriveTrain", "Left Motor", );
+		LiveWindow.addSensor("DriveTrain","Left Encoder", leftEncoder.getEncoder());
+		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder.getEncoder());
 	}
 
 	// enable arcade drive operation of the drivetrain

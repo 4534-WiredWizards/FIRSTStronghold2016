@@ -12,19 +12,19 @@ public class AutoDrawbridge extends CommandGroup {
 
     public AutoDrawbridge() {
     	requires(Robot.drivetrain);
-    	requires(Robot.armpneumatics);
+    	requires(Robot.arms);
     	System.out.println("Initiating AutoDrawbridge");
 		
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	if (Robot.isAuto){
-    		addParallel(new ArmsUp(0));
+    		addParallel(new MoveArms(0.5,1.5));
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
     	}
-    	if (Robot.armpneumatics.readLeft() != true || Robot.armpneumatics.readRight() != true){
-    	    addSequential(new ArmsUp(RobotMap.solenoidDelay));
+    	if (Robot.arms.readLeft() != true || Robot.arms.readRight() != true){
+    	    addSequential(new ExtendArms());
     	}
-    	addParallel(new ArmsDown(0));
+    	addParallel(new MoveArms(-0.35, 1.5));
     	addParallel(new AutoDriveStraight(.5, -.4));
     	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));
     }

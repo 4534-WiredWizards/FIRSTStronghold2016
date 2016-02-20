@@ -35,6 +35,10 @@ public class DefaultMap implements ControlMap {
 			return ButtonLiteral.STICK_LEFT_LEFT;
 		case TURN_RIGHT:
 			return ButtonLiteral.STICK_LEFT_RIGHT;
+		case RIGHT_CLICK:
+			return ButtonLiteral.STICK_RIGHT_CLICK;
+		case LEFT_CLICK:
+			return ButtonLiteral.STICK_LEFT_CLICK;
 		default:
 			return ButtonLiteral.A;
 		}

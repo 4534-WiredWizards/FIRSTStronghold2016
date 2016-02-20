@@ -7,36 +7,40 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LeftArmToggle extends Command {
+public class MoveArms extends Command {
 
-    public LeftArmToggle() {
-    	requires(Robot.armpneumatics);
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+	private double amount;
+	private double duration;
+	
+	/**
+	 * 
+	 * @param speed
+	 * @param duration
+	 */
+    public MoveArms(double speed, double duration){
+    	requires(Robot.arms);
+    	this.duration = duration;
+    	this.amount = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("LeftArmToggle Called!");
-    	if (Robot.armpneumatics.readLeft() == true){
-    		Robot.armpneumatics.retractLeft();
-    	} else if (Robot.armpneumatics.readLeft() == false){
-        	Robot.armpneumatics.extendLeft();
-    	} 
+    	setTimeout(duration);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.arms.move(amount);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isTimedOut() || (amount > 0 ? Robot.arms.checkArmsUp() : Robot.arms.checkArmsDown());
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println("LeftArmToggle Finished!");
+    	Robot.arms.stopMovement();
     }
 
     // Called when another command which requires one or more of the same

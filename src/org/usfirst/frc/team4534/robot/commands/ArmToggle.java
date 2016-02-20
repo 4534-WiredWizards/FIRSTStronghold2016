@@ -5,32 +5,34 @@ import org.usfirst.frc.team4534.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *Sets the arms to start raising, then waits for delay seconds
  *
  */
-public class ArmsDown extends Command {
+public class ArmToggle extends Command {
 
-	public ArmsDown(double delay) {
-		requires(Robot.armpneumatics);
+	public ArmToggle() {
+		requires(Robot.arms);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		setTimeout(delay);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.armpneumatics.retractRight();
-		Robot.armpneumatics.retractLeft();
+		if (Robot.arms.readLeft() || Robot.arms.readRight()) {
+			Robot.arms.retractLeft();
+			Robot.arms.retractRight();
+		} else {
+			Robot.arms.extendLeft();
+			Robot.arms.extendRight();
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return isTimedOut();
+		return true;
 	}
 
 	// Called once after isFinished returns true

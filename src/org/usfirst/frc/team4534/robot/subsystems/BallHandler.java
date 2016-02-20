@@ -27,8 +27,10 @@ public class BallHandler extends Subsystem {
 		shooter = new CANTalon(RobotMap.shooter);
 		shooter2 = new CANTalon(RobotMap.shooter2);
 		ballHandlerLimit = new DigitalInput(RobotMap.ballHandlerLimit);
-		LiveWindow.addActuator("BallHandler", "1", shooter);
-		LiveWindow.addActuator("BallHandler", "2", shooter2);
+		LiveWindow.addActuator("BallHandler", "Intake", ballIntake);
+		LiveWindow.addActuator("BallHandler", "Shooter 1", shooter);
+		LiveWindow.addActuator("BallHandler", "Shooter 2", shooter2);
+		LiveWindow.addSensor("BallHandler", "Limit", ballHandlerLimit);
 		
 	}
     // Put methods for controlling this subsystem

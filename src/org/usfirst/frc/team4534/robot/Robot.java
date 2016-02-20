@@ -10,8 +10,7 @@ import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
-import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
-import org.usfirst.frc.team4534.robot.subsystems.ArmPneumatics;
+import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
@@ -53,7 +52,7 @@ public class Robot extends IterativeRobot {
 	public static boolean isAuto = false;
 	
 	public static BallHandler ballhandler;
-	public static ArmPneumatics armpneumatics;
+	public static Arms arms;
 	public static BuiltInAccelerometer accelerometer;
 	public static DriveEncoder leftEncoder,rightEncoder;
 	public static Gyroscope gyroscope;
@@ -73,7 +72,7 @@ public class Robot extends IterativeRobot {
 		ballhandler = new BallHandler();
 		gyroscope = new Gyroscope();
 		jetsonvision = new JetsonVision();
-		armpneumatics = new ArmPneumatics();
+		arms = new Arms();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
@@ -174,6 +173,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		LiveWindow.run();
 		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
 		
 		if(accelerometer.getZ() >= 3.0){
@@ -215,13 +215,11 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		System.out.println("is running...");
 		Scheduler.getInstance().run();
+		LiveWindow.run();
+		ControlSystem.update();
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
-		SmartDashboard.putNumber("AcelY", ControlSystem.getMoveAxisAccelY());
-		SmartDashboard.putNumber("AcelX", ControlSystem.getMoveAxisAccelX());
-		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
-		SmartDashboard.putNumber("Gyro", gyroscope.getValue());
-		ControlSystem.update();
+		LiveWindow.addSensor("Accelerometer", "Accelerometer", accelerometer);
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
 	}
 

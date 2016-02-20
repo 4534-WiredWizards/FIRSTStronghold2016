@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4534.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.tables.ITable;
@@ -17,9 +17,10 @@ public class JetsonVision extends Subsystem implements LiveWindowSendable {
 
 	public JetsonVision() {
 		// instantiate with dummy data for now
-		this.visionTuple = new JetsonVision.VisionTuple(-999,-999);
+		this.visionTuple = new JetsonVision.VisionTuple(-999, -999, -999);
 		this.visionTable = NetworkTable.getTable("vision");
-		
+		LiveWindow.addSensor("JetsonVision","Jetson",this);
+
 	}
 
 	public class VisionTuple {
@@ -29,6 +30,14 @@ public class JetsonVision extends Subsystem implements LiveWindowSendable {
 
 		public void setDistance(double distance) {
 			this.distance = distance;
+		}
+
+		public double getCenter() {
+			return center;
+		}
+
+		public void setCenter(double center) {
+			this.center = center;
 		}
 
 		public double getAngle() {
@@ -41,14 +50,16 @@ public class JetsonVision extends Subsystem implements LiveWindowSendable {
 
 		private double distance;
 		private double angle;
+		private double center;
 
-		public VisionTuple(double x, double theta) {
+		public VisionTuple(double x, double theta, double center) {
 			this.distance = x;
 			this.angle = theta;
+			this.center = center;
 		}
 
 		public String toString() {
-			return "(" + this.distance + "," + this.angle + ")";
+			return "(" + this.distance + "," + this.angle + "," + this.center + ")";
 		}
 	}
 
@@ -60,11 +71,12 @@ public class JetsonVision extends Subsystem implements LiveWindowSendable {
 
 	public void update() {
 		System.out.println("Update Called");
-		
-		this.visionTuple.setAngle(visionTable.getNumber("angle",-999));
-		this.visionTuple.setDistance(visionTable.getNumber("distance",-999));
-		
-		System.out.println("New vision tuple: "+this.visionTuple.toString());
+
+		this.visionTuple.setAngle(visionTable.getNumber("angle", -999));
+		this.visionTuple.setDistance(visionTable.getNumber("distance", -999));
+		this.visionTuple.setCenter(visionTable.getNumber("center",-999));
+
+		System.out.println("New vision tuple: " + this.visionTuple.toString());
 	}
 
 	public void initDefaultCommand() {
