@@ -13,16 +13,19 @@ public class TurnAngle extends PIDCommand {
 	private double targetAngle;
 	
     public TurnAngle(double angle) {
-    	super("TurnAngle", 1, 0.5, 0.1);
+    	super("TurnAngle", 1, 1, 0.1);
     	requires(Robot.drivetrain);
     	requires(Robot.gyroscope);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	Robot.gyroscope.reset();
+    	this.setInputRange(0.0, 360.0);
+    	this.getPIDController().setContinuous();
     	this.targetAngle = Robot.gyroscope.getValue() + angle;
     	this.getPIDController().setSetpoint(this.targetAngle);
     	this.getPIDController().setAbsoluteTolerance(3);
     	//this.getPIDController().setContinuous();
-    	this.getPIDController().setOutputRange(0, 0.4);
+    	this.getPIDController().setOutputRange(0, 0.55);
     	
     	//this.setTimeout(3);
     	
@@ -34,6 +37,8 @@ public class TurnAngle extends PIDCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	System.out.println(this.getPIDController().getAvgError());
+    	System.out.println(this.getPIDController().onTarget());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -43,11 +48,13 @@ public class TurnAngle extends PIDCommand {
 
     // Called once after isFinished returns true
     protected void end() {
+    	this.getPIDController().disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	this.getPIDController().disable();
     }
 
 	@Override
@@ -59,7 +66,7 @@ public class TurnAngle extends PIDCommand {
 	@Override
 	protected void usePIDOutput(double output) {
 		// TODO Auto-generated method stub
-		Robot.drivetrain.turn(output);
-		SmartDashboard.putNumber("PID Set", output);
+		Robot.drivetrain.turn(-output);
+		SmartDashboard.putNumber("PID Set", -output);
 	}
 }

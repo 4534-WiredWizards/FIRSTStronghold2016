@@ -219,6 +219,7 @@ public class Robot extends IterativeRobot {
 		ControlSystem.update();
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
+		SmartDashboard.putNumber("Gyro", gyroscope.pidGet());
 		LiveWindow.addSensor("Accelerometer", "Accelerometer", accelerometer);
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
 	}

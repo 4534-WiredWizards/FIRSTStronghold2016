@@ -16,6 +16,12 @@ private double rate;
     	this.rate = rate;
     	setTimeout(5);
     }
+    
+    public SpinUp(double rate, double duration) {
+    	requires(Robot.ballhandler);
+    	this.rate = rate;
+    	setTimeout(duration);
+    }
 
     // Called just before this Command runs the first time
     protected void initialize() {

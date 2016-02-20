@@ -23,7 +23,7 @@ public class ControlSystem {
 
 	private static double rumbleTime;
 	private static double[] currentJoyX, currentJoyY;
-	private static final double numJoysticks = 2; // 1 indexed, not zero indexed
+	private static final int numJoysticks = 2; // 1 indexed, not zero indexed
 	private static final LinkedList<ButtonListener> buttonListeners = new LinkedList<ButtonListener>();
 	private static final LinkedList<ControlMap> controlMaps = new LinkedList<ControlMap>();
 	private static int currentMap = 0;
@@ -39,7 +39,13 @@ public class ControlSystem {
 		loadMaps();
 		rumbleTime = 0;
 		oldTime = Timer.getFPGATimestamp();
-		update();
+		currentJoyX = new double[numJoysticks];
+		currentJoyY = new double[numJoysticks];
+		for(int i = 0; i < numJoysticks; i++) {
+			currentJoyX[i] = 0;
+			currentJoyY[i] = 0;
+		}
+		update(); // must be last
 	}
 
 	public static void loadMaps() {
@@ -70,7 +76,7 @@ public class ControlSystem {
 			}
 			/* update acceleration */ {
 				// The threshold is the minimum value of the current joy values
-				final double threshold = 0.3;
+				final double threshold = 0.4;
 				for (int i = 0; i < numJoysticks; i++) {
 					// Linearly interpolate the current joy values
 					currentJoyY[i] = Maths.lerp(currentJoyY[i], getMoveAxisY(), 1 - Math.pow(.1, delta));
@@ -228,6 +234,7 @@ public class ControlSystem {
 		case LEFT_BUMPER:
 			n = j.getRawButton(5) ? 1 : 0;
 			break;
+		case STICK_LEFT_CLICK:
 		case LEFT_BUTTON:
 			n = j.getRawButton(9) ? 1 : 0;
 			break;
@@ -237,6 +244,7 @@ public class ControlSystem {
 		case RIGHT_BUMPER:
 			n = j.getRawButton(6) ? 1 : 0;
 			break;
+		case STICK_RIGHT_CLICK:
 		case RIGHT_BUTTON:
 			n = j.getRawButton(10) ? 1 : 0;
 			break;
@@ -279,11 +287,6 @@ public class ControlSystem {
 		case Y:
 			n = j.getRawButton(4) ? 1 : 0;
 			break;
-		case STICK_LEFT_CLICK:
-			n = j.getRawButton(11) ? 1 : 0;
-			break;
-		case STICK_RIGHT_CLICK:
-			n = j.getRawButton(12) ? 1 : 0;
 		default:
 			n = 0;
 			break;

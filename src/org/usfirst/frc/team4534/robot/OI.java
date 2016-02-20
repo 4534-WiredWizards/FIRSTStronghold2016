@@ -23,14 +23,14 @@ public class OI {
 		ControlSystem.addButtonListener(new CommandButtonTap(Button.AIM_SHOOT, new AimAndShoot()));
 		ControlSystem.addButtonListener(new CommandButtonTap(Button.SHOOT, new Shoot()));
 		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
-		ControlSystem.addButtonListener(new CommandButtonTap(Button.RIGHT_CLICK, new ArmToggle()));
+		//ControlSystem.addButtonListener(new CommandButtonTap(Button.RIGHT_CLICK, new ArmToggle()));
 		
 		
 		/*new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
 		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new DriveStraight(-0.4)));*/
-		ControlSystem.addButtonListener(new CommandButtonTap(ControlSystem.Button.SHOOT, new TurnAngle(45)));
+		ControlSystem.addButtonListener(new CommandButtonTap(ControlSystem.Button.RIGHT_CLICK, new TurnAngle(45)));
 	}
 
 	public Joystick getJoystick() {
