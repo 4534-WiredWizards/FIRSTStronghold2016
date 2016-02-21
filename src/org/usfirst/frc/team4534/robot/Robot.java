@@ -213,7 +213,7 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	public void teleopPeriodic() {
-		System.out.println("is running...");
+		//System.out.println("is running...");
 		Scheduler.getInstance().run();
 		LiveWindow.run();
 		ControlSystem.update();
@@ -228,11 +228,13 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
-		LiveWindow.run();
+		Scheduler.getInstance().run();
+		ControlSystem.update();
 		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder.getEncoder());
 		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder.getEncoder());
 		LiveWindow.addSensor("RoboRIO", "Accelerometer", accelerometer);
 		jetsonvision.update();
 		LiveWindow.addActuator("JetsonVision", "Jetson", jetsonvision);
+		LiveWindow.run();
 	}
 }

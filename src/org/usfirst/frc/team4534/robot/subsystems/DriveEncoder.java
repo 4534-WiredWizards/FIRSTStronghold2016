@@ -40,7 +40,10 @@ public class DriveEncoder extends PIDSubsystem {
 				break;
 		}
 		
+		
 		encoder.setDistancePerPulse((1.0/2048/2)*28);
+		encoder.startLiveWindowMode();
+
 
 		// set the PID tolerance to say... eh, 200 cycles
 		setAbsoluteTolerance(200);

@@ -6,10 +6,11 @@ import org.usfirst.frc.team4534.robot.commands.ArmToggle;
 import org.usfirst.frc.team4534.robot.commands.IntakeBall;
 import org.usfirst.frc.team4534.robot.commands.Shoot;
 import org.usfirst.frc.team4534.robot.controls.CommandButton;
-import org.usfirst.frc.team4534.robot.commands.TurnAngle;
+import org.usfirst.frc.team4534.robot.commands.TurnToAngle;
 import org.usfirst.frc.team4534.robot.controls.CommandButtonTap;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -30,7 +31,8 @@ public class OI {
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
 		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new DriveStraight(-0.4)));*/
-		ControlSystem.addButtonListener(new CommandButtonTap(ControlSystem.Button.RIGHT_CLICK, new TurnAngle(45)));
+		SmartDashboard.putNumber("TurnTo", 0);
+		ControlSystem.addButtonListener(new CommandButtonTap(ControlSystem.Button.RIGHT_CLICK, new TurnToAngle(SmartDashboard.getNumber("TurnTo"))));
 	}
 
 	public Joystick getJoystick() {

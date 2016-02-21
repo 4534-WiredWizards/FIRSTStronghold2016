@@ -20,8 +20,8 @@ public class DriveTrain extends Subsystem {
 		leftEncoder = new DriveEncoder(drive, DriveEncoder.EncoderSide.LEFT);
 		rightEncoder = new DriveEncoder(drive, DriveEncoder.EncoderSide.RIGHT);
 		//LiveWindow.addActuator("DriveTrain", "Left Motor", );
-		LiveWindow.addSensor("DriveTrain","Left Encoder", leftEncoder.getEncoder());
-		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder.getEncoder());
+		LiveWindow.addSensor("DriveTrain","LeftEncoder", leftEncoder.getEncoder());
+		LiveWindow.addSensor("DriveTrain", "RightEncoder", rightEncoder.getEncoder());
 	}
 
 	// enable arcade drive operation of the drivetrain
