@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -185,7 +186,7 @@ public class Robot extends IterativeRobot {
 			autoDefenseChoice.cancel();
 		}
 		isAuto = false;
-		arduinocomm.writeString("t");
+		arduinocomm.writeString("i");
 		System.out.println("Beginning Teleop!");
 	}
 
@@ -215,6 +216,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
 		ControlSystem.update();
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
+		if(Timer.getMatchTime() >= 130.0){
+			arduinocomm.writeString("z");
+		}
+		
 	}
 
 	/**
