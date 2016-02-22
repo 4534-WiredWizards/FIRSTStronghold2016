@@ -16,10 +16,8 @@ public class RobotMap {
 	public static int rightMotor = 0;
 	public static int ballIntake = 2;
 	public static int shooter = 3;
-	public static int braceForward = 4;
-	public static int braceReverse = 5;
-	public static int mainForward = 6;
-	public static int mainReverse = 7;
+	public static int ballHandlerLimit = 0;
+	public static int compressorAnalogPort = 4;
 
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:
