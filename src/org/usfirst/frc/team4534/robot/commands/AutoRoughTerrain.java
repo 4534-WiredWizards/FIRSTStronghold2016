@@ -10,6 +10,7 @@ public class AutoRoughTerrain extends CommandGroup {
 	public AutoRoughTerrain() {
 
 		System.out.println("Initiating AutoRoughTerrain");
+		Robot.arduinocomm.writeString("c");
 		
     	requires(Robot.drivetrain);
     	

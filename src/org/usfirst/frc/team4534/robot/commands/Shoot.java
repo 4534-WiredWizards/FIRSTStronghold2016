@@ -13,6 +13,7 @@ public class Shoot extends CommandGroup {
     	requires(Robot.ballhandler);
     	addSequential(new SpinUp(1));
     	addSequential(new Fire());
+    	Robot.arduinocomm.writeString("s");
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

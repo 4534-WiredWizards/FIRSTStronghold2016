@@ -14,6 +14,7 @@ public class AutoPortcullis extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.armpneumatics);
     	System.out.println("Initiating AutoPortcullis");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new ArmsDown(0));

@@ -14,6 +14,7 @@ public class AutoChevalDeFrise extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.armpneumatics);
     	System.out.println("Initiating AutoChevalDeFrise");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new ArmsUp(0));

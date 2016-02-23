@@ -13,6 +13,7 @@ public class AutoRockWall extends CommandGroup{
     public AutoRockWall() {
     	requires(Robot.drivetrain);
     	System.out.println("Initiating AutoRockWall");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));

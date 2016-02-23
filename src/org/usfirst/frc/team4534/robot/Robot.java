@@ -151,7 +151,7 @@ public class Robot extends IterativeRobot {
 			autonomousRoutine.start();
 			System.out.println("Auto Started!");
 		}
-		arduinocomm.writeString("b");
+		arduinocomm.writeString("c");
 		if (allianceColor == DriverStation.Alliance.Blue) {
 			// In the blue alliance
 			System.out.print("BLUE alliance");
@@ -169,7 +169,6 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
-		
 		if(accelerometer.getZ() >= 3.0){
 			autoDefenseChoice.cancel();
 			System.out.println("Accelometer value greater than 2.");

@@ -14,11 +14,12 @@ public class Fire extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballhandler);
-    	setTimeout(3);
+    	setTimeout(1);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.arduinocomm.writeString("s");
     }
 
     // Called repeatedly when this Command is scheduled to run

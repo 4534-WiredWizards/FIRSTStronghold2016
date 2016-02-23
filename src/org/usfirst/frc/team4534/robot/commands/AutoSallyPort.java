@@ -14,6 +14,7 @@ public class AutoSallyPort extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.armpneumatics);
     	System.out.println("Initiating AutoSallyPort");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new ArmsUp(0));

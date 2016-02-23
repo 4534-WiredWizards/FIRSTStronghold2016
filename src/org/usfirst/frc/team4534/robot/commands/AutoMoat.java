@@ -13,6 +13,7 @@ public class AutoMoat extends CommandGroup {
     public AutoMoat() {
     	requires(Robot.drivetrain);
     	System.out.println("Initiating AutoMoat");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));

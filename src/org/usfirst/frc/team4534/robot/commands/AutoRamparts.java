@@ -13,6 +13,7 @@ public class AutoRamparts extends CommandGroup {
     public AutoRamparts() {
     	requires(Robot.drivetrain);
     	System.out.println("Initiating AutoRamparts");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
