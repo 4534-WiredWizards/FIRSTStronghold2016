@@ -22,5 +22,8 @@ public class AutoRamparts extends CommandGroup {
     	
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }

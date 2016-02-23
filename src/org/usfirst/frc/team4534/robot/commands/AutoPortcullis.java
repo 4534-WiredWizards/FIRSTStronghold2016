@@ -28,6 +28,9 @@ public class AutoPortcullis extends CommandGroup {
     	addSequential(new ArmsUp(RobotMap.solenoidDelay));
     	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 
     // Called just before this Command runs the first time

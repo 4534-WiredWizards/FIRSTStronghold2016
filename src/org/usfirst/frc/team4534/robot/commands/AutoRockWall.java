@@ -21,5 +21,8 @@ public class AutoRockWall extends CommandGroup{
     	addSequential(new AutoDriveStraight(3, .4));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }

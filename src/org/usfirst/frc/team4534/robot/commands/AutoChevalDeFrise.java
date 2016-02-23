@@ -28,5 +28,8 @@ public class AutoChevalDeFrise extends CommandGroup {
     	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }

@@ -30,5 +30,8 @@ public class AutoSallyPort extends CommandGroup {
     	addSequential(new AutoDriveRotate(1, .4));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }

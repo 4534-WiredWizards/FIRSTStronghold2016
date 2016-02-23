@@ -28,5 +28,8 @@ public class AutoDrawbridge extends CommandGroup {
     	addParallel(new ArmsDown(0));
     	addParallel(new AutoDriveStraight(.5, -.4));
     	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }
