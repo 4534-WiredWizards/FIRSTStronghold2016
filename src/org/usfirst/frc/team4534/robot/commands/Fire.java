@@ -2,6 +2,7 @@ package org.usfirst.frc.team4534.robot.commands;
 
 import org.usfirst.frc.team4534.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -35,6 +36,16 @@ public class Fire extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.ballhandler.stop();
+    	Robot.arduinocomm.writeString("i");
+    	if (Robot.allianceColor == DriverStation.Alliance.Blue) {
+			// In the blue alliance
+			System.out.print("BLUE alliance");
+			Robot.arduinocomm.writeString("n");
+		} else if (Robot.allianceColor == DriverStation.Alliance.Red) {
+			// In the red alliance
+			Robot.arduinocomm.writeString("r");
+			System.out.print("RED alliance");
+		}
     }
 
     // Called when another command which requires one or more of the same

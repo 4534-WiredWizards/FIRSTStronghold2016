@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
 	public static Compressor compressor;
 	public static BuiltInAccelerometer accelerometer;
 	public static SerialPort arduinocomm;
-	public DriverStation.Alliance allianceColor;
+	public static DriverStation.Alliance allianceColor;
 
 	/**
 	 * This function is run when the robot is first started up and should be
