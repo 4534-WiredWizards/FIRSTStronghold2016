@@ -199,7 +199,7 @@ public class ControlSystem {
 	}
 
 	public static enum Button {
-		MOVE_FORWARD, MOVE_BACKWARD, TURN_RIGHT, TURN_LEFT, PRECISION, TURBO, SHOOT, AIM_SHOOT, INTAKE, LEFT_ARM_TOGGLE, RIGHT_ARM_TOGGLE, ARMS_DOWN, ARMS_UP, LEFT_CLICK, RIGHT_CLICK
+		MOVE_FORWARD, MOVE_BACKWARD, TURN_RIGHT, TURN_LEFT, PRECISION, TURBO, SHOOT, AIM_SHOOT, INTAKE, LEFT_ARM_TOGGLE, RIGHT_ARM_TOGGLE, ARMS_DOWN, ARMS_UP, LEFT_CLICK, RIGHT_CLICK, START, SELECT
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class ControlSystem {
 	 * @param button
 	 * @return
 	 */
-	private static final double getButtonLiteral(ButtonLiteral button) {
+	public static final double getButtonLiteral(ButtonLiteral button) {
 		Joystick j = Robot.oi.getJoystick();
 		double n = 0;
 		switch (button) {

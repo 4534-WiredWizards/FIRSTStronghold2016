@@ -19,7 +19,9 @@ import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
@@ -50,11 +52,11 @@ public class Robot extends IterativeRobot {
 	SendableChooser autoStartPos;
 	SendableChooser autoGoal;
 	public static boolean isAuto = false;
-	
+
 	public static BallHandler ballhandler;
 	public static Arms arms;
 	public static BuiltInAccelerometer accelerometer;
-	public static DriveEncoder leftEncoder,rightEncoder;
+	public static Encoder leftEncoder,rightEncoder;
 	public static Gyroscope gyroscope;
 	
 	public static JetsonVision jetsonvision;
@@ -79,7 +81,6 @@ public class Robot extends IterativeRobot {
 		allianceColor = DriverStation.getInstance().getAlliance();
 		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
 		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
-
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
@@ -139,6 +140,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		leftEncoder.reset();
+		rightEncoder.reset();
 		isAuto = true;
 		// schedule the autonomous command (example)
 		if (autoDefenseChoice != null) {
@@ -194,6 +197,8 @@ public class Robot extends IterativeRobot {
 		isAuto = false;
 		arduinocomm.writeString("t");
 		System.out.println("Beginning Teleop!");
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 
 	/**
@@ -206,6 +211,8 @@ public class Robot extends IterativeRobot {
 			autoDefenseChoice.cancel();
 		}
 		System.out.println("DISABLED!");
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 
 	/**
@@ -217,11 +224,14 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		LiveWindow.run();
 		ControlSystem.update();
+		jetsonvision.update();
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
 		SmartDashboard.putNumber("Gyro", gyroscope.pidGet());
 		LiveWindow.addSensor("Accelerometer", "Accelerometer", accelerometer);
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
+		SmartDashboard.putNumber("LeftEncoderCount", leftEncoder.get());
+		SmartDashboard.putNumber("RightEncoderCount", rightEncoder.get());
 	}
 
 	/**
@@ -230,8 +240,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		Scheduler.getInstance().run();
 		ControlSystem.update();
-		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder.getEncoder());
-		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder.getEncoder());
+		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder);
+		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder);
 		LiveWindow.addSensor("RoboRIO", "Accelerometer", accelerometer);
 		jetsonvision.update();
 		LiveWindow.addActuator("JetsonVision", "Jetson", jetsonvision);

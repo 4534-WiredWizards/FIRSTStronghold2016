@@ -11,7 +11,7 @@ public class Shoot extends CommandGroup {
     
     public  Shoot() {
     	requires(Robot.ballhandler);
-    	addSequential(new SpinUp(1, 1.5));
+    	addSequential(new SpinUp(1, .75));
     	addSequential(new Fire());
         // Add Commands here:
         // e.g. addSequential(new Command1());

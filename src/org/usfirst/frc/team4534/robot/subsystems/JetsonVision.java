@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.tables.ITable;
  */
 public class JetsonVision extends Subsystem implements LiveWindowSendable {
 
+	private static final int CACHE_MISSED_NUM = 3;
 	public JetsonVision.VisionTuple visionTuple;
 	private ITable table;
 	private NetworkTable visionTable;
+	private int missedCount = 0;
 
 	public JetsonVision() {
 		// instantiate with dummy data for now
@@ -61,6 +63,10 @@ public class JetsonVision extends Subsystem implements LiveWindowSendable {
 		public String toString() {
 			return "(" + this.distance + "," + this.angle + "," + this.center + ")";
 		}
+		
+		public boolean isDefault() {
+			return this.distance == -999 && this.angle == -999 && this.center == -999;
+		}
 	}
 
 	// Put methods for controlling this subsystem
@@ -72,9 +78,22 @@ public class JetsonVision extends Subsystem implements LiveWindowSendable {
 	public void update() {
 		System.out.println("Update Called");
 
-		this.visionTuple.setAngle(visionTable.getNumber("angle", -999));
-		this.visionTuple.setDistance(visionTable.getNumber("distance", -999));
-		this.visionTuple.setCenter(visionTable.getNumber("center",-999));
+		JetsonVision.VisionTuple newTuple = new JetsonVision.VisionTuple(-999, -999, -999);
+		
+		newTuple.setAngle(visionTable.getNumber("angle", -999));
+		newTuple.setDistance(visionTable.getNumber("distance", -999));
+		newTuple.setCenter(visionTable.getNumber("center",-999));
+		
+		if(newTuple.isDefault()) {
+			missedCount++;
+		} else {
+			this.visionTuple = newTuple;
+		}
+		
+		if(missedCount > CACHE_MISSED_NUM) {
+			missedCount = 0;
+			this.visionTuple = newTuple;
+		}
 
 		System.out.println("New vision tuple: " + this.visionTuple.toString());
 	}

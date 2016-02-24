@@ -20,17 +20,19 @@ public class BallHandler extends Subsystem {
 	private CANTalon shooter;
 	private CANTalon shooter2;
 	
-	private DigitalInput ballHandlerLimit;
+	private DigitalInput ballHandlerLimitLower, ballHandlerLimitUpper;
 	// Ball Handler may be referred to as 'Handler'.
 	public BallHandler(){
 		ballIntake = new Victor(RobotMap.ballIntake);
 		shooter = new CANTalon(RobotMap.shooter);
 		shooter2 = new CANTalon(RobotMap.shooter2);
-		ballHandlerLimit = new DigitalInput(RobotMap.ballHandlerLimit);
+		ballHandlerLimitLower = new DigitalInput(RobotMap.lowerBallHandlerLimit);
+		ballHandlerLimitUpper = new DigitalInput(RobotMap.upperBallHandlerLimit);
 		LiveWindow.addActuator("BallHandler", "Intake", ballIntake);
 		LiveWindow.addActuator("BallHandler", "Shooter 1", shooter);
 		LiveWindow.addActuator("BallHandler", "Shooter 2", shooter2);
-		LiveWindow.addSensor("BallHandler", "Limit", ballHandlerLimit);
+		LiveWindow.addSensor("BallHandler", "Limit Lower", ballHandlerLimitLower);
+		LiveWindow.addSensor("BallHandler", "Limit Upper", ballHandlerLimitUpper);
 		
 	}
     // Put methods for controlling this subsystem
@@ -54,6 +56,7 @@ public class BallHandler extends Subsystem {
 		shooter2.set(rate);
 		
 	}
+	
 	/**
 	 * Sets the intake motor speed.
 	 * @param rate How fast? -1 to 1
@@ -67,8 +70,11 @@ public class BallHandler extends Subsystem {
 		shooter2.set(0);
 		
 	}
-	public boolean getHandlerLimit(){
-		return ballHandlerLimit.get();
+	public boolean getLowerHandlerLimit(){
+		return ballHandlerLimitLower.get();
+	}
+	public boolean getUpperHandlerLimit() {
+		return ballHandlerLimitUpper.get();
 	}
     public void initDefaultCommand() {
     	setDefaultCommand(new BallHandlerStop());

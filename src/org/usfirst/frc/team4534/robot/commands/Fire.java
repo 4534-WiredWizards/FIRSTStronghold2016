@@ -14,7 +14,7 @@ public class Fire extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballhandler);
-    	setTimeout(3);
+    	setTimeout(2);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class Fire extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ballhandler.set(.5, 1);
+    	Robot.ballhandler.set(1, 1);
     }
 
     // Make this return true when this Command no longer needs to run execute()

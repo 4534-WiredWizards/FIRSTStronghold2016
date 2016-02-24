@@ -18,8 +18,8 @@ public class RobotMap {
 	// CAN
 	
 	public static int PCM = 1; //CAN ID 1
-	public static int shooter = 2; //CAN ID 2
-	public static int shooter2 = 3; // CAN ID 3
+	public static int shooter = 2; //CAN ID 2 (top wheel)
+	public static int shooter2 = 3; // CAN ID 3 (bottom wheel)
 
 	// Pneumatics
 	
@@ -34,11 +34,12 @@ public class RobotMap {
 	// e.g. if it says DIO0 on the MXP, it's referenced as DIO10 in the code
 
 	// Ball handler
-	public static int ballHandlerLimit = 0; // DIO0
+	public static int lowerBallHandlerLimit = 0; // DIO0
+	public static int upperBallHandlerLimit = 7; // DIO7
 	
 	// Arms
-	public static int armDownLimit = 7; // DIO7
-	public static int armUpLimit = 8; // DIO8
+	public static int armDownLimit = 8; // DIO8
+	public static int armUpLimit = 9; // DIO9
 	
 	// Encoders
 	public static int leftEncoderA = 1; // DIO1

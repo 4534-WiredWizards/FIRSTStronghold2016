@@ -2,7 +2,9 @@ package org.usfirst.frc.team4534.robot.subsystems;
 
 import org.usfirst.frc.team4534.robot.RobotMap;
 import org.usfirst.frc.team4534.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team4534.robot.commands.TankDriveWithJoystick;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -10,18 +12,18 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class DriveTrain extends Subsystem {
 
 	private RobotDrive drive;
-	private DriveEncoder leftEncoder;
-	private DriveEncoder rightEncoder;
+	private Encoder leftEncoder;
+	private Encoder rightEncoder;
 
 	// create instance of motor-configuration based robot drive
 	public DriveTrain() {
 		
 		drive = new RobotDrive(RobotMap.leftMotor, RobotMap.rightMotor);
-		leftEncoder = new DriveEncoder(drive, DriveEncoder.EncoderSide.LEFT);
-		rightEncoder = new DriveEncoder(drive, DriveEncoder.EncoderSide.RIGHT);
+		leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, RobotMap.leftEncoderX);
+		rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB, RobotMap.rightEncoderX); // 
 		//LiveWindow.addActuator("DriveTrain", "Left Motor", );
-		LiveWindow.addSensor("DriveTrain","LeftEncoder", leftEncoder.getEncoder());
-		LiveWindow.addSensor("DriveTrain", "RightEncoder", rightEncoder.getEncoder());
+		LiveWindow.addSensor("DriveTrain","LeftEncoder", leftEncoder);
+		LiveWindow.addSensor("DriveTrain", "RightEncoder", rightEncoder);
 	}
 
 	// enable arcade drive operation of the drivetrain
@@ -37,6 +39,11 @@ public class DriveTrain extends Subsystem {
 	 */
 	public void arcadeDrive(double forward, double rotate) {
 		drive.arcadeDrive(forward, rotate, true);
+		System.out.println("AD: "+forward+", "+rotate);
+	}
+	
+	public void tankDrive(double left, double right) {
+		drive.tankDrive(left, right);
 	}
 
 	/**
@@ -73,7 +80,7 @@ public class DriveTrain extends Subsystem {
 	}
 
 	// return the encoders
-	public DriveEncoder getEncoder(DriveEncoder.EncoderSide side) {
+	public Encoder getEncoder(DriveEncoder.EncoderSide side) {
 		switch (side) {
 		case LEFT:
 			return this.leftEncoder;
