@@ -27,7 +27,6 @@ public class RobotMap {
 	public static int rightArm = 1;	//PCM location
 	public static double solenoidDelay = 2;
 	public static double approachDelay = 2;
-	
 	// Sensors
 	// Digital Input Output (DIO) pins on the MXP port are the value they are
 	// listed at, plus 10
@@ -41,9 +40,9 @@ public class RobotMap {
 	public static int armDownLimit = 8; // DIO8
 	public static int armUpLimit = 9; // DIO9
 
-	public static int EncoderA = 1; // DIO1
-	public static int EncoderB = 2; // DIO2
-	public static int EncoderX = 3; // DIO3
+	public static int EncoderA = 4; // DIO1
+	public static int EncoderB = 5; // DIO2
+	public static int EncoderX = 6; // DIO3
 	
 
 	// If you are using multiple modules, make sure to define both the port

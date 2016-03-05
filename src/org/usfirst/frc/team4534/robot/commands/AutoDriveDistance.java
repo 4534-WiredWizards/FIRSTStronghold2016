@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *Drives the robot a distance, equal to the distance parameter, in inches.
+ *@param distance in inches, how far the robot will travel.
  */
 public class AutoDriveDistance extends Command {
 private Encoder encoder;
@@ -39,6 +40,7 @@ private double distance;
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.drivetrain.stop();
     }
 
     // Called when another command which requires one or more of the same

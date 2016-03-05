@@ -32,12 +32,7 @@ public class DriveTrain extends Subsystem {
 	 *            the value of rotation. Between -1 & 1.
 	 */
 	public void arcadeDrive(double forward, double rotate) {
-		drive.arcadeDrive(forward, rotate, true);
-		System.out.println("AD: "+forward+", "+rotate);
-	}
-	
-	public void tankDrive(double left, double right) {
-		drive.tankDrive(left, right);
+		drive.arcadeDrive(-forward, rotate, true);
 	}
 
 	/**
@@ -49,7 +44,7 @@ public class DriveTrain extends Subsystem {
 	 *            BACKWARD) to +1 (Full speed FORWARD).
 	 */
 	public void straightDrive(double speed) {
-		drive.drive(speed, 0);
+		drive.drive(-speed, 0);
 	}
 	
 	public RobotDrive getRobotDrive() {
@@ -63,7 +58,7 @@ public class DriveTrain extends Subsystem {
 	 * @author Tom Sanford
 	 */
 	public void stop() {
-		drive.arcadeDrive(0, 0);
+		drive.arcadeDrive(-0, 0);
 	}
 
 	public void turn(double value) {

@@ -2,6 +2,7 @@ package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
 import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
+import org.usfirst.frc.team4534.robot.commands.AutoDriveDistance;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
 import org.usfirst.frc.team4534.robot.commands.AutoMoat;
 import org.usfirst.frc.team4534.robot.commands.AutoPortcullis;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
 import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
+import org.usfirst.frc.team4534.robot.subsystems.Compressor;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
@@ -74,8 +76,9 @@ public class Robot extends IterativeRobot {
 		ballhandler = new BallHandler();
 		gyroscope = new Gyroscope();
 		jetsonvision = new JetsonVision();
-		arms = new Arms();
-		encoder = new Encoder(RobotMap.EncoderA, RobotMap.EncoderB, RobotMap.EncoderX);
+		armpneumatics = new ArmPneumatics();
+		encoder = new Encoder(RobotMap.EncoderA, RobotMap.EncoderB);
+		encoder.setDistancePerPulse(12.0/1038.0);
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
@@ -90,7 +93,7 @@ public class Robot extends IterativeRobot {
 		autoDefense.addObject("Rock Wall", new AutoRockWall());
 		autoDefense.addObject("Moat", new AutoMoat());
 		autoDefense.addObject("Ramparts", new AutoRamparts());
-		autoDefense.addObject("Approach", new AutoDriveStraight(RobotMap.approachDelay, .4));
+		autoDefense.addObject("Approach", new AutoDriveDistance(74)); //72 inches to reach the 
 		SmartDashboard.putData("Auto Defense", autoDefense);
 		
 		//Right Now, only autoDefense will be used.
@@ -141,14 +144,16 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		isAuto = true;
 		// schedule the autonomous command (example)
-		
+		encoder.reset();
 
 		autoDefenseChoice = (Command) autoDefense.getSelected();
 		autoPositionChoice = (int) autoStartPos.getSelected();
 		autoGoalChoice = (int) autoGoal.getSelected();
 		autonomousRoutine.addSequential(autoDefenseChoice);
 		autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
+		if (autoGoalChoice != 0){
 		autonomousRoutine.addSequential(new AimAndShoot());
+		}
 		if (autoDefenseChoice != null) {
 			autonomousRoutine.start();
 			System.out.println("Auto Started!");
@@ -192,6 +197,7 @@ public class Robot extends IterativeRobot {
 		isAuto = false;
 		arduinocomm.writeString("i");
 		System.out.println("Beginning Teleop!");
+		encoder.reset();
 	}
 
 	/**
@@ -238,7 +244,10 @@ public class Robot extends IterativeRobot {
 		jetsonvision.update();
 		LiveWindow.addActuator("JetsonVision", "Jetson", jetsonvision);
 		LiveWindow.run();
-		System.out.println(encoder.get());
+		System.out.print("EncoderPulses: ");
+		System.out.print(encoder.get());
+		System.out.print("EncoderDist: ");
+		System.out.println(encoder.getDistance());
 		
 	}
 }

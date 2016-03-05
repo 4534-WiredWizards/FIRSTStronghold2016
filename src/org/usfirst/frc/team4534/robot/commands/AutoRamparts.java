@@ -16,7 +16,7 @@ public class AutoRamparts extends CommandGroup {
     	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
-    		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    		addParallel(new AutoDriveDistance(72));
     	}
     	addSequential(new AutoDriveStraight(3, .4));
     	
