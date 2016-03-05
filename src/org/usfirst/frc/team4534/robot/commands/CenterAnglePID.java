@@ -2,8 +2,6 @@ package org.usfirst.frc.team4534.robot.commands;
 
 import org.usfirst.frc.team4534.robot.Robot;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDController.Tolerance;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -47,6 +45,7 @@ public class CenterAnglePID extends PIDCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.jetsonvision.update();
     	//TARGET_DISTANCE = SmartDashboard.getNumber("TurnTo");
     	
     	this.angleBuffer[aBufferIndex] = getPosition();
@@ -89,13 +88,14 @@ public class CenterAnglePID extends PIDCommand {
 	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
+		Robot.jetsonvision.update();
 		return Robot.jetsonvision.getCurrentTuple().getCenter();
 	}
 
 	@Override
 	protected void usePIDOutput(double output) {
 		// TODO Auto-generated method stub
-		Robot.drivetrain.turn(-output);
-		SmartDashboard.putNumber("PID Set", -output);
+		Robot.drivetrain.turn(output);
+		SmartDashboard.putNumber("PID Set", output);
 	}
 }

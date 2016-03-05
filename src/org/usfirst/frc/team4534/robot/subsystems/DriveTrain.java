@@ -12,18 +12,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class DriveTrain extends Subsystem {
 
 	private RobotDrive drive;
-	private Encoder leftEncoder;
-	private Encoder rightEncoder;
 
 	// create instance of motor-configuration based robot drive
 	public DriveTrain() {
 		
-		drive = new RobotDrive(RobotMap.leftMotor, RobotMap.rightMotor);
-		leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB, RobotMap.leftEncoderX);
-		rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB, RobotMap.rightEncoderX); // 
+		drive = new RobotDrive(RobotMap.leftMotor, RobotMap.rightMotor); 
 		//LiveWindow.addActuator("DriveTrain", "Left Motor", );
-		LiveWindow.addSensor("DriveTrain","LeftEncoder", leftEncoder);
-		LiveWindow.addSensor("DriveTrain", "RightEncoder", rightEncoder);
 	}
 
 	// enable arcade drive operation of the drivetrain
@@ -82,15 +76,4 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new DriveWithJoystick());
 	}
 
-	// return the encoders
-	public Encoder getEncoder(DriveEncoder.EncoderSide side) {
-		switch (side) {
-		case LEFT:
-			return this.leftEncoder;
-		case RIGHT:
-			return this.rightEncoder;
-		default:
-			return null;
-		}
-	}
 }

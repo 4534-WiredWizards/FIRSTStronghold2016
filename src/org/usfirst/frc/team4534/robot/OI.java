@@ -36,8 +36,8 @@ public class OI {
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
 		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new DriveStraight(-0.4)));*/
 		SmartDashboard.putNumber("TurnTo", 0);
-		ControlSystem.addButtonListener(new CommandButton(Button.START, new CenterAnglePID()));
-		ControlSystem.addButtonListener(new CommandButton(Button.SELECT, new CenterDistancePID()));
+		ControlSystem.addButtonListener(new CommandButton(Button.START, new CenterAngle()));
+		ControlSystem.addButtonListener(new CommandButton(Button.SELECT, new CenterDistance()));
 	}
 
 	public Joystick getJoystick() {

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
-import org.usfirst.frc.team4534.robot.commands.AutoChevalDeFrise;
 import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
 import org.usfirst.frc.team4534.robot.commands.AutoMoat;
@@ -11,18 +10,15 @@ import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
+import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
 import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
-import org.usfirst.frc.team4534.robot.subsystems.Compressor;
-import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
-import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder.EncoderSide;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -59,11 +55,8 @@ public class Robot extends IterativeRobot {
 
 	public static BallHandler ballhandler;
 	public static Arms arms;
-	public static ArmPneumatics armpneumatics;
-	public static Compressor compressor;
 	public static Encoder encoder;
 	public static BuiltInAccelerometer accelerometer;
-	public static Encoder leftEncoder,rightEncoder;
 	public static Gyroscope gyroscope;
 	
 	public static JetsonVision jetsonvision;
@@ -82,19 +75,15 @@ public class Robot extends IterativeRobot {
 		gyroscope = new Gyroscope();
 		jetsonvision = new JetsonVision();
 		arms = new Arms();
-		armpneumatics = new ArmPneumatics();
 		encoder = new Encoder(RobotMap.EncoderA, RobotMap.EncoderB, RobotMap.EncoderX);
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
 		allianceColor = DriverStation.getInstance().getAlliance();
-		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
-		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
 		autoDefense.addObject("Portcullis", new AutoPortcullis());
-		autoDefense.addObject("Cheval de Frise", new AutoChevalDeFrise());
 		autoDefense.addObject("Sally Port", new AutoSallyPort());
 		autoDefense.addObject("Drawbridge", new AutoDrawbridge());
 		autoDefense.addObject("Rough Terrain", new AutoRoughTerrain());
@@ -150,8 +139,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		leftEncoder.reset();
-		rightEncoder.reset();
 		isAuto = true;
 		// schedule the autonomous command (example)
 		
@@ -205,8 +192,6 @@ public class Robot extends IterativeRobot {
 		isAuto = false;
 		arduinocomm.writeString("i");
 		System.out.println("Beginning Teleop!");
-		leftEncoder.reset();
-		rightEncoder.reset();
 	}
 
 	/**
@@ -219,8 +204,6 @@ public class Robot extends IterativeRobot {
 			autonomousRoutine.cancel();
 		}
 		System.out.println("DISABLED!");
-		leftEncoder.reset();
-		rightEncoder.reset();
 	}
 
 	/**
@@ -236,10 +219,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
 		SmartDashboard.putNumber("Gyro", gyroscope.pidGet());
+		SmartDashboard.putNumber("Center", jetsonvision.getCurrentTuple().getCenter());
 		LiveWindow.addSensor("Accelerometer", "Accelerometer", accelerometer);
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
-		SmartDashboard.putNumber("LeftEncoderCount", leftEncoder.get());
-		SmartDashboard.putNumber("RightEncoderCount", rightEncoder.get());
 		if(Timer.getMatchTime() >= 130.0){
 			arduinocomm.writeString("z");
 		}
@@ -252,8 +234,6 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		Scheduler.getInstance().run();
 		ControlSystem.update();
-		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder);
-		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder);
 		LiveWindow.addSensor("RoboRIO", "Accelerometer", accelerometer);
 		jetsonvision.update();
 		LiveWindow.addActuator("JetsonVision", "Jetson", jetsonvision);
