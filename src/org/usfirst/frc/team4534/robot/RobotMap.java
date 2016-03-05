@@ -25,9 +25,9 @@ public class RobotMap {
 	public static double solenoidDelay = 2;
 	public static double approachDelay = 2;
 	
-	public static int EncoderA = 1; // DIO1
-	public static int EncoderB = 2; // DIO2
-	public static int EncoderX = 3; // DIO3
+	public static int EncoderA = 4; // DIO1
+	public static int EncoderB = 5; // DIO2
+	public static int EncoderX = 6; // DIO3
 	
 
 	// If you are using multiple modules, make sure to define both the port

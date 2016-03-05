@@ -33,10 +33,10 @@ public class DriveEncoder extends PIDSubsystem {
 		// make the encoder
 		switch(side) {
 			case LEFT:
-				encoder = new Encoder(RobotMap.leftEncoderA,RobotMap.leftEncoderB,RobotMap.leftEncoderX);
+				//encoder = new Encoder(RobotMap.leftEncoderA,RobotMap.leftEncoderB,RobotMap.leftEncoderX);
 				break;
 			case RIGHT:
-				encoder = new Encoder(RobotMap.rightEncoderA,RobotMap.rightEncoderB,RobotMap.rightEncoderX);
+				//encoder = new Encoder(RobotMap.rightEncoderA,RobotMap.rightEncoderB,RobotMap.rightEncoderX);
 				break;
 		}
 		

@@ -24,7 +24,7 @@ public class DriveTrain extends Subsystem {
 	 * @param rotate the value of rotation. Between -1 & 1.
 	 */
 	public void arcadeDrive(double forward, double rotate) {
-		drive.arcadeDrive(forward, rotate, true);
+		drive.arcadeDrive(-forward, rotate, true);
 	}
 	/**
 	 * Drives the robot without turning.
@@ -32,7 +32,7 @@ public class DriveTrain extends Subsystem {
 	 * @param speed Amount of power given to motors, ranging from -1 (Full speed BACKWARD) to +1 (Full speed FORWARD).
 	 */
 	public void straightDrive(double speed) {
-		drive.drive(speed, 0);
+		drive.drive(-speed, 0);
 	}
 	
 	public RobotDrive getRobotDrive() {
@@ -45,7 +45,7 @@ public class DriveTrain extends Subsystem {
 	 * @author Tom Sanford
 	 */
 	public void stop() {
-		drive.arcadeDrive(0, 0);
+		drive.arcadeDrive(-0, 0);
 	}
 	// Set the default command for a subsystem here.
 	@Override
