@@ -35,6 +35,9 @@ public class DriveTrain extends Subsystem {
 		drive.drive(speed, 0);
 	}
 	
+	public RobotDrive getRobotDrive() {
+		return this.drive;
+	}
 	// sets motor speed to 0 on each motor
 	
 	/**

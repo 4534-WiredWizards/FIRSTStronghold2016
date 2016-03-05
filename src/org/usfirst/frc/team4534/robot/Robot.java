@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4534.robot;
 
+import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
 import org.usfirst.frc.team4534.robot.commands.AutoChevalDeFrise;
 import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
@@ -14,12 +15,15 @@ import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
 import org.usfirst.frc.team4534.robot.subsystems.ArmPneumatics;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.Compressor;
+import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
+import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder.EncoderSide;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -56,6 +60,7 @@ public class Robot extends IterativeRobot {
 	public static BallHandler ballhandler;
 	public static ArmPneumatics armpneumatics;
 	public static Compressor compressor;
+	public static Encoder encoder;
 	public static BuiltInAccelerometer accelerometer;
 	public static SerialPort arduinocomm;
 	public static DriverStation.Alliance allianceColor;
@@ -71,9 +76,11 @@ public class Robot extends IterativeRobot {
 		ballhandler = new BallHandler();
 		jetsonvision = new JetsonVision();
 		armpneumatics = new ArmPneumatics();
+		encoder = new Encoder(RobotMap.EncoderA, RobotMap.EncoderB, RobotMap.EncoderX);
+		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
+		
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
-		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
 		allianceColor = DriverStation.getInstance().getAlliance();
 		
 		autoDefense = new SendableChooser();
@@ -115,7 +122,8 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putData((NamedSendable) oi);
 
 		// instantiate the command used for the autonsomous period
-		autoDefenseChoice = new CommandGroup();
+		autonomousRoutine = new CommandGroup();
+		
 
 		// autoChooser = new SendableChooser();
 		// autoChooser.addObject("Drive Straight", new Autonomous());
@@ -126,9 +134,9 @@ public class Robot extends IterativeRobot {
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		if (autoDefenseChoice != null) {
-			if (autoDefenseChoice.isRunning()) {
-				autoDefenseChoice.cancel();
+		if (autonomousRoutine != null) {
+			if (autonomousRoutine.isRunning()) {
+				autonomousRoutine.cancel();
 			}
 		}
 	}
@@ -136,17 +144,14 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		isAuto = true;
 		// schedule the autonomous command (example)
-		if (autoDefenseChoice != null) {
-			if (autoDefenseChoice.isRunning()) {
-				autoDefenseChoice.cancel();
-			}
-		}
+		
 
 		autoDefenseChoice = (Command) autoDefense.getSelected();
 		autoPositionChoice = (int) autoStartPos.getSelected();
 		autoGoalChoice = (int) autoGoal.getSelected();
 		autonomousRoutine.addSequential(autoDefenseChoice);
-		//autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
+		autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
+		autonomousRoutine.addSequential(new AimAndShoot());
 		if (autoDefenseChoice != null) {
 			autonomousRoutine.start();
 			System.out.println("Auto Started!");
@@ -154,12 +159,12 @@ public class Robot extends IterativeRobot {
 		arduinocomm.writeString("c");
 		if (allianceColor == DriverStation.Alliance.Blue) {
 			// In the blue alliance
-			System.out.print("BLUE alliance");
+			System.out.println("BLUE alliance");
 			arduinocomm.writeString("n");
 		} else if (allianceColor == DriverStation.Alliance.Red) {
 			// In the red alliance
 			arduinocomm.writeString("r");
-			System.out.print("RED alliance");
+			System.out.println("RED alliance");
 		}
 		}
 
@@ -173,6 +178,7 @@ public class Robot extends IterativeRobot {
 			autoDefenseChoice.cancel();
 			System.out.println("Accelometer value greater than 2.");
 		}
+		arduinocomm.writeString("~");
 
 	}
 
@@ -181,9 +187,10 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autoDefenseChoice != null) {
-			autoDefenseChoice.cancel();
+		if (autonomousRoutine != null) {
+			autonomousRoutine.cancel();
 		}
+		
 		isAuto = false;
 		arduinocomm.writeString("i");
 		System.out.println("Beginning Teleop!");
@@ -195,8 +202,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void disabledInit() {
 		isAuto = false;
-		if (autoDefenseChoice != null) {
-			autoDefenseChoice.cancel();
+		if (autonomousRoutine != null) {
+			autonomousRoutine.cancel();
 		}
 		System.out.println("DISABLED!");
 	}
@@ -218,7 +225,7 @@ public class Robot extends IterativeRobot {
 		if(Timer.getMatchTime() >= 130.0){
 			arduinocomm.writeString("z");
 		}
-		
+		arduinocomm.writeString("~");
 	}
 
 	/**
@@ -226,6 +233,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
+		System.out.println(encoder.get());
 		
 	}
 }
