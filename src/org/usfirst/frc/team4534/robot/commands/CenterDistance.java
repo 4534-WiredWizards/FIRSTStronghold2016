@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CenterDistance extends Command {
 
 	private double difference;
-	private final double TARGET = 171.0;
+	private final double TARGET = 178.0;
 
 	public CenterDistance() {
 		// Use requires() here to declare subsystem dependencies

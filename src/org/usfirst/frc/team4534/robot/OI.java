@@ -3,7 +3,9 @@ package org.usfirst.frc.team4534.robot;
 import org.usfirst.frc.team4534.robot.ControlSystem.Button;
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
 import org.usfirst.frc.team4534.robot.commands.CenterAngle;
+import org.usfirst.frc.team4534.robot.commands.CenterAnglePID;
 import org.usfirst.frc.team4534.robot.commands.CenterDistance;
+import org.usfirst.frc.team4534.robot.commands.CenterDistancePID;
 import org.usfirst.frc.team4534.robot.commands.IntakeBall;
 import org.usfirst.frc.team4534.robot.commands.LowGoal;
 import org.usfirst.frc.team4534.robot.commands.Shoot;
@@ -34,8 +36,8 @@ public class OI {
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
 		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new DriveStraight(-0.4)));*/
 		SmartDashboard.putNumber("TurnTo", 0);
-		ControlSystem.addButtonListener(new CommandButton(Button.START, new CenterAngle()));
-		ControlSystem.addButtonListener(new CommandButton(Button.SELECT, new CenterDistance()));
+		ControlSystem.addButtonListener(new CommandButton(Button.START, new CenterAnglePID()));
+		ControlSystem.addButtonListener(new CommandButton(Button.SELECT, new CenterDistancePID()));
 	}
 
 	public Joystick getJoystick() {

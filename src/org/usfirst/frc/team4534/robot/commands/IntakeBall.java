@@ -23,7 +23,7 @@ public class IntakeBall extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(!Robot.ballhandler.getLowerHandlerLimit() && !Robot.ballhandler.getUpperHandlerLimit()) {
-        	Robot.ballhandler.setIntake(.45);
+        	Robot.ballhandler.setIntake(.60);
         	Robot.ballhandler.setShooter(-0.2);
     	}
     	if(Robot.ballhandler.getLowerHandlerLimit() && !Robot.ballhandler.getUpperHandlerLimit()) {
@@ -43,6 +43,7 @@ public class IntakeBall extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.ballhandler.stop();
+    	Robot.arduinocomm.writeString("l");
     }
 
     // Called when another command which requires one or more of the same
