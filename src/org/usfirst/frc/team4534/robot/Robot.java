@@ -1,14 +1,29 @@
 package org.usfirst.frc.team4534.robot;
 
+import org.usfirst.frc.team4534.robot.commands.AutoChevalDeFrise;
+import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
-import org.usfirst.frc.team4534.robot.commands.Autonomous;
+import org.usfirst.frc.team4534.robot.commands.AutoMoat;
+import org.usfirst.frc.team4534.robot.commands.AutoPortcullis;
+import org.usfirst.frc.team4534.robot.commands.AutoRamparts;
+import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
+import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
+import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
+import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
+import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team4534.robot.subsystems.Gyroscope;
+import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -30,12 +45,23 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	// Command auto;
 	Command autoDefenseChoice;
+	int autoPositionChoice;
+	int autoGoalChoice;
+	CommandGroup autonomousRoutine;
 	SendableChooser autoDefense;
 	SendableChooser autoStartPos;
 	SendableChooser autoGoal;
-	
+	public static boolean isAuto = false;
+
 	public static BallHandler ballhandler;
+	public static Arms arms;
 	public static BuiltInAccelerometer accelerometer;
+	public static Encoder leftEncoder,rightEncoder;
+	public static Gyroscope gyroscope;
+	
+	public static JetsonVision jetsonvision;
+	public static SerialPort arduinocomm;
+	public DriverStation.Alliance allianceColor;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -46,40 +72,45 @@ public class Robot extends IterativeRobot {
 
 		drivetrain = new DriveTrain();
 		ballhandler = new BallHandler();
+		gyroscope = new Gyroscope();
+		jetsonvision = new JetsonVision();
+		arms = new Arms();
 		oi = new OI();
 		accelerometer = new BuiltInAccelerometer();
+		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
+		allianceColor = DriverStation.getInstance().getAlliance();
+		leftEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.LEFT);
+		rightEncoder = drivetrain.getEncoder(DriveEncoder.EncoderSide.RIGHT);
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
-		autoDefense.addObject("Portcullis", new DriveStop());
-		autoDefense.addObject("Cheval de Frise", new DriveStop());
-		autoDefense.addObject("Sally Port", new DriveStop());
-		autoDefense.addObject("Drawbridge", new DriveStop());
-		autoDefense.addObject("Rough Terrain", new Autonomous());
-		autoDefense.addObject("Rock Wall", new DriveStop());
-		autoDefense.addObject("Moat", new DriveStop());
-		autoDefense.addObject("Ramparts", new DriveStop());
-		autoDefense.addObject("Secret Passage", new AutoDriveStraight(3, .35));
+		autoDefense.addObject("Portcullis", new AutoPortcullis());
+		autoDefense.addObject("Cheval de Frise", new AutoChevalDeFrise());
+		autoDefense.addObject("Sally Port", new AutoSallyPort());
+		autoDefense.addObject("Drawbridge", new AutoDrawbridge());
+		autoDefense.addObject("Rough Terrain", new AutoRoughTerrain());
+		autoDefense.addObject("Rock Wall", new AutoRockWall());
+		autoDefense.addObject("Moat", new AutoMoat());
+		autoDefense.addObject("Ramparts", new AutoRamparts());
+		autoDefense.addObject("Approach", new AutoDriveStraight(RobotMap.approachDelay, .4));
 		SmartDashboard.putData("Auto Defense", autoDefense);
 		
 		//Right Now, only autoDefense will be used.
 		autoStartPos = new SendableChooser();
-		autoStartPos.addObject("1 (Low Bar)", new DriveStop());
-		autoStartPos.addObject("2", new DriveStop());
-		autoStartPos.addObject("3", new DriveStop());
-		autoStartPos.addObject("4", new DriveStop());
-		autoStartPos.addObject("5", new DriveStop());
-		autoStartPos.addDefault("6 (Secret Passage)", new DriveStop());
+		autoStartPos.addObject("1 (Low Bar)", 1);
+		autoStartPos.addObject("2", 2);
+		autoStartPos.addObject("3", 3);
+		autoStartPos.addObject("4", 4);
+		autoStartPos.addObject("5", 5);
 		SmartDashboard.putData("Auto Position", autoStartPos);
 		//Right Now, this does nothing
 		autoGoal = new SendableChooser();
-		autoGoal.addObject("High Left", new DriveStop());
-		autoGoal.addObject("High Center", new DriveStop());
-		autoGoal.addObject("High Right", new DriveStop());
-		autoGoal.addObject("Low Left", new DriveStop());
-		autoGoal.addObject("Low Center", new DriveStop());
-		autoGoal.addObject("Low Right", new DriveStop());
-		autoGoal.addDefault("NO Shooting", new DriveStop());
+		autoGoal.addObject("High Left", 1);
+		autoGoal.addObject("High Center", 2);
+		autoGoal.addObject("High Right", 3);
+		autoGoal.addObject("Low Left", 4);
+		autoGoal.addObject("Low Right", 5);
+		autoGoal.addDefault("NO Shooting", 0);
 		SmartDashboard.putData("Auto Goal", autoGoal);
 
 		ControlSystem.init();
@@ -89,7 +120,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(ballhandler);
 		// SmartDashboard.putData((NamedSendable) oi);
 
-		// instantiate the command used for the autonomous period
+		// instantiate the command used for the autonsomous period
 		autoDefenseChoice = new CommandGroup();
 
 		// autoChooser = new SendableChooser();
@@ -109,6 +140,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		leftEncoder.reset();
+		rightEncoder.reset();
+		isAuto = true;
 		// schedule the autonomous command (example)
 		if (autoDefenseChoice != null) {
 			if (autoDefenseChoice.isRunning()) {
@@ -117,20 +151,32 @@ public class Robot extends IterativeRobot {
 		}
 
 		autoDefenseChoice = (Command) autoDefense.getSelected();
+		autoPositionChoice = (int) autoStartPos.getSelected();
+		autoGoalChoice = (int) autoGoal.getSelected();
+		autonomousRoutine.addSequential(autoDefenseChoice);
+		//autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
 		if (autoDefenseChoice != null) {
-			// autonomousCommand = (Command) autoChooser.getSelected();
-			autoDefenseChoice.start();
+			autonomousRoutine.start();
 			System.out.println("Auto Started!");
-		
-		
 		}
-	}
+		arduinocomm.writeString("b");
+		if (allianceColor == DriverStation.Alliance.Blue) {
+			// In the blue alliance
+			System.out.print("BLUE alliance");
+			arduinocomm.writeString("n");
+		} else if (allianceColor == DriverStation.Alliance.Red) {
+			// In the red alliance
+			arduinocomm.writeString("r");
+			System.out.print("RED alliance");
+		}
+		}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		LiveWindow.run();
 		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
 		
 		if(accelerometer.getZ() >= 3.0){
@@ -148,7 +194,11 @@ public class Robot extends IterativeRobot {
 		if (autoDefenseChoice != null) {
 			autoDefenseChoice.cancel();
 		}
+		isAuto = false;
+		arduinocomm.writeString("t");
 		System.out.println("Beginning Teleop!");
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 
 	/**
@@ -156,10 +206,13 @@ public class Robot extends IterativeRobot {
 	 * to reset subsystems before shutting down.
 	 */
 	public void disabledInit() {
+		isAuto = false;
 		if (autoDefenseChoice != null) {
 			autoDefenseChoice.cancel();
 		}
 		System.out.println("DISABLED!");
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 
 	/**
@@ -167,21 +220,31 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	public void teleopPeriodic() {
-		System.out.println("is running...");
+		//System.out.println("is running...");
 		Scheduler.getInstance().run();
+		LiveWindow.run();
+		ControlSystem.update();
+		jetsonvision.update();
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
-		SmartDashboard.putNumber("AcelY", ControlSystem.getMoveAxisAccelY());
-		SmartDashboard.putNumber("AcelX", ControlSystem.getMoveAxisAccelX());
-		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
-		ControlSystem.update();
+		SmartDashboard.putNumber("Gyro", gyroscope.pidGet());
+		LiveWindow.addSensor("Accelerometer", "Accelerometer", accelerometer);
 		SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
+		SmartDashboard.putNumber("LeftEncoderCount", leftEncoder.get());
+		SmartDashboard.putNumber("RightEncoderCount", rightEncoder.get());
 	}
 
 	/**
 	 * This function is called periodically during test mode
 	 */
 	public void testPeriodic() {
+		Scheduler.getInstance().run();
+		ControlSystem.update();
+		LiveWindow.addSensor("DriveTrain","Left Encoder",leftEncoder);
+		LiveWindow.addSensor("DriveTrain", "Right Encoder", rightEncoder);
+		LiveWindow.addSensor("RoboRIO", "Accelerometer", accelerometer);
+		jetsonvision.update();
+		LiveWindow.addActuator("JetsonVision", "Jetson", jetsonvision);
 		LiveWindow.run();
 	}
 }
