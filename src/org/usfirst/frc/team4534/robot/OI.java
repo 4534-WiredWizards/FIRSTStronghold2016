@@ -2,13 +2,12 @@ package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.ControlSystem.Button;
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
-import org.usfirst.frc.team4534.robot.commands.ArmToggle;
 import org.usfirst.frc.team4534.robot.commands.CenterAngle;
 import org.usfirst.frc.team4534.robot.commands.CenterDistance;
 import org.usfirst.frc.team4534.robot.commands.IntakeBall;
+import org.usfirst.frc.team4534.robot.commands.LowGoal;
 import org.usfirst.frc.team4534.robot.commands.Shoot;
 import org.usfirst.frc.team4534.robot.controls.CommandButton;
-import org.usfirst.frc.team4534.robot.commands.TurnToAngle;
 import org.usfirst.frc.team4534.robot.controls.CommandButtonTap;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,6 +25,7 @@ public class OI {
 		ControlSystem.addButtonListener(new CommandButtonTap(Button.AIM_SHOOT, new AimAndShoot()));
 		ControlSystem.addButtonListener(new CommandButtonTap(Button.SHOOT, new Shoot()));
 		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
+		ControlSystem.addButtonListener(new CommandButton(Button.LOW_GOAL, new LowGoal()));
 		//ControlSystem.addButtonListener(new CommandButtonTap(Button.RIGHT_CLICK, new ArmToggle()));
 		
 		

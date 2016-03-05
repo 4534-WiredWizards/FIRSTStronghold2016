@@ -43,6 +43,8 @@ public class DefaultMap implements ControlMap {
 			return ButtonLiteral.STICK_RIGHT_CLICK;
 		case LEFT_CLICK:
 			return ButtonLiteral.STICK_LEFT_CLICK;
+		case LOW_GOAL:
+			return ButtonLiteral.B;
 		default:
 			return ButtonLiteral.A;
 		}
