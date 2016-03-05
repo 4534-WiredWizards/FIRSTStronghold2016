@@ -18,6 +18,7 @@ public class IntakeBall extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.arduinocomm.writeString("l");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -43,7 +44,8 @@ public class IntakeBall extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.ballhandler.stop();
-    	Robot.arduinocomm.writeString("l");
+    	Robot.arduinocomm.writeString("v");
+    	Robot.arduinocomm.writeString("i");
     }
 
     // Called when another command which requires one or more of the same

@@ -13,6 +13,7 @@ public class AutoMoat extends CommandGroup {
     public AutoMoat() {
     	requires(Robot.drivetrain);
     	System.out.println("Initiating AutoMoat");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
@@ -21,5 +22,8 @@ public class AutoMoat extends CommandGroup {
     	
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }

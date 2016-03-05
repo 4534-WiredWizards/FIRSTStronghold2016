@@ -40,14 +40,11 @@ public class RobotMap {
 	// Arms
 	public static int armDownLimit = 8; // DIO8
 	public static int armUpLimit = 9; // DIO9
+
+	public static int EncoderA = 1; // DIO1
+	public static int EncoderB = 2; // DIO2
+	public static int EncoderX = 3; // DIO3
 	
-	// Encoders
-	public static int leftEncoderA = 1; // DIO1
-	public static int leftEncoderB = 2; // DIO2
-	public static int leftEncoderX = 3; // DIO3
-	public static int rightEncoderA = 4; // DIO4
-	public static int rightEncoderB = 5; // DIO5
-	public static int rightEncoderX = 6; // DIO6
 
 	// If you are using multiple modules, make sure to define both the port
 	// number and the module. For example you with a rangefinder:

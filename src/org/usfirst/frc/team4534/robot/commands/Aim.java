@@ -36,6 +36,7 @@ public class Aim extends Command {
     	visionTuple = Robot.jetsonvision.getCurrentTuple();
     	rotationOkay = false;
     	distanceOkay = false;
+    	Robot.arduinocomm.writeString("c");
     }
 
     // Called repeatedly when this Command is scheduled to run

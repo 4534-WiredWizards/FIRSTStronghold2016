@@ -14,6 +14,7 @@ public class AutoSallyPort extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.arms);
     	System.out.println("Initiating AutoSallyPort");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new MoveArms(0.5,1.5));
@@ -29,5 +30,8 @@ public class AutoSallyPort extends CommandGroup {
     	addSequential(new AutoDriveRotate(1, .4));
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }

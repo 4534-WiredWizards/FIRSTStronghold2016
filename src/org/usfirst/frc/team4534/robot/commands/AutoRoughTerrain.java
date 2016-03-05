@@ -10,6 +10,7 @@ public class AutoRoughTerrain extends CommandGroup {
 	public AutoRoughTerrain() {
 
 		System.out.println("Initiating AutoRoughTerrain");
+		Robot.arduinocomm.writeString("c");
 		
     	requires(Robot.drivetrain);
     	
@@ -17,6 +18,9 @@ public class AutoRoughTerrain extends CommandGroup {
     		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
     	}
     	addSequential(new AutoDriveStraight(3, .4));
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
 
 	}
 }

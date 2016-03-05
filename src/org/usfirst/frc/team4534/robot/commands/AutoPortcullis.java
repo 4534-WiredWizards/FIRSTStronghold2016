@@ -14,6 +14,7 @@ public class AutoPortcullis extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.arms);
     	System.out.println("Initiating AutoPortcullis");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
     		addParallel(new MoveArms(-0.5,1.5));
@@ -27,6 +28,9 @@ public class AutoPortcullis extends CommandGroup {
     	addSequential(new MoveArms(0.75,2));
     	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 
 }
