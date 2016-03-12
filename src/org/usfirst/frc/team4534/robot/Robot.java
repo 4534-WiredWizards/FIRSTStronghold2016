@@ -1,16 +1,13 @@
 package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
-import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveDistance;
 import org.usfirst.frc.team4534.robot.commands.AutoMoat;
-import org.usfirst.frc.team4534.robot.commands.AutoPortcullis;
 import org.usfirst.frc.team4534.robot.commands.AutoRamparts;
 import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
-import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
+import org.usfirst.frc.team4534.robot.commands.AutoToGoal;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
-import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
 import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
@@ -155,7 +152,7 @@ public class Robot extends IterativeRobot {
 		autonomousRoutine.addSequential(autoDefenseChoice);
 		
 		if (autoGoalChoice != 0){
-			autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
+			autonomousRoutine.addSequential(new AutoToGoal(autoPositionChoice));
 			autonomousRoutine.addSequential(new AimAndShoot());
 		}
 		if (autoDefenseChoice != null) {
