@@ -2,7 +2,6 @@ package org.usfirst.frc.team4534.robot.subsystems;
 
 import org.usfirst.frc.team4534.robot.RobotMap;
 import org.usfirst.frc.team4534.robot.commands.DriveWithJoystick;
-import org.usfirst.frc.team4534.robot.commands.TankDriveWithJoystick;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -32,7 +31,7 @@ public class DriveTrain extends Subsystem {
 	 *            the value of rotation. Between -1 & 1.
 	 */
 	public void arcadeDrive(double forward, double rotate) {
-		drive.arcadeDrive(-forward, rotate, true);
+		drive.arcadeDrive(forward, rotate, true);
 	}
 
 	/**
@@ -44,7 +43,7 @@ public class DriveTrain extends Subsystem {
 	 *            BACKWARD) to +1 (Full speed FORWARD).
 	 */
 	public void straightDrive(double speed) {
-		drive.drive(-speed, 0);
+		drive.drive(speed, 0);
 	}
 	
 	public RobotDrive getRobotDrive() {
@@ -58,7 +57,7 @@ public class DriveTrain extends Subsystem {
 	 * @author Tom Sanford
 	 */
 	public void stop() {
-		drive.arcadeDrive(-0, 0);
+		drive.arcadeDrive(0, 0);
 	}
 
 	public void turn(double value) {

@@ -1,20 +1,15 @@
 package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
-import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveDistance;
-import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
 import org.usfirst.frc.team4534.robot.commands.AutoMoat;
-import org.usfirst.frc.team4534.robot.commands.AutoPortcullis;
 import org.usfirst.frc.team4534.robot.commands.AutoRamparts;
 import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
-import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
 import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
-import org.usfirst.frc.team4534.robot.subsystems.Compressor;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
@@ -76,7 +71,6 @@ public class Robot extends IterativeRobot {
 		ballhandler = new BallHandler();
 		gyroscope = new Gyroscope();
 		jetsonvision = new JetsonVision();
-		armpneumatics = new ArmPneumatics();
 		encoder = new Encoder(RobotMap.EncoderA, RobotMap.EncoderB);
 		encoder.setDistancePerPulse(12.0/1038.0);
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
@@ -86,9 +80,6 @@ public class Robot extends IterativeRobot {
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
-		autoDefense.addObject("Portcullis", new AutoPortcullis());
-		autoDefense.addObject("Sally Port", new AutoSallyPort());
-		autoDefense.addObject("Drawbridge", new AutoDrawbridge());
 		autoDefense.addObject("Rough Terrain", new AutoRoughTerrain());
 		autoDefense.addObject("Rock Wall", new AutoRockWall());
 		autoDefense.addObject("Moat", new AutoMoat());

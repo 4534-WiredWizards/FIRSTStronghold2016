@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4534.robot.subsystems;
 
 import org.usfirst.frc.team4534.robot.RobotMap;
-import org.usfirst.frc.team4534.robot.commands.MoveArmsWithJoystick;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -36,7 +35,7 @@ public class Arms extends Subsystem {
 	}
 	
 	protected void initDefaultCommand() {
-		setDefaultCommand(new MoveArmsWithJoystick());
+//		setDefaultCommand(new MoveArmsWithJoystick());
 	}
 	
 	public void extendLeft(){
