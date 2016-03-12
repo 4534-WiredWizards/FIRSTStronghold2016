@@ -151,7 +151,7 @@ public class Robot extends IterativeRobot {
 		autoGoalChoice = (int) autoGoal.getSelected();
 		autonomousRoutine.addSequential(autoDefenseChoice);
 		
-		if (autoGoalChoice != 0){
+		if ((autoGoalChoice != 0) && ((String) autoDefense.getSelected() != "Approach")){
 			autonomousRoutine.addSequential(new AutoToGoal(autoPositionChoice));
 			autonomousRoutine.addSequential(new AimAndShoot());
 		}
