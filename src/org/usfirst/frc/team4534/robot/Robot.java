@@ -141,9 +141,10 @@ public class Robot extends IterativeRobot {
 		autoPositionChoice = (int) autoStartPos.getSelected();
 		autoGoalChoice = (int) autoGoal.getSelected();
 		autonomousRoutine.addSequential(autoDefenseChoice);
-		autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
+		
 		if (autoGoalChoice != 0){
-		autonomousRoutine.addSequential(new AimAndShoot());
+			autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
+			autonomousRoutine.addSequential(new AimAndShoot());
 		}
 		if (autoDefenseChoice != null) {
 			autonomousRoutine.start();
