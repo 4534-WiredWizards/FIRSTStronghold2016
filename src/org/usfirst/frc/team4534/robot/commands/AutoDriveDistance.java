@@ -23,7 +23,7 @@ private double distance;
     // Called just before this Command runs the first time
     protected void initialize() {
     	encoder = Robot.encoder;
-    	
+    	encoder.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
