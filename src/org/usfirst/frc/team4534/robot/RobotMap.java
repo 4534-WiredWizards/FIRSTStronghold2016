@@ -40,6 +40,9 @@ public class RobotMap {
 	// Arms
 	public static int armDownLimit = 8; // DIO8
 	public static int armUpLimit = 9; // DIO9
+	public static int EncoderA = 4; // DIO1
+	public static int EncoderB = 5; // DIO2
+	public static int EncoderX = 6; // DIO3
 	
 	// Encoders
 	public static int leftEncoderA = 1; // DIO1

@@ -55,9 +55,12 @@ public class DriveTrain extends Subsystem {
 	 *            BACKWARD) to +1 (Full speed FORWARD).
 	 */
 	public void straightDrive(double speed) {
-		drive.drive(speed, 0);
+		drive.drive(-speed, 0);
 	}
-
+	
+	public RobotDrive getRobotDrive() {
+		return this.drive;
+	}
 	// sets motor speed to 0 on each motor
 
 	/**
@@ -66,7 +69,7 @@ public class DriveTrain extends Subsystem {
 	 * @author Tom Sanford
 	 */
 	public void stop() {
-		drive.arcadeDrive(0, 0);
+		drive.arcadeDrive(-0, 0);
 	}
 
 	public void turn(double value) {

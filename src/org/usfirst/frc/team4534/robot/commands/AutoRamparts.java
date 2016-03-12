@@ -13,13 +13,17 @@ public class AutoRamparts extends CommandGroup {
     public AutoRamparts() {
     	requires(Robot.drivetrain);
     	System.out.println("Initiating AutoRamparts");
+    	Robot.arduinocomm.writeString("c");
 		
     	if (Robot.isAuto){
-    		addParallel(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    		addParallel(new AutoDriveDistance(72));
     	}
     	addSequential(new AutoDriveStraight(3, .4));
     	
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }

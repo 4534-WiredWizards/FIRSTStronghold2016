@@ -14,6 +14,7 @@ public class AutoDrawbridge extends CommandGroup {
     	requires(Robot.drivetrain);
     	requires(Robot.arms);
     	System.out.println("Initiating AutoDrawbridge");
+    	Robot.arduinocomm.writeString("c");
 		
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -27,5 +28,8 @@ public class AutoDrawbridge extends CommandGroup {
     	addParallel(new MoveArms(-0.35, 1.5));
     	addParallel(new AutoDriveStraight(.5, -.4));
     	addSequential(new AutoDriveStraight(RobotMap.approachDelay, .4));
+    	if (!Robot.isAuto) {
+    		Robot.arduinocomm.writeString("i");
+    	}
     }
 }
