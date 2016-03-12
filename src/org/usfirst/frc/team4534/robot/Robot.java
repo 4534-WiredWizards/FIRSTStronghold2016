@@ -1,10 +1,8 @@
 package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
-import org.usfirst.frc.team4534.robot.commands.AutoChevalDeFrise;
 import org.usfirst.frc.team4534.robot.commands.AutoDrawbridge;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveDistance;
-import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
 import org.usfirst.frc.team4534.robot.commands.AutoMoat;
 import org.usfirst.frc.team4534.robot.commands.AutoPortcullis;
 import org.usfirst.frc.team4534.robot.commands.AutoRamparts;
@@ -12,6 +10,7 @@ import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
 import org.usfirst.frc.team4534.robot.commands.AutoSallyPort;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
+import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
 import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveEncoder;
@@ -21,7 +20,7 @@ import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -58,7 +57,6 @@ public class Robot extends IterativeRobot {
 
 	public static BallHandler ballhandler;
 	public static Arms arms;
-	public static ArmPneumatics armpneumatics;
 	public static Compressor compressor;
 	public static Encoder encoder;
 	public static BuiltInAccelerometer accelerometer;
@@ -81,7 +79,6 @@ public class Robot extends IterativeRobot {
 		gyroscope = new Gyroscope();
 		jetsonvision = new JetsonVision();
 		arms = new Arms();
-		armpneumatics = new ArmPneumatics();
 		encoder = new Encoder(RobotMap.EncoderA, RobotMap.EncoderB);
 		encoder.setDistancePerPulse(12.0/1038.0);
 		arduinocomm = new SerialPort(115200, SerialPort.Port.kMXP);
@@ -93,10 +90,6 @@ public class Robot extends IterativeRobot {
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
-		autoDefense.addObject("Portcullis", new AutoPortcullis());
-		autoDefense.addObject("Cheval de Frise", new AutoChevalDeFrise());
-		autoDefense.addObject("Sally Port", new AutoSallyPort());
-		autoDefense.addObject("Drawbridge", new AutoDrawbridge());
 		autoDefense.addObject("Rough Terrain", new AutoRoughTerrain());
 		autoDefense.addObject("Rock Wall", new AutoRockWall());
 		autoDefense.addObject("Moat", new AutoMoat());
