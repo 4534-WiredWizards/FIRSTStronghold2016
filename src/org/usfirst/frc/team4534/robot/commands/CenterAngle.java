@@ -40,11 +40,11 @@ public class CenterAngle extends Command {
 			this.cancel();
 			return;
 		}
-		workingSpeed *= 0.55;
+		workingSpeed *= 0.85;
 		if (Math.abs(workingSpeed) != workingSpeed) {
-			workingSpeed -= 0.45;
+			workingSpeed -= 0.15;
 		} else {
-			workingSpeed += 0.45;
+			workingSpeed += 0.15;
 		}
 		
 		// invert it to make it turning instructions for the robot

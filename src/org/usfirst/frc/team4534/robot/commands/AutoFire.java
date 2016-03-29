@@ -6,24 +6,26 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *Fires the boulder by reversing the ball intake motor and 
+ *pushing the boulder into the (spun up) shooter.
  */
-public class LowGoal extends Command {
+public class AutoFire extends Command {
 
-    public LowGoal() {
+    public AutoFire() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.ballhandler);
-    	setTimeout(2);
+    	setTimeout(1);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.arduinocomm.writeString("s");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ballhandler.setIntake(-1.0);
+    	Robot.ballhandler.set(1, .80);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,19 +35,17 @@ public class LowGoal extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if(!Robot.ballhandler.getLowerHandlerLimit() && !Robot.ballhandler.getUpperHandlerLimit()) {
-    		Robot.arduinocomm.writeString("i");
-    		Robot.arduinocomm.writeString("r");
-        	if (Robot.allianceColor == DriverStation.Alliance.Blue) {
-    			// In the blue alliance
-    			System.out.print("BLUE alliance");
-    			Robot.arduinocomm.writeString("n");
-    		} else if (Robot.allianceColor == DriverStation.Alliance.Red) {
-    			// In the red alliance
-    			Robot.arduinocomm.writeString("r");
-    			System.out.print("RED alliance");
-    		}
-    	}
+    	Robot.ballhandler.stop();
+    	Robot.arduinocomm.writeString("i");
+    	if (Robot.allianceColor == DriverStation.Alliance.Blue) {
+			// In the blue alliance
+			System.out.print("BLUE alliance");
+			Robot.arduinocomm.writeString("n");
+		} else if (Robot.allianceColor == DriverStation.Alliance.Red) {
+			// In the red alliance
+			Robot.arduinocomm.writeString("r");
+			System.out.print("RED alliance");
+		}
     }
 
     // Called when another command which requires one or more of the same

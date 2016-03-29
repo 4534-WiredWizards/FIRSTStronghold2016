@@ -6,8 +6,10 @@ import org.usfirst.frc.team4534.robot.commands.AutoMoat;
 import org.usfirst.frc.team4534.robot.commands.AutoRamparts;
 import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
 import org.usfirst.frc.team4534.robot.commands.AutoRoughTerrain;
+import org.usfirst.frc.team4534.robot.commands.AutoShoot;
 import org.usfirst.frc.team4534.robot.commands.DriveStop;
 import org.usfirst.frc.team4534.robot.commands.ManeuverToGoal;
+import org.usfirst.frc.team4534.robot.commands.Shoot;
 import org.usfirst.frc.team4534.robot.subsystems.Arms;
 import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
@@ -85,6 +87,7 @@ public class Robot extends IterativeRobot {
 		autoDefense.addObject("Moat", new AutoMoat());
 		autoDefense.addObject("Ramparts", new AutoRamparts());
 		autoDefense.addObject("Approach", new AutoDriveDistance(74)); //72 inches to reach the 
+		autoDefense.addObject("Shoot", new AutoShoot());
 		SmartDashboard.putData("Auto Defense", autoDefense);
 		
 		//Right Now, only autoDefense will be used.
@@ -169,10 +172,10 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		LiveWindow.run();
 		SmartDashboard.putNumber("Accelerometer", accelerometer.getZ());
-		if(accelerometer.getZ() >= 3.0){
-			autoDefenseChoice.cancel();
-			System.out.println("Accelometer value greater than 2.");
-		}
+//		if(accelerometer.getZ() >= 3.0){
+//			autoRoutine.cancel();
+//			System.out.println("Accelometer value greater than 2.");
+//		}
 		arduinocomm.writeString("~");
 
 	}

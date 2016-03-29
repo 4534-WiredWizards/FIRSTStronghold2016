@@ -76,11 +76,11 @@ public class ControlSystem {
 			}
 			/* update acceleration */ {
 				// The threshold is the minimum value of the current joy values
-				final double threshold = 0.4;
+				final double threshold = 0.55;
 				for (int i = 0; i < numJoysticks; i++) {
 					// Linearly interpolate the current joy values
 					currentJoyY[i] = Maths.lerp(currentJoyY[i], getMoveAxisY(), 1 - Math.pow(.1, delta));
-					currentJoyX[i] = Maths.lerp(currentJoyX[i], getMoveAxisX(), 1 - Math.pow(.1, delta));
+					currentJoyX[i] = getMoveAxisX();//Maths.lerp(currentJoyX[i], getMoveAxisX(), 1 - Math.pow(.1, delta));
 					// Reverse clamp the current joy values based on the raw
 					// axis
 					if (getMoveAxisY() >= threshold && currentJoyY[0] < threshold)
