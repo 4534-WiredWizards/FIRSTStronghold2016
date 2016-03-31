@@ -78,17 +78,17 @@ public class ControlSystem {
 				// The threshold is the minimum value of the current joy values
 				final double threshold = 0.2;
 				// Linearly interpolate the current joy values
-				currentJoyY = Maths.lerp(currentJoyY, getMoveAxisY(), 1 - Math.pow(.05, delta));
-				currentJoyX = Maths.lerp(currentJoyX, getMoveAxisX(), 1 - Math.pow(.05, delta));
+				currentJoyY[0] = Maths.lerp(currentJoyY[0], getMoveAxisY(), 1 - Math.pow(.05, delta));
+				currentJoyX[0] = Maths.lerp(currentJoyX[0], getMoveAxisX(), 1 - Math.pow(.05, delta));
 				// Reverse clamp the current joy values based on the raw axis
-				if (getMoveAxisY() >= threshold && currentJoyY < threshold && currentJoyY >= 0)
-					currentJoyY = threshold;
-				if (getMoveAxisY() <= -threshold && currentJoyY > -threshold && currentJoyY <= 0)
-					currentJoyY = -threshold;
-				if (getMoveAxisX() >= threshold && currentJoyX < threshold)
-					currentJoyX = threshold;
-				if (getMoveAxisX() <= -threshold && currentJoyX > -threshold)
-					currentJoyX = -threshold;
+				if (getMoveAxisY() >= threshold && currentJoyY[0] < threshold && currentJoyY[0] >= 0)
+					currentJoyY[0] = threshold;
+				if (getMoveAxisY() <= -threshold && currentJoyY[0] > -threshold && currentJoyY[0] <= 0)
+					currentJoyY[0] = -threshold;
+				if (getMoveAxisX() >= threshold && currentJoyX[0] < threshold)
+					currentJoyX[0] = threshold;
+				if (getMoveAxisX() <= -threshold && currentJoyX[0] > -threshold)
+					currentJoyX[0] = -threshold;
 			}
 		}
 		oldTime = newTime;
