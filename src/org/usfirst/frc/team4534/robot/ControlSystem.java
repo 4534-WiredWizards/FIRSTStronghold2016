@@ -1,13 +1,13 @@
 package org.usfirst.frc.team4534.robot;
 
-import java.io.IOException;
-import java.util.Properties;
+import java.util.LinkedList;
 
+import org.usfirst.frc.team4534.robot.controls.ButtonListener;
+import org.usfirst.frc.team4534.robot.controls.ControlMap;
+import org.usfirst.frc.team4534.robot.controls.maps.DefaultMap;
 import org.usfirst.frc.team4534.robot.util.Maths;
-import org.usfirst.frc.team4534.robot.util.PropertySheetLoader;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -17,29 +17,40 @@ import edu.wpi.first.wpilibj.Timer;
  * 
  * @author Brandon Dyer
  *
+ *         Note from Sam: I hate this class
  */
 public class ControlSystem {
 
-	private static Properties prop;
-	private static Joystick joystick;
 	private static double rumbleTime;
-	private static double currentJoyX = 0, currentJoyY = 0;
+	private static double[] currentJoyX, currentJoyY;
+	private static final int numJoysticks = 2; // 1 indexed, not zero indexed
+	private static final LinkedList<ButtonListener> buttonListeners = new LinkedList<ButtonListener>();
+	private static final LinkedList<ControlMap> controlMaps = new LinkedList<ControlMap>();
+	private static int currentMap = 0;
+	
+	@SuppressWarnings("unused")
+	private static boolean isSelectPressed = false;
 
 	/**
 	 * This NEEDS to be called before any other ControlSystem methods are called
 	 * to avoid a {@link NullPointerException}
 	 */
 	public static void init() {
-		joystick = Robot.oi.getJoystick();
-		loadScheme(0);
+		loadMaps();
 		rumbleTime = 0;
 		oldTime = Timer.getFPGATimestamp();
-		update();
+		currentJoyX = new double[numJoysticks];
+		currentJoyY = new double[numJoysticks];
+		for(int i = 0; i < numJoysticks; i++) {
+			currentJoyX[i] = 0;
+			currentJoyY[i] = 0;
+		}
+		update(); // must be last
 	}
-	
-	public static void main(String[] args) {
-		ControlSystem.init();
-		System.out.println(prop);
+
+	public static void loadMaps() {
+		addControlMap(new DefaultMap());
+		// addControlMap(new RacingMap());
 	}
 
 	private static double oldTime;
@@ -51,19 +62,19 @@ public class ControlSystem {
 		double newTime = Timer.getFPGATimestamp();
 		double delta = newTime - oldTime;
 		{
-			/* update rumble */{
+			/* update rumble */ {
 				rumbleTime -= delta;
 				if (rumbleTime < 0)
 					rumbleTime = 0;
 				if (rumbleTime > 0) {
-					//joystick.setRumble(RumbleType.kLeftRumble, 1);
-					//joystick.setRumble(RumbleType.kRightRumble, 1);
+					// joystick.setRumble(RumbleType.kLeftRumble, 1);
+					// joystick.setRumble(RumbleType.kRightRumble, 1);
 				} else {
-					//joystick.setRumble(RumbleType.kLeftRumble, 0);
-					//joystick.setRumble(RumbleType.kRightRumble, 0);
+					// joystick.setRumble(RumbleType.kLeftRumble, 0);
+					// joystick.setRumble(RumbleType.kRightRumble, 0);
 				}
 			}
-			/* update acceleration */{
+			/* update acceleration */ {
 				// The threshold is the minimum value of the current joy values
 				final double threshold = 0.2;
 				// Linearly interpolate the current joy values
@@ -84,8 +95,8 @@ public class ControlSystem {
 	}
 
 	public static void killAccel() {
-		currentJoyY = 0;
-		currentJoyX = 0;
+		currentJoyY[0] = 0;
+		currentJoyX[0] = 0;
 	}
 
 	private static final double scale = 3;
@@ -112,20 +123,47 @@ public class ControlSystem {
 	}
 
 	public static final double getMoveAxisAccelX() {
-		return currentJoyX;
+		return currentJoyX[0];
 	}
 
 	public static final double getMoveAxisAccelY() {
-		return currentJoyY;
+		return currentJoyY[0];
+	}
+
+	public static final double getMoveAxisX(int joy) {
+		switch (joy) {
+		case 1:
+			return ControlSystem.calcSpeed(
+					getButtonLiteral(ButtonLiteral.STICK_RIGHT_RIGHT)
+							- getButtonLiteral(ButtonLiteral.STICK_RIGHT_LEFT),
+					getButton(Button.PRECISION), getButton(Button.TURBO));
+		case 0:
+		default:
+			return ControlSystem.calcSpeed(getButton(Button.TURN_RIGHT) - getButton(Button.TURN_LEFT),
+					getButton(Button.PRECISION), getButton(Button.TURBO));
+		}
 	}
 
 	public static final double getMoveAxisX() {
-		return ControlSystem.calcSpeed(getButtonLiteral(ButtonLiteral.STICK_LEFT_RIGHT) - getButtonLiteral(ButtonLiteral.STICK_LEFT_LEFT), getButtonLiteral(ButtonLiteral.LEFT_TRIGGER), getButtonLiteral(ButtonLiteral.RIGHT_TRIGGER));
+		return getMoveAxisX(0);
+	}
+
+	public static final double getMoveAxisY(int joy) {
+		switch (joy) {
+		case 1:
+			return ControlSystem.calcSpeed(
+					getButtonLiteral(ButtonLiteral.STICK_RIGHT_UP) - getButtonLiteral(ButtonLiteral.STICK_RIGHT_DOWN),
+					getButton(Button.PRECISION), getButton(Button.TURBO));
+		case 0:
+		default:
+			return ControlSystem.calcSpeed(getButton(Button.MOVE_FORWARD) - getButton(Button.MOVE_BACKWARD),
+					getButton(Button.PRECISION), getButton(Button.TURBO));
+		}
 	}
 
 	public static final double getMoveAxisY() {
-		return ControlSystem.calcSpeed(getButtonLiteral(ButtonLiteral.STICK_LEFT_UP) - getButtonLiteral(ButtonLiteral.STICK_LEFT_DOWN), getButtonLiteral(ButtonLiteral.LEFT_TRIGGER), getButtonLiteral(ButtonLiteral.RIGHT_TRIGGER));
-		}
+		return getMoveAxisY(0);
+	}
 
 	/**
 	 * Gets the value of a button by name as a value between 0 and 1. To check
@@ -137,16 +175,12 @@ public class ControlSystem {
 	 * @return value of the button
 	 */
 	public static final double getButton(Button button) {
-		/*String buttonNameString = button.name();
-		String buttonLiteralString = prop.getProperty(buttonNameString);
-		ButtonLiteral buttonLiteral = ButtonLiteral.valueOf(buttonLiteralString);
-		double value = getButtonLiteral(buttonLiteral);
-		return value;*/
-		return 0;
+		double value = getButtonLiteral(controlMaps.get(currentMap % controlMaps.size()).convertButton(button));
+		return value;
 	}
 
 	public static enum Button {
-		MOVE_FORWARD, MOVE_BACKWARD, TURN_RIGHT, TURN_LEFT, PRECISION, TURBO, SHOOT, ARM_UP, ARM_DOWN, ARM_EXTEND, ARM_RETRACT
+		MOVE_FORWARD, MOVE_BACKWARD, TURN_RIGHT, TURN_LEFT, PRECISION, TURBO, SHOOT, AIM_SHOOT, INTAKE, LEFT_ARM_TOGGLE, RIGHT_ARM_TOGGLE, ARMS_DOWN, ARMS_UP, LEFT_CLICK, RIGHT_CLICK, START, SELECT, LOW_GOAL
 	}
 
 	/**
@@ -168,35 +202,40 @@ public class ControlSystem {
 	 * @param button
 	 * @return
 	 */
-	private static final double getButtonLiteral(ButtonLiteral button) {
+	public static final double getButtonLiteral(ButtonLiteral button) {
 		Joystick j = Robot.oi.getJoystick();
 		double n = 0;
 		switch (button) {
 		case A:
-			n = j.getRawButton(0) ? 1 : 0;
-			break;
-		case B:
 			n = j.getRawButton(1) ? 1 : 0;
 			break;
-		case LEFT_BUMPER:
-			n = j.getRawButton(4) ? 1 : 0;
+		case B:
+			n = j.getRawButton(2) ? 1 : 0;
 			break;
+		case LEFT_BUMPER:
+			n = j.getRawButton(5) ? 1 : 0;
+			break;
+		case STICK_LEFT_CLICK:
 		case LEFT_BUTTON:
-			n = j.getRawButton(8) ? 1 : 0;
+			n = j.getRawButton(9) ? 1 : 0;
 			break;
 		case LEFT_TRIGGER:
 			n = j.getRawAxis(2);
 			break;
 		case RIGHT_BUMPER:
-			n = j.getRawButton(5) ? 1 : 0;
+			n = j.getRawButton(6) ? 1 : 0;
 			break;
+		case STICK_RIGHT_CLICK:
 		case RIGHT_BUTTON:
-			n = j.getRawButton(9) ? 1 : 0;
+			n = j.getRawButton(10) ? 1 : 0;
 			break;
 		case RIGHT_TRIGGER:
 			n = j.getRawAxis(3);
 			break;
 		case START:
+			n = j.getRawButton(8) ? 1 : 0;
+			break;
+		case SELECT:
 			n = j.getRawButton(7) ? 1 : 0;
 			break;
 		case STICK_LEFT_UP:
@@ -224,10 +263,10 @@ public class ControlSystem {
 			n = j.getRawAxis(4) < 0 ? -j.getRawAxis(4) : 0;
 			break;
 		case X:
-			n = j.getRawButton(2) ? 1 : 0;
+			n = j.getRawButton(3) ? 1 : 0;
 			break;
 		case Y:
-			n = j.getRawButton(3) ? 1 : 0;
+			n = j.getRawButton(4) ? 1 : 0;
 			break;
 		default:
 			n = 0;
@@ -237,24 +276,7 @@ public class ControlSystem {
 	}
 
 	public static enum ButtonLiteral {
-		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_UP, STICK_LEFT_DOWN, STICK_LEFT_LEFT, STICK_LEFT_RIGHT, STICK_RIGHT_UP, STICK_RIGHT_DOWN, STICK_RIGHT_LEFT, STICK_RIGHT_RIGHT, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START;
-	}
-
-	private static int currentScheme = 0;
-
-	public static void loadNextScheme() {
-		loadScheme(currentScheme + 1);
-	}
-
-	private static void loadScheme(int scheme) {
-		currentScheme = scheme;
-		try {
-			String[] sheets = PropertySheetLoader.readFile("control_configs/0.txt").split("\n");
-			prop = PropertySheetLoader.parseProperties("control_configs/" + sheets[scheme % sheets.length] + ".txt");
-		} catch (IOException e) {
-			e.printStackTrace();
-			
-		}
+		A, B, X, Y, LEFT_TRIGGER, RIGHT_TRIGGER, STICK_LEFT_UP, STICK_LEFT_DOWN, STICK_LEFT_LEFT, STICK_LEFT_RIGHT, STICK_RIGHT_UP, STICK_RIGHT_DOWN, STICK_RIGHT_LEFT, STICK_RIGHT_RIGHT, LEFT_BUMPER, RIGHT_BUMPER, LEFT_BUTTON, RIGHT_BUTTON, START, SELECT, STICK_RIGHT_CLICK, STICK_LEFT_CLICK;
 	}
 
 	/**
@@ -273,6 +295,28 @@ public class ControlSystem {
 
 	public static final void rumbleKill() {
 		rumbleTime = 0;
+	}
+
+	public static final void addButtonListener(ButtonListener listener) {
+		buttonListeners.add(listener);
+	}
+
+	private static final void callButton(Button button, double value) {
+		for (ButtonListener l : buttonListeners) {
+			l.onButtonPress(button, value);
+		}
+	}
+
+	private static final void callButtonRelease(Button button) {
+		for (ButtonListener l : buttonListeners) {
+			l.onButtonRelease(button);
+		}
+	}
+
+	public static final void addControlMap(ControlMap map) {
+		if (!controlMaps.contains(map)) {
+			controlMaps.add(map);
+		}
 	}
 
 }

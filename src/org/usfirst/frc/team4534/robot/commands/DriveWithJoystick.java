@@ -17,11 +17,12 @@ public class DriveWithJoystick extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		System.out.println("Driving with Joystick!");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.drivetrain.arcadeDrive(-ControlSystem.getMoveAxisAccelY(), -ControlSystem.getMoveAxisAccelX());
+		Robot.drivetrain.arcadeDrive(ControlSystem.getMoveAxisAccelY(), -ControlSystem.getMoveAxisAccelX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

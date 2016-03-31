@@ -7,22 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class AutoDriveStraight extends Command {
+public class AutoDrive extends Command {
 	@SuppressWarnings("unused")
 	private double duration;
 	private double speed;
+	private double rotate;
+	
 	
 	/**
-	 * Drives the robot in a straight line.
+	 * Drives the robot using fixed values.
 	 * @author Benjamin Davis
 	 * @param duration Duration of driving, in seconds.
 	 * @param speed Speed of driving: a positive value corresponds to forward motion, a negative value corresponds to backward motion. can be from -1 to 1.
+	 * @param rotate Amount of rotation
 	 */
-	public AutoDriveStraight(double duration, double speed) {
+	public AutoDrive(double duration, double speed, double rotate) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.drivetrain);
 		this.duration = duration;
 		this.speed = speed;
+		this.rotate = rotate;
 		setTimeout(duration);
 	}
 
@@ -35,7 +39,7 @@ public class AutoDriveStraight extends Command {
 	 * Called repeatedly when this Command is scheduled to run
 	 */
 	protected void execute() {
-		Robot.drivetrain.straightDrive(speed);
+		Robot.drivetrain.arcadeDrive(speed, rotate);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -1,11 +1,19 @@
 package org.usfirst.frc.team4534.robot;
 
-import org.usfirst.frc.team4534.robot.commands.DriveStraight;
-import org.usfirst.frc.team4534.robot.commands.DriveStop;
-
+import org.usfirst.frc.team4534.robot.ControlSystem.Button;
+import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
+import org.usfirst.frc.team4534.robot.commands.CenterAngle;
+import org.usfirst.frc.team4534.robot.commands.CenterAnglePID;
+import org.usfirst.frc.team4534.robot.commands.CenterDistance;
+import org.usfirst.frc.team4534.robot.commands.CenterDistancePID;
+import org.usfirst.frc.team4534.robot.commands.IntakeBall;
+import org.usfirst.frc.team4534.robot.commands.LowGoal;
+import org.usfirst.frc.team4534.robot.commands.Shoot;
+import org.usfirst.frc.team4534.robot.controls.CommandButton;
+import org.usfirst.frc.team4534.robot.controls.CommandButtonTap;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,9 +24,20 @@ public class OI {
 
 	public OI() {
 		stick = new Joystick(0);
-		new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
+		ControlSystem.addButtonListener(new CommandButtonTap(Button.AIM_SHOOT, new AimAndShoot()));
+		ControlSystem.addButtonListener(new CommandButtonTap(Button.SHOOT, new Shoot()));
+		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
+		ControlSystem.addButtonListener(new CommandButton(Button.LOW_GOAL, new LowGoal()));
+		//ControlSystem.addButtonListener(new CommandButtonTap(Button.RIGHT_CLICK, new ArmToggle()));
+		
+		
+		/*new JoystickButton(stick, 1).whileHeld(new DriveStraight(-.4));
 		new JoystickButton(stick, 2).whileHeld(new DriveStop());
 		new JoystickButton(stick, 4).whileHeld(new DriveStraight(.4));
+		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new DriveStraight(-0.4)));*/
+		SmartDashboard.putNumber("TurnTo", 0);
+		ControlSystem.addButtonListener(new CommandButton(Button.START, new CenterAngle()));
+		ControlSystem.addButtonListener(new CommandButton(Button.SELECT, new CenterDistance()));
 	}
 
 	public Joystick getJoystick() {
