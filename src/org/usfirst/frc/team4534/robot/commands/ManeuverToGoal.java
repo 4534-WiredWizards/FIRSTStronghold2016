@@ -17,14 +17,13 @@ public class ManeuverToGoal extends CommandGroup {
 			if (goal == 1) {
 				addSequential(new AutoDrive(startPosition-1, .5, (startPosition-1)*-1));
 			}
+
 			if (goal == 2) {
-				addSequential(new AutoDrive(startPosition-3.5, .5, (startPosition-3.5) * -.1));
-			}
-			if (goal == 3) {
 				addSequential(new AutoDrive(6-startPosition, .5, (6-startPosition)*.1));
 			}
-			
 
+		} else {
+			addSequential(new AutoDriveDistance(6));
 		}
 
 		// Add Commands here:

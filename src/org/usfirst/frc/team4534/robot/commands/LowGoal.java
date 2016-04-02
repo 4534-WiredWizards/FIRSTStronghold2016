@@ -19,6 +19,7 @@ public class LowGoal extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.arduinocomm.writeString("s");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +34,7 @@ public class LowGoal extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	if(!Robot.ballhandler.getLowerHandlerLimit() && !Robot.ballhandler.getUpperHandlerLimit()) {
+    	if(!Robot.ballhandler.getLowerHandlerLimit()) {
     		Robot.arduinocomm.writeString("i");
     		Robot.arduinocomm.writeString("r");
         	if (Robot.allianceColor == DriverStation.Alliance.Blue) {

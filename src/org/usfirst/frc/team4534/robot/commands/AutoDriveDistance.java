@@ -12,12 +12,31 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutoDriveDistance extends Command {
 private Encoder encoder;
 private double distance;
+private double speed = .7;
+
+/**
+ *Drives the robot a distance, equal to the distance parameter, in inches.
+ *@param distance in inches, how far the robot will travel.
+ */
     public AutoDriveDistance(double distance) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
     	requires(Robot.drivetrain);
     	this.distance = distance;
+    }
+
+/**
+ *Drives the robot a distance, equal to the distance parameter, in inches.
+ *@param distance in inches, how far the robot will travel.
+ */
+    public AutoDriveDistance(double distance, double speed) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	
+    	requires(Robot.drivetrain);
+    	this.distance = distance;
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
@@ -29,7 +48,7 @@ private double distance;
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (encoder.getDistance() < distance) {
-    		Robot.drivetrain.arcadeDrive(.7, 0);
+    		Robot.drivetrain.arcadeDrive(speed, 0);
     	}
     }
 

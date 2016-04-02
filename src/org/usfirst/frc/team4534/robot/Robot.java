@@ -2,6 +2,8 @@ package org.usfirst.frc.team4534.robot;
 
 import org.usfirst.frc.team4534.robot.commands.AimAndShoot;
 import org.usfirst.frc.team4534.robot.commands.AutoDriveDistance;
+import org.usfirst.frc.team4534.robot.commands.AutoDriveStraight;
+import org.usfirst.frc.team4534.robot.commands.AutoLowBar;
 import org.usfirst.frc.team4534.robot.commands.AutoMoat;
 import org.usfirst.frc.team4534.robot.commands.AutoRamparts;
 import org.usfirst.frc.team4534.robot.commands.AutoRockWall;
@@ -82,6 +84,9 @@ public class Robot extends IterativeRobot {
 		
 		autoDefense = new SendableChooser();
 		autoDefense.addDefault("No Defense", new DriveStop());
+		autoDefense.addObject("Forward, No Encoders.", new AutoDriveStraight(6, .6));
+		
+		autoDefense.addObject("Low Bar", new AutoLowBar());
 		autoDefense.addObject("Rough Terrain", new AutoRoughTerrain());
 		autoDefense.addObject("Rock Wall", new AutoRockWall());
 		autoDefense.addObject("Moat", new AutoMoat());
@@ -100,11 +105,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto Position", autoStartPos);
 		//Right Now, this does nothing
 		autoGoal = new SendableChooser();
-		autoGoal.addObject("High Left", 1);
-		autoGoal.addObject("High Center", 2);
-		autoGoal.addObject("High Right", 3);
-		autoGoal.addObject("Low Left", 4);
-		autoGoal.addObject("Low Right", 5);
+		//autoGoal.addObject("High Left", 1);
+		//autoGoal.addObject("High Center", 2);
+		//autoGoal.addObject("High Right", 3);
+		autoGoal.addObject("Low Left", 1);
+		autoGoal.addObject("Low Right", 2);
 		autoGoal.addDefault("NO Shooting", 0);
 		SmartDashboard.putData("Auto Goal", autoGoal);
 
@@ -147,7 +152,7 @@ public class Robot extends IterativeRobot {
 		
 		if (autoGoalChoice != 0){
 			autonomousRoutine.addSequential(new ManeuverToGoal(autoPositionChoice, autoGoalChoice));
-			autonomousRoutine.addSequential(new AimAndShoot());
+			autonomousRoutine.addSequential(new AutoShoot());
 		}
 		if (autoDefenseChoice != null) {
 			autonomousRoutine.start();

@@ -8,7 +8,7 @@ import org.usfirst.frc.team4534.robot.commands.BallHandlerStop;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Victor;
+//import edu.wpi.first.wpilibj.Victor;
 /**
  *Ball Handling Device: use this subsystem to manipulate the ball handler.
  *Includes Talon SRX for Shooter, Victor 888 for Intake, and limit switch for limit...
@@ -16,23 +16,24 @@ import edu.wpi.first.wpilibj.Victor;
  */
 public class BallHandler extends Subsystem {
     
-	private Victor ballIntake;
+	//private Victor ballIntake;
 	private CANTalon shooter;
 	private CANTalon shooter2;
 	
-	private DigitalInput ballHandlerLimitLower, ballHandlerLimitUpper;
+	private DigitalInput ballHandlerLimit;
+	//private DigitalInput ballHandlerLimitUpper;
 	// Ball Handler may be referred to as 'Handler'.
 	public BallHandler(){
-		ballIntake = new Victor(RobotMap.ballIntake);
+		//ballIntake = new Victor(RobotMap.ballIntake);
 		shooter = new CANTalon(RobotMap.shooter);
 		shooter2 = new CANTalon(RobotMap.shooter2);
-		ballHandlerLimitLower = new DigitalInput(RobotMap.lowerBallHandlerLimit);
-		ballHandlerLimitUpper = new DigitalInput(RobotMap.upperBallHandlerLimit);
-		LiveWindow.addActuator("BallHandler", "Intake", ballIntake);
+		ballHandlerLimit = new DigitalInput(RobotMap.lowerBallHandlerLimit);
+		//ballHandlerLimitUpper = new DigitalInput(RobotMap.upperBallHandlerLimit);
+		//LiveWindow.addActuator("BallHandler", "Intake", ballIntake);
 		LiveWindow.addActuator("BallHandler", "Shooter 1", shooter);
 		LiveWindow.addActuator("BallHandler", "Shooter 2", shooter2);
-		LiveWindow.addSensor("BallHandler", "Limit Lower", ballHandlerLimitLower);
-		LiveWindow.addSensor("BallHandler", "Limit Upper", ballHandlerLimitUpper);
+		LiveWindow.addSensor("BallHandler", "Limit Lower", ballHandlerLimit);
+		//LiveWindow.addSensor("BallHandler", "Limit Upper", ballHandlerLimitUpper);
 		
 	}
     // Put methods for controlling this subsystem
@@ -42,10 +43,10 @@ public class BallHandler extends Subsystem {
 	 * @param intakeSpeed A value between 1 and -1 that determines how fast the Intake motor will run.
 	 * @param shooterSpeed A value between 1 and -1 sets how fast the Shooter motor will run
 	 */
-	public void set(double intakeSpeed, double shooterSpeed){
-		ballIntake.set(-intakeSpeed);
-		shooter.set(-shooterSpeed);
-		shooter2.set(shooterSpeed);
+	public void set(double speed){
+		//ballIntake.set(-intakeSpeed);
+		shooter.set(speed);
+		shooter2.set(speed);
 	}
 	/**
 	 * Sets the shooter motors
@@ -53,7 +54,7 @@ public class BallHandler extends Subsystem {
 	 */
 	public void setShooter(double rate){
 		shooter.set(-rate);
-		shooter2.set(rate);
+		shooter2.set(-rate);
 		
 	}
 	
@@ -62,20 +63,23 @@ public class BallHandler extends Subsystem {
 	 * @param rate How fast? -1 to 1
 	 */
 	public void setIntake(double rate){
-		ballIntake.set(-rate);
+		shooter.set(rate);
+		shooter2.set(rate);
 	}
 	public void stop() {
-		ballIntake.set(0);
-		shooter.set(-0);
+		//ballIntake.set(0);
+		shooter.set(0);
 		shooter2.set(0);
 		
 	}
 	public boolean getLowerHandlerLimit(){
-		return ballHandlerLimitLower.get();
+		return ballHandlerLimit.get();
 	}
+	/*
 	public boolean getUpperHandlerLimit() {
 		return ballHandlerLimitUpper.get();
 	}
+	*/
     public void initDefaultCommand() {
     	setDefaultCommand(new BallHandlerStop());
         // Set the default command for a subsystem here.

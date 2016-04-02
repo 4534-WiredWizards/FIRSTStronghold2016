@@ -11,9 +11,14 @@ public class AutoShoot extends CommandGroup {
     
     public  AutoShoot() {
     	requires(Robot.ballhandler);
+    	/*
     	addSequential(new SpinUp(1, .75));
     	addSequential(new AutoFire());
+    	*/
+    	
+    	addSequential(new LowGoal());
     	Robot.arduinocomm.writeString("s");
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
