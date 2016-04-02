@@ -17,7 +17,7 @@ public class AutoLowBar extends CommandGroup {
     	if (Robot.isAuto){
     		addSequential(new AutoDriveDistance(72));
     	}
-    	addSequential(new AutoDriveDistance(72, .5));
+    	addSequential(new AutoDriveDistance(48, .45));
     	
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

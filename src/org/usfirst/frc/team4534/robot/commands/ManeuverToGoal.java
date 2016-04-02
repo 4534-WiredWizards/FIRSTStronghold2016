@@ -13,16 +13,76 @@ public class ManeuverToGoal extends CommandGroup {
 		this.startPosition = startPosition;
 		this.goal = goal;
 
-		if (goal != 0) {
-			if (goal == 1) {
-				addSequential(new AutoDrive(startPosition-1, .5, (startPosition-1)*-1));
+		if (goal == 1) {
+			switch (startPosition) {
+				case 1:
+					addSequential(new TurnToAngle(0));
+					addSequential(new AutoDriveDistance(75.1));
+					addSequential(new TurnToAngle(30));
+					addSequential(new AutoDriveDistance(163.8));
+					break;
+				case 2:
+					addSequential(new TurnToAngle(326));
+					addSequential(new AutoDriveDistance(90));
+					addSequential(new TurnToAngle(30));
+					addSequential(new AutoDriveDistance(163.8));
+					break;
+				case 3:
+					addSequential(new TurnToAngle(307));
+					addSequential(new AutoDriveDistance(126));
+					addSequential(new TurnToAngle(30));
+					addSequential(new AutoDriveDistance(163.8));
+					break;
+				case 4:
+					addSequential(new TurnToAngle(297));
+					addSequential(new AutoDriveDistance(169));
+					addSequential(new TurnToAngle(30));
+					addSequential(new AutoDriveDistance(163.8));
+					break;
+				case 5:
+					addSequential(new TurnToAngle(290));
+					addSequential(new AutoDriveDistance(216));
+					addSequential(new TurnToAngle(30));
+					addSequential(new AutoDriveDistance(163.8));
+					break;
 			}
+			
 
-			if (goal == 2) {
-				addSequential(new AutoDrive(6-startPosition, .5, (6-startPosition)*.1));
-			}
-
-		} else {
+		} else if (goal == 2) {
+			switch (startPosition) {
+			case 1:
+				addSequential(new TurnToAngle(0));
+				addSequential(new AutoDriveDistance(75.1));
+				addSequential(new TurnToAngle(30));
+				addSequential(new AutoDriveDistance(163.8));
+				break;
+			case 2:
+				addSequential(new TurnToAngle(326));
+				addSequential(new AutoDriveDistance(90));
+				addSequential(new TurnToAngle(30));
+				addSequential(new AutoDriveDistance(163.8));
+				break;
+			case 3:
+				addSequential(new TurnToAngle(307));
+				addSequential(new AutoDriveDistance(126));
+				addSequential(new TurnToAngle(30));
+				addSequential(new AutoDriveDistance(163.8));
+				break;
+			case 4:
+				addSequential(new TurnToAngle(297));
+				addSequential(new AutoDriveDistance(169));
+				addSequential(new TurnToAngle(30));
+				addSequential(new AutoDriveDistance(163.8));
+				break;
+			case 5:
+				addSequential(new TurnToAngle(290));
+				addSequential(new AutoDriveDistance(216));
+				addSequential(new TurnToAngle(30));
+				addSequential(new AutoDriveDistance(163.8));
+				break;
+		}
+		
+		} else if (goal == 0) {
 			addSequential(new AutoDriveDistance(6));
 		}
 
