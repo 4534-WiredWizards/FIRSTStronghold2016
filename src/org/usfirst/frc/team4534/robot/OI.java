@@ -24,8 +24,8 @@ public class OI {
 
 	public OI() {
 		stick = new Joystick(0);
-		ControlSystem.addButtonListener(new CommandButtonTap(Button.AIM_SHOOT, new LowGoal()));
-		ControlSystem.addButtonListener(new CommandButtonTap(Button.SHOOT, new LowGoal()));
+		ControlSystem.addButtonListener(new CommandButton(Button.AIM_SHOOT, new LowGoal()));
+		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new LowGoal()));
 		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
 		ControlSystem.addButtonListener(new CommandButton(Button.LOW_GOAL, new LowGoal()));
 		//ControlSystem.addButtonListener(new CommandButtonTap(Button.RIGHT_CLICK, new ArmToggle()));

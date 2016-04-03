@@ -90,6 +90,13 @@ public class ControlSystem {
 				if (getMoveAxisX() <= -threshold && currentJoyX[0] > -threshold)
 					currentJoyX[0] = -threshold;
 			}
+			for(Button b : Button.values()) {
+				if(getButtonIsPressed(b)) {
+					callButton(b, getButton(b));
+				} else {
+					callButtonRelease(b);
+				}
+			}
 		}
 		oldTime = newTime;
 	}

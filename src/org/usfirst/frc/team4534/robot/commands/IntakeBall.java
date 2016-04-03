@@ -14,6 +14,7 @@ public class IntakeBall extends Command {
         // eg. requires(chassis);
     	requires(Robot.ballhandler);
     	setTimeout(5);
+    	System.out.println("yaas");
     }
 
     // Called just before this Command runs the first time
@@ -23,18 +24,20 @@ public class IntakeBall extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.ballhandler.getLowerHandlerLimit()) {
-        	Robot.ballhandler.setIntake(.60);
+    	Robot.ballhandler.setIntake(0.60);
+    	
+    	//if(!Robot.ballhandler.getLowerHandlerLimit()) {
+        //	Robot.ballhandler.setIntake(.60);
         	//Robot.ballhandler.setShooter(-0.2);
-    	}
-    	if(Robot.ballhandler.getLowerHandlerLimit()) {
+    	//}
+    	//if(Robot.ballhandler.getLowerHandlerLimit()) {
     		// do nothing, we're ready
-    	}
+    	//}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.ballhandler.getLowerHandlerLimit()) || isTimedOut();
+        return false; //(Robot.ballhandler.getLowerHandlerLimit()) || isTimedOut();
     }
 
     // Called once after isFinished returns true

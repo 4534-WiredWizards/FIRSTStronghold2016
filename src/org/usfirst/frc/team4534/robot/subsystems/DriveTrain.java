@@ -43,7 +43,7 @@ public class DriveTrain extends Subsystem {
 	 *            BACKWARD) to +1 (Full speed FORWARD).
 	 */
 	public void straightDrive(double speed) {
-		drive.drive(speed, 0);
+		drive.drive(-speed, 0);
 	}
 	
 	public RobotDrive getRobotDrive() {
