@@ -24,7 +24,7 @@ public class Arms extends Subsystem {
 	public Arms(){
 		pistonLeft = new Solenoid(RobotMap.PCM, RobotMap.leftArm);
 		pistonRight = new Solenoid(RobotMap.PCM, RobotMap.rightArm);
-		armMotor = new Victor(RobotMap.armMotor);
+		//armMotor = new Victor(RobotMap.armMotor);
 		lowerLimit = new DigitalInput(RobotMap.armDownLimit);
 		upperLimit = new DigitalInput(RobotMap.armUpLimit);
 		LiveWindow.addActuator("Arms", "Left Piston", pistonLeft);

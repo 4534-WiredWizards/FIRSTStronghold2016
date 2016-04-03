@@ -17,7 +17,7 @@ public class DefaultMap implements ControlMap {
 			return ButtonLiteral.STICK_RIGHT_DOWN;
 		case RIGHT_ARM_TOGGLE:
 			return ButtonLiteral.RIGHT_BUMPER;
-		case LEFT_ARM_TOGGLE:
+		case BRAKE_TOGGLE:
 			return ButtonLiteral.LEFT_BUMPER;
 		case ARMS_UP:
 			return ButtonLiteral.STICK_RIGHT_UP;

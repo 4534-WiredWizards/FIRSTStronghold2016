@@ -9,6 +9,7 @@ import org.usfirst.frc.team4534.robot.commands.CenterDistancePID;
 import org.usfirst.frc.team4534.robot.commands.IntakeBall;
 import org.usfirst.frc.team4534.robot.commands.LowGoal;
 import org.usfirst.frc.team4534.robot.commands.Shoot;
+import org.usfirst.frc.team4534.robot.commands.ToggleBrake;
 import org.usfirst.frc.team4534.robot.controls.CommandButton;
 import org.usfirst.frc.team4534.robot.controls.CommandButtonTap;
 
@@ -28,6 +29,9 @@ public class OI {
 		ControlSystem.addButtonListener(new CommandButton(Button.SHOOT, new LowGoal()));
 		ControlSystem.addButtonListener(new CommandButton(Button.INTAKE, new IntakeBall()));
 		ControlSystem.addButtonListener(new CommandButton(Button.LOW_GOAL, new LowGoal()));
+		ControlSystem.addButtonListener(new CommandButton(Button.BRAKE_TOGGLE, new ToggleBrake()));
+		ControlSystem.addButtonListener(new CommandButton(Button.RIGHT_ARM_TOGGLE, new ToggleBrake()));
+		
 		//ControlSystem.addButtonListener(new CommandButtonTap(Button.RIGHT_CLICK, new ArmToggle()));
 		
 		

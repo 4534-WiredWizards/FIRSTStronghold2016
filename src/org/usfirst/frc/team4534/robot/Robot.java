@@ -17,6 +17,7 @@ import org.usfirst.frc.team4534.robot.subsystems.BallHandler;
 import org.usfirst.frc.team4534.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team4534.robot.subsystems.Gyroscope;
 import org.usfirst.frc.team4534.robot.subsystems.JetsonVision;
+import org.usfirst.frc.team4534.robot.subsystems.Lifter;
 import org.usfirst.frc.team4534.robot.util.MillisecondTimer;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -59,6 +60,7 @@ public class Robot extends IterativeRobot {
 	public static Encoder encoder;
 	public static BuiltInAccelerometer accelerometer;
 	public static Gyroscope gyroscope;
+	public static Lifter lifter;
 	
 	public static JetsonVision jetsonvision;
 	public static SerialPort arduinocomm;
@@ -74,6 +76,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		ballhandler = new BallHandler();
 		gyroscope = new Gyroscope();
+		lifter = new Lifter();
 		jetsonvision = new JetsonVision();
 		encoder = new Encoder(RobotMap.EncoderA, RobotMap.EncoderB);
 		encoder.setDistancePerPulse(12.0/1038.0);

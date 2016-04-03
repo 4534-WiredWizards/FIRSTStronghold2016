@@ -12,7 +12,9 @@ public class RobotMap {
 	public static int leftMotor = 1; // PWM1
 	public static int rightMotor = 0; // PWM0
 	public static int ballIntake = 2; // PWM2
-	public static int armMotor = 3; // PWM3
+	public static int lifterMotor = 3; // PWM3
+	public static int lifterServo = 4; // PWM4
+	
 
 	
 	// CAN
