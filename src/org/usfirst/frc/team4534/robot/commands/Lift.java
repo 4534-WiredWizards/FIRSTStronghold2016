@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
+/*
 public class Lift extends Command {
 
     public Lift() {
@@ -40,3 +41,4 @@ public class Lift extends Command {
     protected void interrupted() {
     }
 }
+*/

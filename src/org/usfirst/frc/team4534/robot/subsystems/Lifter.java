@@ -4,11 +4,12 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team4534.robot.RobotMap;
-import org.usfirst.frc.team4534.robot.commands.Lift;
+//import org.usfirst.frc.team4534.robot.commands.Lift;
 
 /**
  *
  */
+/*
 public class Lifter extends Subsystem {
 	private Talon lifter;
 	private Servo brake;
@@ -46,4 +47,4 @@ public class Lifter extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 }
-
+*/
