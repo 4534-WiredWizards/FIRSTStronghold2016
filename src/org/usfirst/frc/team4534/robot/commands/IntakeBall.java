@@ -2,6 +2,7 @@ package org.usfirst.frc.team4534.robot.commands;
 
 import org.usfirst.frc.team4534.robot.Robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -24,7 +25,13 @@ public class IntakeBall extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ballhandler.setIntake(0.60);
+    	if (!Robot.ballhandler.getLowerHandlerLimit()){
+    		Robot.ballhandler.setIntake(0.60);
+    	} else {
+    		Robot.ballhandler.setIntake(0.00);
+    		Robot.oi.stick.setRumble(Joystick.RumbleType.kRightRumble, 1);
+    	}
+    	
     	
     	//if(!Robot.ballhandler.getLowerHandlerLimit()) {
         //	Robot.ballhandler.setIntake(.60);
@@ -45,10 +52,12 @@ public class IntakeBall extends Command {
     	Robot.ballhandler.stop();
     	Robot.arduinocomm.writeString("v");
     	Robot.arduinocomm.writeString("i");
+    	Robot.oi.stick.setRumble(Joystick.RumbleType.kRightRumble, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
