@@ -30,6 +30,8 @@ public class IntakeBall extends Command {
     	} else {
     		Robot.ballhandler.setIntake(0.00);
     		Robot.oi.stick.setRumble(Joystick.RumbleType.kRightRumble, 1);
+    		Robot.oi.stick.setRumble(Joystick.RumbleType.kLeftRumble, 1);
+    		
     	}
     	
     	
@@ -53,6 +55,7 @@ public class IntakeBall extends Command {
     	Robot.arduinocomm.writeString("v");
     	Robot.arduinocomm.writeString("i");
     	Robot.oi.stick.setRumble(Joystick.RumbleType.kRightRumble, 0);
+    	Robot.oi.stick.setRumble(Joystick.RumbleType.kLeftRumble, 0);
     }
 
     // Called when another command which requires one or more of the same

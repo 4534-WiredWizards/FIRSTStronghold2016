@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
 		autoDefense.addObject("Approach", new AutoDriveDistance(74)); //72 inches to reach the 
 		autoDefense.addObject("Shoot", new AutoShoot());
 		SmartDashboard.putData("Auto Defense", autoDefense);
-		SmartDashboard.getNumber("Auto Start Delay", 5);
+		SmartDashboard.putNumber("Auto Start Delay", 5);
 		//Right Now, only autoDefense will be used.
 		autoStartPos = new SendableChooser();
 		autoStartPos.addObject("1 (Low Bar)", 1);
@@ -230,6 +230,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Joy Y", oi.stick.getY());
 		SmartDashboard.putNumber("Joy X", oi.stick.getX());
 		SmartDashboard.putNumber("Gyro", gyroscope.pidGet());
+		SmartDashboard.putNumber("Auto Start Delay", 5);
 		//SmartDashboard.putNumber("Center", jetsonvision.getCurrentTuple().getCenter());
 		//LiveWindow.addSensor("Accelerometer", "Accelerometer", accelerometer);
 		//SmartDashboard.putNumber("Teleop Millisecond Delay", MillisecondTimer.getDifference());
