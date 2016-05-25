@@ -6,5 +6,5 @@ In order to import this code using Eclipse, go to the menu bar of Eclipse and cl
 
 [WPILib Docs](http://first.wpi.edu/FRC/roborio/release/docs/java/)
 
-##### For window users: 
+##### For Windows users: 
 In order to run the robot code, open file explore and locate the JDK root directory (default is C:\Program Files\Java\jdkversion_number_here). Copy this path and open eclipse. Navigate to the windows tab then click on preferences. In this window there will be a tab on the side called java with an arrow pointing toward it. Click on the arrow and then click installed JREs. Click on the JRE and click edit, Paste the path location you copied earlier into JRE Home and rename it. You should be good to go.
